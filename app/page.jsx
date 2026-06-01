@@ -63,7 +63,7 @@ const POOL = ["ABC Life", "XYZ General Insurance", "EFG Health Insurance", "PQR 
 const MONTHS = ["Mar'26", "Apr'26", "May'26", "Jun'26"];
 const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
 const mkAmt = () => rnd(40, 150) * 10000 + rnd(0, 99) * 100;
-const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} — ${MONTHS[rnd(0, MONTHS.length - 1)]}`, expected: mkAmt(), reconciled: null, status: "processing", flash: true, id: Math.random() });
+const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} : ${MONTHS[rnd(0, MONTHS.length - 1)]}`, expected: mkAmt(), reconciled: null, status: "processing", flash: true, id: Math.random() });
 
 function LiveConsole() {
   const [rows, setRows] = useState([
