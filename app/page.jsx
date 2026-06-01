@@ -63,15 +63,21 @@ const POOL = ["ABC Life", "XYZ General Insurance", "EFG Health Insurance", "PQR 
 const MONTHS = ["Mar'26", "Apr'26", "May'26", "Jun'26"];
 const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
 const mkAmt = () => rnd(40, 150) * 10000 + rnd(0, 99) * 100;
-const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} : ${MONTHS[rnd(0, MONTHS.length - 1)]}`, expected: mkAmt(), reconciled: null, status: "processing", flash: true, id: Math.random() });
+const REASONS = {
+  matched: "Reconciled against the carrier statement. No variance found.",
+  processing: "Agent is extracting and matching the carrier statement…",
+};
+const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} · ${MONTHS[rnd(0, MONTHS.length - 1)]}`, expected: mkAmt(), reconciled: null, status: "processing", reason: REASONS.processing, flash: true, id: Math.random() });
 
 function LiveConsole() {
   const [rows, setRows] = useState([
-    { name: "ABC Life for Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", id: 1 },
-    { name: "XYZ General Insurance for Apr'26", expected: 815200, reconciled: 802900, status: "flagged", id: 2 },
-    { name: "EFG Health Insurance for Apr'26", expected: 490000, reconciled: 490000, status: "matched", id: 3 },
-    { name: "PQR General Insurance for Apr'26", expected: 672300, reconciled: null, status: "processing", id: 4 },
+    { name: "ABC Life · Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", reason: REASONS.matched, id: 1 },
+    { name: "XYZ General Insurance · Apr'26", expected: 815200, reconciled: 802900, status: "flagged", reason: "Variance of ₹12,300 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
+    { name: "EFG Health Insurance · Apr'26", expected: 490000, reconciled: 490000, status: "matched", reason: REASONS.matched, id: 3 },
+    { name: "PQR General Insurance · Apr'26", expected: 672300, reconciled: null, status: "processing", reason: REASONS.processing, id: 4 },
   ]);
+  const [hover, setHover] = useState(null);
+
   useEffect(() => {
     const t = setInterval(() => {
       setRows((prev) => {
@@ -80,7 +86,9 @@ function LiveConsole() {
         let updated;
         if (r.status === "processing") {
           const flagged = Math.random() < 0.35;
-          updated = { ...r, reconciled: flagged ? r.expected - rnd(2, 15) * 1000 : r.expected, status: flagged ? "flagged" : "matched", flash: true };
+          const reconciled = flagged ? r.expected - rnd(2, 15) * 1000 : r.expected;
+          updated = { ...r, reconciled, status: flagged ? "flagged" : "matched",
+            reason: flagged ? `Variance of ${inr(r.expected - reconciled)} detected — suspected TDS/rate mismatch. Held for review.` : REASONS.matched, flash: true };
         } else {
           updated = mkRow();
         }
@@ -91,9 +99,11 @@ function LiveConsole() {
   }, []);
 
   const pillStyle = (s) => ({
-    background: s === "matched" ? "rgba(120,190,120,.12)" : s === "flagged" ? "rgba(220,140,90,.14)" : "var(--gold-soft)",
-    color: s === "matched" ? "#86c486" : s === "flagged" ? "#e0a06a" : "var(--gold)",
+    background: s === "matched" ? "rgba(80,190,110,.14)" : s === "flagged" ? "rgba(230,80,80,.16)" : "rgba(125,150,210,.16)",
+    color: s === "matched" ? "#6FCF7F" : s === "flagged" ? "#FF7E7E" : "#94A9E6",
   });
+
+  const counts = rows.reduce((a, r) => { a[r.status] = (a[r.status] || 0) + 1; return a; }, {});
 
   return (
     <div className="fl-rise fl-console fl-glass" style={{ animationDelay: ".6s", padding: 6 }}>
@@ -101,7 +111,9 @@ function LiveConsole() {
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid var(--line)" }}>
           {[0, 1, 2].map((i) => <span key={i} style={{ width: 10, height: 10, borderRadius: 99, background: "#3a3a40" }} />)}
           <span className="fl-muted" style={{ marginLeft: 12, fontSize: 12 }}>FinLead Console: Commission Reconciliation</span>
-          <span className="fl-pill fl-scan" style={{ marginLeft: "auto", background: "var(--gold-soft)", color: "var(--gold)" }}>Agent running</span>
+          <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 7, fontSize: 12, color: "#6FCF7F" }}>
+            <span className="fl-dot" style={{ background: "#6FCF7F" }} /> Agent active
+          </span>
         </div>
         <div className="fl-row fl-muted" style={{ borderTop: "none", textTransform: "uppercase", letterSpacing: ".1em", fontSize: 11 }}>
           <span>Carrier / Statement</span><span>Expected</span><span>Reconciled</span><span>Status</span>
@@ -111,13 +123,24 @@ function LiveConsole() {
             <span style={{ color: "var(--ivory)" }}>{r.name}</span>
             <span className="fl-muted">{inr(r.expected)}</span>
             <span style={{ color: r.reconciled == null ? "var(--muted2)" : "var(--ivory)" }}>{r.reconciled == null ? "-" : inr(r.reconciled)}</span>
-            <span>
-              <span className="fl-pill" style={pillStyle(r.status)}>
+            <span style={{ position: "relative" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)}>
+              <span className="fl-pill" style={{ ...pillStyle(r.status), cursor: "help" }}>
                 {r.status === "matched" && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}
               </span>
+              {hover === r.id && r.reason && (
+                <span style={{ position: "absolute", bottom: "138%", right: 0, width: 220, whiteSpace: "normal", textAlign: "left", background: "#16161b", border: "1px solid var(--line)", color: "var(--ivory)", fontSize: 12, lineHeight: 1.45, padding: "9px 11px", borderRadius: 9, boxShadow: "0 14px 36px rgba(0,0,0,.55)", zIndex: 9 }}>
+                  {r.reason}
+                </span>
+              )}
             </span>
           </div>
         ))}
+        <div className="fl-muted" style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 18px", borderTop: "1px solid var(--line)", fontSize: 12, flexWrap: "wrap" }}>
+          <span style={{ color: "#6FCF7F" }}>{counts.matched || 0} matched</span><span>·</span>
+          <span style={{ color: "#FF7E7E" }}>{counts.flagged || 0} flagged</span><span>·</span>
+          <span style={{ color: "#94A9E6" }}>{counts.processing || 0} processing</span>
+          <span style={{ marginLeft: "auto" }}>FinLead agent · auto-reconciling in real time</span>
+        </div>
       </div>
     </div>
   );
@@ -227,12 +250,9 @@ export default function FinLeadSite() {
           <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
           <a href="#assistant" className="fl-btn fl-btn-ghost">Ask the assistant <Sparkles size={16} /></a>
         </div>
-      <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+        <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
           <span className="fl-muted" style={{ fontSize: 13, letterSpacing: ".04em" }}>Backed by</span>
           <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex" }}>
-            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 22, width: "auto", display: "block", opacity: .9 }} />
-          </a>
-        </div>          <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex" }}>
             <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 22, width: "auto", display: "block", opacity: .9 }} />
           </a>
         </div>
@@ -247,15 +267,15 @@ export default function FinLeadSite() {
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-         <span>5+ insurers</span><span>·</span><span>10+ brokers &amp; more</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Full audit trail, incl. AI audits</span>     
+          <span>5+ insurers</span><span>·</span><span>10+ brokers &amp; more</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Full audit trail, incl. AI audits</span>
         </div>
       </section>
 
       {/* AGENT SUITES */}
       <section id="agents" style={{ position: "relative", zIndex: 10, maxWidth: 1180, margin: "0 auto 112px", padding: "0 24px" }}>
-        <div style={{ maxWidth: 680, marginBottom: 52 }}>
+        <div style={{ maxWidth: 1140, marginBottom: 52 }}>
           <p className="fl-eyebrow" style={{ marginBottom: 16 }}>The agent layer</p>
-          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,4.5vw,48px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
+          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(26px,3.4vw,38px)", lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>
             Three suites of agents, <span className="fl-gold-grad">one autonomous back-office.</span>
           </h2>
         </div>
