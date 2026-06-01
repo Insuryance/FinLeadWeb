@@ -224,9 +224,64 @@ function renderText(content) {
   const parts = content.split(FOUNDER_EMAIL);
   return <>{parts[0]}<a href={"mailto:" + FOUNDER_EMAIL} style={{ color: "var(--gold)" }}>{FOUNDER_EMAIL}</a>{parts[1]}</>;
 }
-
+function DemoModal({ open, onClose }) {
+  const [status, setStatus] = useState("idle");
+  const [form, setForm] = useState({ org: "", name: "", designation: "", email: "", usecases: "" });
+  if (!open) return null;
+  const upd = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const submit = async () => {
+    if (!form.email || !form.name) { setStatus("need"); return; }
+    setStatus("sending");
+    try {
+      const res = await fetch("https://formspree.io/f/xkoelqyb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ organisation: form.org, name: form.name, designation: form.designation, email: form.email, use_cases: form.usecases }),
+      });
+      setStatus(res.ok ? "done" : "error");
+    } catch (e) { setStatus("error"); }
+  };
+  const FIELDS = [["Organisation", "org", "text"], ["Your name", "name", "text"], ["Designation", "designation", "text"], ["Work email", "email", "email"]];
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,.62)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div onClick={(e) => e.stopPropagation()} className="fl-glass" style={{ width: "100%", maxWidth: 520, maxHeight: "90vh", overflowY: "auto", padding: 28 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
+          <h3 className="fl-serif" style={{ fontSize: 26, fontWeight: 400, margin: 0 }}>Book a <span className="fl-gold-grad">demo.</span></h3>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--muted)", fontSize: 24, cursor: "pointer", lineHeight: 1 }}>×</button>
+        </div>
+        {status === "done" ? (
+          <p className="fl-muted" style={{ fontSize: 15, lineHeight: 1.6, marginTop: 14 }}>
+            Thanks — your request is in. Clooker, our AI agent, is already reviewing your use-cases (and quietly hoping for one our agents can't solve). The founders will be in touch shortly.
+          </p>
+        ) : (
+          <>
+            <p className="fl-muted" style={{ fontSize: 13.5, lineHeight: 1.55, margin: "6px 0 20px" }}>
+              This form is handled by Clooker, our in-house AI agent. He loves use-cases that FinLead's agents can't solve — sadly, he hasn't met one yet. Care to try?
+            </p>
+            {FIELDS.map(([label, key, type]) => (
+              <label key={key} style={{ display: "block", marginBottom: 12 }}>
+                <span className="fl-muted" style={{ fontSize: 12, letterSpacing: ".04em" }}>{label}</span>
+                <input className="fl-input" type={type} value={form[key]} onChange={upd(key)} style={{ width: "100%", padding: "11px 14px", fontSize: 14, marginTop: 5 }} />
+              </label>
+            ))}
+            <label style={{ display: "block", marginBottom: 16 }}>
+              <span className="fl-muted" style={{ fontSize: 12, letterSpacing: ".04em" }}>Use-cases you're exploring</span>
+              <textarea className="fl-input" value={form.usecases} onChange={upd("usecases")} rows={3} style={{ width: "100%", padding: "11px 14px", fontSize: 14, marginTop: 5, resize: "vertical" }} />
+            </label>
+            <button className="fl-btn fl-btn-shine" onClick={submit} disabled={status === "sending"} style={{ width: "100%", justifyContent: "center" }}>
+              {status === "sending" ? "Sending to Clooker…" : "Send to Clooker"}
+            </button>
+            {status === "need" && <p style={{ color: "#FF7E7E", fontSize: 12.5, marginTop: 10 }}>Please add at least your name and work email.</p>}
+            {status === "error" && <p style={{ color: "#FF7E7E", fontSize: 12.5, marginTop: 10 }}>Something went wrong — please email surya@finleadai.com.</p>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 export default function FinLeadSite() {
   const [messages, setMessages] = useState([]);
+  const [demoOpen, setDemoOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
@@ -274,7 +329,7 @@ export default function FinLeadSite() {
           <div className="fl-dock">
             <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a>
           </div>
-          <button className="fl-btn fl-btn-shine" style={{ padding: "10px 20px", fontSize: 14 }}>Book a demo</button>
+          <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine" style={{ padding: "10px 20px", fontSize: 14 }}>Book a demo</button>
         </nav>
       </div>
 
@@ -291,7 +346,7 @@ export default function FinLeadSite() {
           FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more with intelligence, speed and accuracy. We don't sell seats. We own the outcome.
         </p>
         <div className="fl-rise" style={{ animationDelay: ".45s", display: "flex", justifyContent: "center", gap: 12, marginTop: 36, flexWrap: "wrap" }}>
-          <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
+          <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
           <a href="#assistant" className="fl-btn fl-btn-ghost">Ask the assistant <Sparkles size={16} /></a>
         </div>
         <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
@@ -441,7 +496,9 @@ export default function FinLeadSite() {
           </a>
           <p className="fl-muted" style={{ fontSize: 14, margin: 0 }}>© 2026 FinLead AI</p>
         </div>
-      </footer>
+     </footer>
+      <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
     </div>
   );
+}
 }
