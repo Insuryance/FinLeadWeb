@@ -1,18 +1,151 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { ArrowUpRight, Send, Sparkles, ShieldCheck, Calculator, FileSearch, Workflow, Check } from "lucide-react";
+import { ArrowUpRight, Send, Sparkles, Check, Landmark, Users, ShieldCheck } from "lucide-react";
 
-const SUGGESTIONS = [
-  "What is commission reconciliation in insurance?",
-  "How does GST RCM apply to broker payouts in India?",
-  "Explain incurred claims ratio (ICR).",
+/* ---------- Logo mark ---------- */
+function Logo() {
+  return (
+    <svg className="fl-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="flg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#ECDDB4" /><stop offset="0.5" stopColor="#D9C9A3" /><stop offset="1" stopColor="#B6975C" />
+        </linearGradient>
+      </defs>
+      <rect x="1.3" y="1.3" width="29.4" height="29.4" rx="8.5" stroke="url(#flg)" strokeWidth="1.4" fill="rgba(217,201,163,0.06)" />
+      <path d="M16 6.5 L17.9 14.1 L25.5 16 L17.9 17.9 L16 25.5 L14.1 17.9 L6.5 16 L14.1 14.1 Z" fill="url(#flg)" />
+    </svg>
+  );
+}
+
+/* ---------- Decode text effect (parallel.ai style) ---------- */
+function DecodeText({ text, className, style, delay = 200, speed = 0.5 }) {
+  const [out, setOut] = useState(text);
+  useEffect(() => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*<>/_";
+    let iteration = 0;
+    let id;
+    const t = setTimeout(() => {
+      id = setInterval(() => {
+        setOut(text.split("").map((c, i) => {
+          if (c === " ") return " ";
+          if (i < iteration) return text[i];
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join(""));
+        iteration += speed;
+        if (iteration >= text.length) { clearInterval(id); setOut(text); }
+      }, 40);
+    }, delay);
+    return () => { clearTimeout(t); clearInterval(id); };
+  }, [text, delay, speed]);
+  return <span className={className} style={style}>{out}</span>;
+}
+
+/* ---------- Indian-format currency ---------- */
+function inr(n) {
+  const s = String(n);
+  const last3 = s.slice(-3);
+  let rest = s.slice(0, -3);
+  if (rest) rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+  return "₹" + (rest ? rest + "," : "") + last3;
+}
+
+/* ---------- Live, self-updating console ---------- */
+const POOL = ["ABC Life", "XYZ General Insurance", "EFG Health Insurance", "PQR General Insurance", "LMN Life", "RST General Insurance", "UVW Health Insurance"];
+const MONTHS = ["Mar'26", "Apr'26", "May'26", "Jun'26"];
+const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const mkAmt = () => rnd(40, 150) * 10000 + rnd(0, 99) * 100;
+const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} — ${MONTHS[rnd(0, MONTHS.length - 1)]}`, expected: mkAmt(), reconciled: null, status: "processing", flash: true, id: Math.random() });
+
+function LiveConsole() {
+  const [rows, setRows] = useState([
+    { name: "ABC Life — Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", id: 1 },
+    { name: "XYZ General Insurance — Apr'26", expected: 815200, reconciled: 802900, status: "flagged", id: 2 },
+    { name: "EFG Health Insurance — Apr'26", expected: 490000, reconciled: 490000, status: "matched", id: 3 },
+    { name: "PQR General Insurance — Apr'26", expected: 672300, reconciled: null, status: "processing", id: 4 },
+  ]);
+  useEffect(() => {
+    const t = setInterval(() => {
+      setRows((prev) => {
+        const i = rnd(0, prev.length - 1);
+        const r = prev[i];
+        let updated;
+        if (r.status === "processing") {
+          const flagged = Math.random() < 0.35;
+          updated = { ...r, reconciled: flagged ? r.expected - rnd(2, 15) * 1000 : r.expected, status: flagged ? "flagged" : "matched", flash: true };
+        } else {
+          updated = mkRow();
+        }
+        return prev.map((x, idx) => (idx === i ? updated : { ...x, flash: false }));
+      });
+    }, 2300);
+    return () => clearInterval(t);
+  }, []);
+
+  const pillStyle = (s) => ({
+    background: s === "matched" ? "rgba(120,190,120,.12)" : s === "flagged" ? "rgba(220,140,90,.14)" : "var(--gold-soft)",
+    color: s === "matched" ? "#86c486" : s === "flagged" ? "#e0a06a" : "var(--gold)",
+  });
+
+  return (
+    <div className="fl-rise fl-console fl-glass" style={{ animationDelay: ".6s", padding: 6 }}>
+      <div style={{ borderRadius: 14, overflow: "hidden", background: "var(--ink2)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid var(--line)" }}>
+          {[0, 1, 2].map((i) => <span key={i} style={{ width: 10, height: 10, borderRadius: 99, background: "#3a3a40" }} />)}
+          <span className="fl-muted" style={{ marginLeft: 12, fontSize: 12 }}>FinLead Console — Commission Reconciliation</span>
+          <span className="fl-pill fl-scan" style={{ marginLeft: "auto", background: "var(--gold-soft)", color: "var(--gold)" }}>Agent running</span>
+        </div>
+        <div className="fl-row fl-muted" style={{ borderTop: "none", textTransform: "uppercase", letterSpacing: ".1em", fontSize: 11 }}>
+          <span>Carrier / Statement</span><span>Expected</span><span>Reconciled</span><span>Status</span>
+        </div>
+        {rows.map((r) => (
+          <div className={`fl-row${r.flash ? " fl-rowflash" : ""}`} key={r.id}>
+            <span style={{ color: "var(--ivory)" }}>{r.name}</span>
+            <span className="fl-muted">{inr(r.expected)}</span>
+            <span style={{ color: r.reconciled == null ? "var(--muted2)" : "var(--ivory)" }}>{r.reconciled == null ? "—" : inr(r.reconciled)}</span>
+            <span>
+              <span className="fl-pill" style={pillStyle(r.status)}>
+                {r.status === "matched" && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}
+              </span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Agent suites ---------- */
+const SUITES = [
+  {
+    icon: Landmark, name: "Finance Ops", tag: "Agents that close the books.",
+    items: [
+      ["Commission Reconciliation", "Match statements across carriers, flag tax and rate mismatches, and reconcile to the last rupee — no analyst, no spreadsheet."],
+      ["Statement & Policy Extraction", "Turn unstructured carrier PDFs and portals into clean, queryable data: premiums, slabs, clawbacks, effective dates."],
+      ["Payout Calculation", "Compute payouts against your rules and cycles, with a defensible, fully auditable trail."],
+    ],
+  },
+  {
+    icon: Users, name: "PoSP & Distribution", tag: "Agents that run your producer network.",
+    items: [
+      ["Agent Onboarding", "Onboard producers end-to-end — verification, licensing checks, and activation with no manual chase."],
+      ["Agent Analysis", "Track producer performance, persistency, and productivity across the entire book in real time."],
+      ["Agent Intelligence", "Surface who to coach, who to reward, and where the next premium will come from."],
+    ],
+  },
+  {
+    icon: ShieldCheck, name: "Intelligence", tag: "Agents that protect profitability.",
+    items: [
+      ["Leakage Analysis", "Detect leakage across commissions, payouts, and claims before it compounds into lost margin."],
+      ["Profitability Guardrails", "Agents that watch margin, not vanity metrics — every payout measured against profit."],
+      ["Corrective Insight", "Recommend concrete changes to rates, rules, and controls to recover and protect margin."],
+    ],
+  },
 ];
 
-const USE_CASES = [
-  { icon: Calculator, title: "Commission Reconciliation", body: "Agents match statements across 20+ insurers, flag TDS & GST mismatches, and close the loop without a payout analyst touching a spreadsheet." },
-  { icon: FileSearch, title: "Statement & Policy Extraction", body: "Unstructured PDFs and carrier portals become clean, queryable data — premiums, slabs, clawbacks, effective dates — in seconds." },
-  { icon: Workflow, title: "Payout Calculation & Disbursement", body: "Deterministic engines compute payouts against your rules and cycles, with a full audit trail your finance team can defend." },
-  { icon: ShieldCheck, title: "Process Automation", body: "The repetitive back-office work that fills BPO floors — handled by agents that own the outcome, not just suggest it." },
+const SUGGESTIONS = [
+  "What does FinLead AI do?",
+  "Who is FinLead AI built for?",
+  "How do the Intelligence agents reduce leakage?",
 ];
 
 export default function FinLeadSite() {
@@ -47,99 +180,94 @@ export default function FinLeadSite() {
       <div className="fl-grain" />
       <div className="fl-aurora" />
 
-      <nav style={{ position: "relative", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "space-between", maxWidth: 1200, margin: "0 auto", padding: "24px 24px" }}>
-        <div className="fl-serif" style={{ fontSize: 24, letterSpacing: "-.02em" }}>FinLead<span className="fl-ital">.ai</span></div>
-        <div className="fl-muted" style={{ display: "flex", gap: 36, fontSize: 14 }}>
-          <a href="#product">Product</a><a href="#agents">Agents</a><a href="#copilot">Copilot</a><a href="#why">Why FinLead</a>
-        </div>
-        <button className="fl-btn fl-btn-ghost" style={{ padding: "9px 18px", fontSize: 14 }}>Book a demo</button>
-      </nav>
+      {/* NAV — translucent dock */}
+      <div className="fl-navwrap">
+        <nav style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px", height: 74, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Logo />
+            <span className="fl-serif" style={{ fontSize: 22, letterSpacing: "-.02em" }}>FinLead<span className="fl-ital">.ai</span></span>
+          </a>
+          <div className="fl-dock">
+            <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a>
+          </div>
+          <button className="fl-btn fl-btn-shine" style={{ padding: "10px 20px", fontSize: 14 }}>Book a demo</button>
+        </nav>
+      </div>
 
-      <header style={{ position: "relative", zIndex: 10, maxWidth: 1200, margin: "0 auto", padding: "92px 24px 48px", textAlign: "center" }}>
-        <div className="fl-rise fl-eyebrow" style={{ animationDelay: ".05s", marginBottom: 22 }}>AI agents for insurance operations</div>
+      {/* HERO */}
+      <header id="top" style={{ position: "relative", zIndex: 10, maxWidth: 1200, margin: "0 auto", padding: "56px 24px 48px", textAlign: "center" }}>
+        <div className="fl-rise fl-eyebrow" style={{ animationDelay: ".05s", marginBottom: 22 }}>
+          <DecodeText text="AI AGENTS FOR INSURANCE OPERATIONS" />
+        </div>
         <div className="fl-rise fl-hair" style={{ animationDelay: ".1s", marginBottom: 34 }} />
         <h1 className="fl-rise fl-serif" style={{ animationDelay: ".2s", fontWeight: 300, fontSize: "clamp(42px,7.2vw,86px)", lineHeight: 1.0, letterSpacing: "-.025em", maxWidth: "15ch", margin: "0 auto" }}>
-          The insurance back-office, <span className="fl-gold-grad">run by agents.</span>
+          The insurance back-office, <span className="fl-gold-grad">run by AI agents.</span>
         </h1>
-        <p className="fl-rise fl-muted" style={{ animationDelay: ".3s", fontSize: "clamp(16px,2vw,20px)", maxWidth: "56ch", lineHeight: 1.6, margin: "28px auto 0" }}>
-          FinLead deploys AI agents that reconcile commissions, calculate payouts, and automate the repetitive work that fills BPO floors — with the economics of a BPO and the margins of software. We don't sell seats. We own the outcome.
+        <p className="fl-rise fl-muted" style={{ animationDelay: ".3s", fontSize: "clamp(16px,2vw,20px)", maxWidth: "58ch", lineHeight: 1.6, margin: "28px auto 0" }}>
+          FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more — with intelligence, speed and accuracy. We don't sell seats. We own the outcome.
         </p>
         <div className="fl-rise" style={{ animationDelay: ".45s", display: "flex", justifyContent: "center", gap: 12, marginTop: 36, flexWrap: "wrap" }}>
-          <button className="fl-btn fl-btn-primary">Book a demo <ArrowUpRight size={17} /></button>
-          <a href="#copilot" className="fl-btn fl-btn-ghost">Try the copilot <Sparkles size={16} /></a>
+          <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
+          <a href="#assistant" className="fl-btn fl-btn-ghost">Ask the assistant <Sparkles size={16} /></a>
+        </div>
+        <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 9 }}>
+          <span style={{ width: 5, height: 5, borderRadius: 99, background: "var(--gold)" }} />
+          <span className="fl-muted" style={{ fontSize: 13, letterSpacing: ".04em" }}>Backed by Entrepreneur First</span>
         </div>
       </header>
 
+      {/* PRODUCT — live console */}
       <section id="product" style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "32px auto 112px", padding: "0 24px" }}>
-        <div className="fl-rise fl-console fl-glass" style={{ animationDelay: ".6s", padding: 6 }}>
-          <div style={{ borderRadius: 14, overflow: "hidden", background: "var(--ink2)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid var(--line)" }}>
-              {[0, 1, 2].map((i) => <span key={i} style={{ width: 10, height: 10, borderRadius: 99, background: "#3a3a40" }} />)}
-              <span className="fl-muted" style={{ marginLeft: 12, fontSize: 12 }}>FinLead Console — Commission Reconciliation</span>
-              <span className="fl-pill fl-scan" style={{ marginLeft: "auto", background: "var(--gold-soft)", color: "var(--gold)" }}>Agent running</span>
-            </div>
-            <div className="fl-row fl-muted" style={{ borderTop: "none", textTransform: "uppercase", letterSpacing: ".1em", fontSize: 11 }}>
-              <span>Insurer / Statement</span><span>Expected</span><span>Reconciled</span><span>Status</span>
-            </div>
-            {[
-              ["HDFC Life — Apr'26", "₹12,40,500", "₹12,40,500", "matched"],
-              ["ICICI Pru — Apr'26", "₹8,15,200", "₹8,02,900", "flagged"],
-              ["Star Health — Apr'26", "₹4,90,000", "₹4,90,000", "matched"],
-              ["Bajaj Allianz — Apr'26", "₹6,72,300", "—", "processing"],
-            ].map((r, i) => (
-              <div className="fl-row" key={i}>
-                <span style={{ color: "var(--ivory)" }}>{r[0]}</span>
-                <span className="fl-muted">{r[1]}</span>
-                <span style={{ color: r[2] === "—" ? "var(--muted2)" : "var(--ivory)" }}>{r[2]}</span>
-                <span>
-                  <span className="fl-pill" style={{
-                    background: r[3] === "matched" ? "rgba(120,190,120,.12)" : r[3] === "flagged" ? "rgba(220,140,90,.14)" : "var(--gold-soft)",
-                    color: r[3] === "matched" ? "#86c486" : r[3] === "flagged" ? "#e0a06a" : "var(--gold)",
-                  }}>{r[3] === "matched" && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r[3]}</span>
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <LiveConsole />
       </section>
 
-      <section style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
-        <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of Indian &amp; global insurers</p>
+      {/* TRUST STRIP */}
+      <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
+        <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers — global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-          <span>20+ insurers</span><span>·</span><span>TDS &amp; GST RCM aware</span><span>·</span><span>IRDAI context</span><span>·</span><span>Full audit trail</span>
+          <span>20+ carriers</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Regulator-ready</span><span>·</span><span>Full audit trail</span>
         </div>
       </section>
 
-      <section id="agents" style={{ position: "relative", zIndex: 10, maxWidth: 1120, margin: "0 auto 112px", padding: "0 24px" }}>
-        <div style={{ maxWidth: 640, marginBottom: 48 }}>
+      {/* AGENT SUITES */}
+      <section id="agents" style={{ position: "relative", zIndex: 10, maxWidth: 1180, margin: "0 auto 112px", padding: "0 24px" }}>
+        <div style={{ maxWidth: 680, marginBottom: 52 }}>
           <p className="fl-eyebrow" style={{ marginBottom: 16 }}>The agent layer</p>
           <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,4.5vw,48px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
-            Four agents that replace a back-office, <span className="fl-ital">not a feature.</span>
+            Three suites of agents, <span className="fl-gold-grad">one autonomous back-office.</span>
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 16 }}>
-          {USE_CASES.map((u, i) => {
-            const Icon = u.icon;
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(310px,1fr))", gap: 16 }}>
+          {SUITES.map((s, i) => {
+            const Icon = s.icon;
             return (
-              <div className="fl-card" key={i} style={{ padding: 28 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 46, height: 46, borderRadius: 12, background: "var(--gold-soft)", border: "1px solid rgba(203,179,130,.25)", marginBottom: 20 }}>
+              <div className="fl-card" key={i} style={{ padding: 30 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 46, height: 46, borderRadius: 12, background: "var(--gold-soft)", border: "1px solid rgba(217,201,163,.25)", marginBottom: 20 }}>
                   <Icon size={20} color="var(--gold)" />
                 </div>
-                <h3 className="fl-serif" style={{ fontSize: 22, fontWeight: 400, margin: "0 0 10px" }}>{u.title}</h3>
-                <p className="fl-muted" style={{ fontSize: 15, lineHeight: 1.6, margin: 0 }}>{u.body}</p>
+                <h3 className="fl-serif" style={{ fontSize: 24, fontWeight: 400, margin: "0 0 4px" }}>{s.name}</h3>
+                <p className="fl-muted fl-serif fl-ital" style={{ fontSize: 16, margin: "0 0 18px" }}>{s.tag}</p>
+                <div>
+                  {s.items.map((it, j) => (
+                    <div className="fl-subitem" key={j}>
+                      <div style={{ color: "var(--ivory)", fontSize: 15, fontWeight: 500, marginBottom: 5 }}>{it[0]}</div>
+                      <p className="fl-muted" style={{ fontSize: 14, lineHeight: 1.55, margin: 0 }}>{it[1]}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             );
           })}
         </div>
       </section>
 
-      <section id="copilot" style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px" }}>
-        <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto 40px" }}>
-          <p className="fl-eyebrow" style={{ marginBottom: 16 }}>Live demo</p>
+      {/* ASSISTANT */}
+      <section id="assistant" style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px" }}>
+        <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 40px" }}>
           <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,4.5vw,48px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
-            Ask the FinLead <span className="fl-ital">Copilot.</span>
+            The FinLead AI <span className="fl-gold-grad">assistant.</span>
           </h2>
-          <p className="fl-muted" style={{ fontSize: 16, marginTop: 16 }}>An insurance-only assistant. Ask anything about insurance operations — it will politely decline everything else.</p>
+          <p className="fl-muted" style={{ fontSize: 16, marginTop: 16 }}>Ask anything about FinLead AI — what we build, who we serve, and how our agents work. It answers questions about FinLead AI, and nothing else.</p>
         </div>
 
         <div className="fl-glass" style={{ maxWidth: 760, margin: "0 auto", padding: 20 }}>
@@ -170,7 +298,7 @@ export default function FinLeadSite() {
             <input
               className="fl-input"
               style={{ flex: 1, padding: "13px 16px", fontSize: 15 }}
-              placeholder="Ask about commissions, claims, ICR, IRDAI…"
+              placeholder="Ask about FinLead AI…"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") send(); }}
@@ -182,6 +310,7 @@ export default function FinLeadSite() {
         </div>
       </section>
 
+      {/* WHY */}
       <section id="why" style={{ position: "relative", zIndex: 10, maxWidth: 1120, margin: "0 auto 112px", padding: "0 24px" }}>
         <div className="fl-glass" style={{ padding: "56px 40px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 40, textAlign: "center" }}>
@@ -195,20 +324,33 @@ export default function FinLeadSite() {
         </div>
       </section>
 
-      <section style={{ position: "relative", zIndex: 10, maxWidth: 760, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
+      {/* CTA */}
+      <section style={{ position: "relative", zIndex: 10, maxWidth: 760, margin: "0 auto 96px", padding: "0 24px", textAlign: "center" }}>
         <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.05, letterSpacing: "-.02em", margin: 0 }}>
           Hand your back-office <span className="fl-gold-grad">to the agents.</span>
         </h2>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-          <button className="fl-btn fl-btn-primary">Book a demo <ArrowUpRight size={17} /></button>
+          <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
           <button className="fl-btn fl-btn-ghost">Talk to founders</button>
         </div>
       </section>
 
+      {/* agent-readable line */}
+      <div style={{ position: "relative", zIndex: 10, textAlign: "center", marginBottom: 56 }}>
+        <span className="fl-eyebrow" style={{ opacity: .8 }}>
+          <DecodeText text="READABLE BY HUMANS AND AI AGENTS ALIKE" delay={600} />
+        </span>
+      </div>
+
+      {/* FOOTER */}
       <footer style={{ position: "relative", zIndex: 10, borderTop: "1px solid var(--line)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-          <div className="fl-serif" style={{ fontSize: 20 }}>FinLead<span className="fl-ital">.ai</span></div>
-          <p className="fl-muted" style={{ fontSize: 14, margin: 0 }}>© 2026 FinLead AI · Delaware C-Corp · Bengaluru</p>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+          <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Logo />
+            <span className="fl-serif" style={{ fontSize: 20 }}>FinLead<span className="fl-ital">.ai</span></span>
+          </a>
+          <span className="fl-muted" style={{ fontSize: 13 }}>Backed by Entrepreneur First</span>
+          <p className="fl-muted" style={{ fontSize: 14, margin: 0 }}>© 2026 FinLead AI</p>
         </div>
       </footer>
     </div>

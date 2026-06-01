@@ -75,3 +75,36 @@ a{color:inherit;text-decoration:none}
 .fl-input:focus{border-color:var(--gold-deep)}
 .fl-input::placeholder{color:var(--muted2)}
 .fl-scroll::-webkit-scrollbar{width:6px}.fl-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+
+/* ---- v2 additions ---- */
+/* sticky floating nav — translucent Mac-style dock */
+.fl-navwrap{position:sticky;top:14px;z-index:50}
+.fl-dock{display:flex;align-items:center;gap:30px;padding:11px 24px;border-radius:999px;font-size:14px;
+  background:rgba(18,18,22,0.55);border:1px solid rgba(255,255,255,0.10);
+  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  box-shadow:0 12px 44px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+.fl-dock a{color:var(--muted);transition:color .25s var(--ease)}
+.fl-dock a:hover{color:var(--ivory)}
+@media(max-width:860px){.fl-dock{display:none}}
+
+/* shiny gold attention button */
+.fl-btn-shine{position:relative;overflow:hidden;color:#1b1505;font-weight:600;border:1px solid rgba(243,233,206,.5);
+  background:linear-gradient(135deg,#ECDDB4 0%,#D9C9A3 42%,#B6975C 100%)}
+.fl-btn-shine::after{content:'';position:absolute;top:0;left:-160%;width:55%;height:100%;pointer-events:none;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.72),transparent);transform:skewX(-20deg);
+  animation:sheen 3.6s var(--ease) infinite}
+@keyframes sheen{0%{left:-160%}50%{left:175%}100%{left:175%}}
+.fl-btn-shine:hover{transform:translateY(-2px);box-shadow:0 16px 46px rgba(217,201,163,.45)}
+
+/* anchor offset under sticky nav */
+section[id]{scroll-margin-top:100px}
+.fl-mark{width:30px;height:30px;flex:none;display:block}
+
+/* live console */
+.fl-row span{transition:color .5s var(--ease)}
+.fl-rowflash{animation:rowflash 1.1s var(--ease)}
+@keyframes rowflash{0%{background:rgba(217,201,163,.12)}100%{background:transparent}}
+
+/* suite sub-item divider */
+.fl-subitem{padding:16px 0;border-top:1px solid var(--line)}
+.fl-subitem:first-of-type{border-top:none;padding-top:4px}
