@@ -4,17 +4,26 @@ import { ArrowUpRight, Send, Sparkles, Check, Landmark, Users, ShieldCheck } fro
 
 /* ---------- Logo mark ---------- */
 function Logo() {
-  return (
-    <svg className="fl-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="flg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#ECDDB4" /><stop offset="0.5" stopColor="#D9C9A3" /><stop offset="1" stopColor="#B6975C" />
-        </linearGradient>
-      </defs>
-      <rect x="1.3" y="1.3" width="29.4" height="29.4" rx="8.5" stroke="url(#flg)" strokeWidth="1.4" fill="rgba(217,201,163,0.06)" />
-      <path d="M16 6.5 L17.9 14.1 L25.5 16 L17.9 17.9 L16 25.5 L14.1 17.9 L6.5 16 L14.1 14.1 Z" fill="url(#flg)" />
-    </svg>
-  );
+  return <img src="/FinLeadAILogo.png" alt="FinLead AI" style={{ height: 30, width: "auto", display: "block" }} />;
+}
+
+function useTypewriter(items, { typing = 55, pausing = 1600, deleting = 28 } = {}) {
+  const [idx, setIdx] = useState(0);
+  const [text, setText] = useState("");
+  const [phase, setPhase] = useState("typing");
+  useEffect(() => {
+    const full = items[idx % items.length];
+    let to;
+    if (phase === "typing") {
+      if (text.length < full.length) to = setTimeout(() => setText(full.slice(0, text.length + 1)), typing);
+      else to = setTimeout(() => setPhase("deleting"), pausing);
+    } else {
+      if (text.length > 0) to = setTimeout(() => setText(full.slice(0, text.length - 1)), deleting);
+      else { setPhase("typing"); setIdx((i) => i + 1); }
+    }
+    return () => clearTimeout(to);
+  }, [text, phase, idx, items, typing, pausing, deleting]);
+  return text;
 }
 
 /* ---------- Decode text effect (parallel.ai style) ---------- */
@@ -148,11 +157,19 @@ const SUGGESTIONS = [
   "How do the Intelligence agents reduce leakage?",
 ];
 
+const TYPING_QUESTIONS = [
+  "What does FinLead AI do?",
+  "How do FinLead's agents reconcile commissions across carriers?",
+  "Who is FinLead AI built for?",
+  "How does the Intelligence suite cut leakage?",
+];
+
 export default function FinLeadSite() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
+  const typed = useTypewriter(TYPING_QUESTIONS);
 
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
 
@@ -210,9 +227,14 @@ export default function FinLeadSite() {
           <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
           <a href="#assistant" className="fl-btn fl-btn-ghost">Ask the assistant <Sparkles size={16} /></a>
         </div>
-        <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 9 }}>
-          <span style={{ width: 5, height: 5, borderRadius: 99, background: "var(--gold)" }} />
-          <span className="fl-muted" style={{ fontSize: 13, letterSpacing: ".04em" }}>Backed by Entrepreneur First</span>
+      <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+          <span className="fl-muted" style={{ fontSize: 13, letterSpacing: ".04em" }}>Backed by</span>
+          <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex" }}>
+            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 22, width: "auto", display: "block", opacity: .9 }} />
+          </a>
+        </div>          <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex" }}>
+            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 22, width: "auto", display: "block", opacity: .9 }} />
+          </a>
         </div>
       </header>
 
@@ -225,7 +247,7 @@ export default function FinLeadSite() {
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-          <span>20+ carriers</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Regulator-ready</span><span>·</span><span>Full audit trail</span>
+         <span>5+ insurers</span><span>·</span><span>10+ brokers &amp; more</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Full audit trail, incl. AI audits</span>     
         </div>
       </section>
 
@@ -265,7 +287,7 @@ export default function FinLeadSite() {
       <section id="assistant" style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px" }}>
         <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 40px" }}>
           <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,4.5vw,48px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
-            The FinLead AI <span className="fl-gold-grad">assistant.</span>
+            FinLead AI <span className="fl-gold-grad">Assistant.</span>
           </h2>
           <p className="fl-muted" style={{ fontSize: 16, marginTop: 16 }}>Ask anything about FinLead AI! What we build, who we serve, and how our agents work. It answers questions about FinLead AI, and nothing else.</p>
         </div>
@@ -298,7 +320,7 @@ export default function FinLeadSite() {
             <input
               className="fl-input"
               style={{ flex: 1, padding: "13px 16px", fontSize: 15 }}
-              placeholder="Ask about FinLead AI…"
+              placeholder={typed || "Ask about FinLead AI…"}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") send(); }}
@@ -327,11 +349,11 @@ export default function FinLeadSite() {
       {/* CTA */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 760, margin: "0 auto 96px", padding: "0 24px", textAlign: "center" }}>
         <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.05, letterSpacing: "-.02em", margin: 0 }}>
-          Hand your back-office <span className="fl-gold-grad">to the agents.</span>
+          Hand your back-office <span className="fl-gold-grad">to FinLead's AI agents.</span>
         </h2>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
           <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
-          <button className="fl-btn fl-btn-ghost">Talk to founders</button>
+          <a href="mailto:surya@finleadai.com" className="fl-btn fl-btn-ghost">Talk to founders</a>
         </div>
       </section>
 
@@ -349,7 +371,10 @@ export default function FinLeadSite() {
             <Logo />
             <span className="fl-serif" style={{ fontSize: 20 }}>FinLead<span className="fl-ital">.ai</span></span>
           </a>
-          <span className="fl-muted" style={{ fontSize: 13 }}>Backed by Entrepreneur First</span>
+          <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <span className="fl-muted" style={{ fontSize: 13 }}>Backed by</span>
+            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 18, width: "auto", display: "block", opacity: .85 }} />
+          </a>
           <p className="fl-muted" style={{ fontSize: 14, margin: 0 }}>© 2026 FinLead AI</p>
         </div>
       </footer>
