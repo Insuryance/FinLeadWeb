@@ -4,7 +4,7 @@ import { ArrowUpRight, Send, Sparkles, Check, Landmark, Users, ShieldCheck } fro
 
 /* ---------- Logo mark ---------- */
 function Logo() {
-  return <img src="/FinLeadAILogo.png" alt="FinLead AI" style={{ height: 45, width: "auto", display: "block" }} />;
+  return <img src="/FinLeadAILogo.png" alt="FinLead AI" style={{ height: 55, width: "auto", display: "block" }} />;
 }
 
 function useTypewriter(items, { typing = 55, pausing = 1600, deleting = 28 } = {}) {
