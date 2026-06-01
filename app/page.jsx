@@ -58,10 +58,10 @@ const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} — ${MONTHS[rnd(
 
 function LiveConsole() {
   const [rows, setRows] = useState([
-    { name: "ABC Life — Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", id: 1 },
-    { name: "XYZ General Insurance — Apr'26", expected: 815200, reconciled: 802900, status: "flagged", id: 2 },
-    { name: "EFG Health Insurance — Apr'26", expected: 490000, reconciled: 490000, status: "matched", id: 3 },
-    { name: "PQR General Insurance — Apr'26", expected: 672300, reconciled: null, status: "processing", id: 4 },
+    { name: "ABC Life for Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", id: 1 },
+    { name: "XYZ General Insurance for Apr'26", expected: 815200, reconciled: 802900, status: "flagged", id: 2 },
+    { name: "EFG Health Insurance for Apr'26", expected: 490000, reconciled: 490000, status: "matched", id: 3 },
+    { name: "PQR General Insurance for Apr'26", expected: 672300, reconciled: null, status: "processing", id: 4 },
   ]);
   useEffect(() => {
     const t = setInterval(() => {
@@ -91,7 +91,7 @@ function LiveConsole() {
       <div style={{ borderRadius: 14, overflow: "hidden", background: "var(--ink2)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid var(--line)" }}>
           {[0, 1, 2].map((i) => <span key={i} style={{ width: 10, height: 10, borderRadius: 99, background: "#3a3a40" }} />)}
-          <span className="fl-muted" style={{ marginLeft: 12, fontSize: 12 }}>FinLead Console — Commission Reconciliation</span>
+          <span className="fl-muted" style={{ marginLeft: 12, fontSize: 12 }}>FinLead Console: Commission Reconciliation</span>
           <span className="fl-pill fl-scan" style={{ marginLeft: "auto", background: "var(--gold-soft)", color: "var(--gold)" }}>Agent running</span>
         </div>
         <div className="fl-row fl-muted" style={{ borderTop: "none", textTransform: "uppercase", letterSpacing: ".1em", fontSize: 11 }}>
@@ -101,7 +101,7 @@ function LiveConsole() {
           <div className={`fl-row${r.flash ? " fl-rowflash" : ""}`} key={r.id}>
             <span style={{ color: "var(--ivory)" }}>{r.name}</span>
             <span className="fl-muted">{inr(r.expected)}</span>
-            <span style={{ color: r.reconciled == null ? "var(--muted2)" : "var(--ivory)" }}>{r.reconciled == null ? "—" : inr(r.reconciled)}</span>
+            <span style={{ color: r.reconciled == null ? "var(--muted2)" : "var(--ivory)" }}>{r.reconciled == null ? "-" : inr(r.reconciled)}</span>
             <span>
               <span className="fl-pill" style={pillStyle(r.status)}>
                 {r.status === "matched" && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}
@@ -119,7 +119,7 @@ const SUITES = [
   {
     icon: Landmark, name: "Finance Ops", tag: "Agents that close the books.",
     items: [
-      ["Commission Reconciliation", "Match statements across carriers, flag tax and rate mismatches, and reconcile to the last rupee — no analyst, no spreadsheet."],
+      ["Commission Reconciliation", "Match statements across carriers, flag tax and rate mismatches, and reconcile to the last rupee - no analyst, no spreadsheet."],
       ["Statement & Policy Extraction", "Turn unstructured carrier PDFs and portals into clean, queryable data: premiums, slabs, clawbacks, effective dates."],
       ["Payout Calculation", "Compute payouts against your rules and cycles, with a defensible, fully auditable trail."],
     ],
@@ -127,7 +127,7 @@ const SUITES = [
   {
     icon: Users, name: "PoSP & Distribution", tag: "Agents that run your producer network.",
     items: [
-      ["Agent Onboarding", "Onboard producers end-to-end — verification, licensing checks, and activation with no manual chase."],
+      ["Agent Onboarding", "Onboard producers end-to-end - verification, licensing checks, and activation with no manual chase."],
       ["Agent Analysis", "Track producer performance, persistency, and productivity across the entire book in real time."],
       ["Agent Intelligence", "Surface who to coach, who to reward, and where the next premium will come from."],
     ],
@@ -136,7 +136,7 @@ const SUITES = [
     icon: ShieldCheck, name: "Intelligence", tag: "Agents that protect profitability.",
     items: [
       ["Leakage Analysis", "Detect leakage across commissions, payouts, and claims before it compounds into lost margin."],
-      ["Profitability Guardrails", "Agents that watch margin, not vanity metrics — every payout measured against profit."],
+      ["Profitability Guardrails", "Agents that watch margin, not vanity metrics - every payout measured against profit."],
       ["Corrective Insight", "Recommend concrete changes to rates, rules, and controls to recover and protect margin."],
     ],
   },
@@ -168,7 +168,7 @@ export default function FinLeadSite() {
         body: JSON.stringify({ messages: next }),
       });
       const data = await res.json();
-      const reply = data.reply || data.error || "Sorry — please try again.";
+      const reply = data.reply || data.error || "Sorry! Please try again.";
       setMessages([...next, { role: "assistant", content: reply }]);
     } catch (e) {
       setMessages([...next, { role: "assistant", content: "There was a connection error. Please try again in a moment." }]);
@@ -204,7 +204,7 @@ export default function FinLeadSite() {
           The insurance back-office, <span className="fl-gold-grad">run by AI agents.</span>
         </h1>
         <p className="fl-rise fl-muted" style={{ animationDelay: ".3s", fontSize: "clamp(16px,2vw,20px)", maxWidth: "58ch", lineHeight: 1.6, margin: "28px auto 0" }}>
-          FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more — with intelligence, speed and accuracy. We don't sell seats. We own the outcome.
+          FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more with intelligence, speed and accuracy. We don't sell seats. We own the outcome.
         </p>
         <div className="fl-rise" style={{ animationDelay: ".45s", display: "flex", justifyContent: "center", gap: 12, marginTop: 36, flexWrap: "wrap" }}>
           <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
@@ -223,7 +223,7 @@ export default function FinLeadSite() {
 
       {/* TRUST STRIP */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
-        <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers — global tech, powered by intelligent AI</p>
+        <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
           <span>20+ carriers</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Regulator-ready</span><span>·</span><span>Full audit trail</span>
         </div>
@@ -267,7 +267,7 @@ export default function FinLeadSite() {
           <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,4.5vw,48px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
             The FinLead AI <span className="fl-gold-grad">assistant.</span>
           </h2>
-          <p className="fl-muted" style={{ fontSize: 16, marginTop: 16 }}>Ask anything about FinLead AI — what we build, who we serve, and how our agents work. It answers questions about FinLead AI, and nothing else.</p>
+          <p className="fl-muted" style={{ fontSize: 16, marginTop: 16 }}>Ask anything about FinLead AI! What we build, who we serve, and how our agents work. It answers questions about FinLead AI, and nothing else.</p>
         </div>
 
         <div className="fl-glass" style={{ maxWidth: 760, margin: "0 auto", padding: 20 }}>
