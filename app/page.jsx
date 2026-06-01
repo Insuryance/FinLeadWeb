@@ -4,7 +4,7 @@ import { ArrowUpRight, Send, Sparkles, Check, Landmark, Users, ShieldCheck } fro
 
 /* ---------- Logo mark ---------- */
 function Logo() {
-  return <img src="/FinLeadAILogo.png" alt="FinLead AI" style={{ height: 30, width: "auto", display: "block" }} />;
+  return <img src="/FinLeadAILogo.png" alt="FinLead AI" style={{ height: 45, width: "auto", display: "block" }} />;
 }
 
 function useTypewriter(items, { typing = 55, pausing = 1600, deleting = 28 } = {}) {
@@ -177,7 +177,10 @@ const SUITES = [
 const SUGGESTIONS = [
   "What does FinLead AI do?",
   "Who is FinLead AI built for?",
+  "What are the three agent suites?",
   "How does the Intelligence suite cut leakage?",
+  "How is this different from ChatGPT or Claude?",
+  "How does pricing work?",
 ];
 
 const TYPING_QUESTIONS = [
@@ -362,7 +365,7 @@ export default function FinLeadSite() {
         <div className="fl-rise" style={{ animationDelay: ".6s", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
           <span className="fl-muted" style={{ fontSize: 13, letterSpacing: ".04em" }}>Backed by</span>
           <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex" }}>
-            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 22, width: "auto", display: "block", opacity: .9 }} />
+            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 35, width: "auto", display: "block", opacity: .9 }} />
           </a>
         </div>
       </header>
