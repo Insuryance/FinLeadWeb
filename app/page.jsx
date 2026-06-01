@@ -177,7 +177,7 @@ const SUITES = [
 const SUGGESTIONS = [
   "What does FinLead AI do?",
   "Who is FinLead AI built for?",
-  "How do the Intelligence agents reduce leakage?",
+  "How does the Intelligence suite cut leakage?",
 ];
 
 const TYPING_QUESTIONS = [
@@ -187,32 +187,76 @@ const TYPING_QUESTIONS = [
   "How does the Intelligence suite cut leakage?",
 ];
 
+const FOUNDER_EMAIL = "surya@finleadai.com";
+const FALLBACK = `That's a great question — and honestly, the founders can answer it far better than I can. Drop them a line at ${FOUNDER_EMAIL} and they'll get right back to you.`;
+
+const QA = [
+  { q: "What does FinLead AI do?", keys: ["what", "do", "does", "build", "product"],
+    a: "FinLead AI deploys autonomous AI agents that run insurance back-office operations end to end: commission reconciliation, payout calculation, statement and policy extraction, producer management, and profitability intelligence. We don't sell software seats; our agents own the outcome, with the economics of a BPO and the margins of software." },
+  { q: "Who is FinLead AI built for?", keys: ["who", "for", "customer", "client", "serve", "built"],
+    a: "Insurers, brokers, agencies, MGAs and other distributors: anyone running high-volume insurance operations who would rather hand the repetitive back-office work to agents than staff a BPO floor for it." },
+  { q: "How do FinLead's agents reconcile commissions across carriers?", keys: ["reconcile", "commission", "carrier", "statement", "finance"],
+    a: "The Finance Ops agents ingest statements from every carrier, normalise the formats, match each line against the expected payout, and flag any tax or rate mismatch automatically: reconciling to the last rupee with a full audit trail, and no analyst touching a spreadsheet." },
+  { q: "How does the Intelligence suite cut leakage?", keys: ["leak", "leakage", "intelligence", "margin", "profit", "reduce"],
+    a: "The Intelligence suite measures every commission, payout and claim against profitability, not vanity metrics. It detects leakage before it compounds, flags the root cause such as rate, slab or tax mismatches, and recommends concrete corrective changes to recover and protect margin." },
+  { q: "What are the three agent suites?", keys: ["suite", "three", "agent", "layer"],
+    a: "Three suites: Finance Ops (commission reconciliation, statement and policy extraction, payout calculation), PoSP & Distribution (producer onboarding, analysis and intelligence), and Intelligence (leakage analysis, profitability guardrails and corrective insight)." },
+  { q: "How does pricing work?", keys: ["price", "pricing", "cost", "much", "fee"],
+    a: "Pricing is tied to the work the agents displace rather than per-seat licences, so it scales with the value delivered. The exact numbers depend on your volumes and which suites you deploy, which the founders can walk you through in a quick demo." },
+  { q: "How do I get started?", keys: ["start", "started", "demo", "begin", "pilot", "contact"],
+    a: `The fastest way is to book a demo or email the founders directly at ${FOUNDER_EMAIL}. They'll scope a pilot around your highest-volume workflow.` },
+];
+
+function matchAnswer(text) {
+  const t = text.toLowerCase();
+  for (const item of QA) if (item.q.toLowerCase() === t) return item.a;
+  let best = null, bestScore = 0;
+  for (const item of QA) {
+    let score = 0;
+    for (const k of item.keys) if (t.includes(k)) score++;
+    if (score > bestScore) { bestScore = score; best = item; }
+  }
+  return best && bestScore >= 2 ? best.a : FALLBACK;
+}
+
+function renderText(content) {
+  if (!content.includes(FOUNDER_EMAIL)) return content;
+  const parts = content.split(FOUNDER_EMAIL);
+  return <>{parts[0]}<a href={"mailto:" + FOUNDER_EMAIL} style={{ color: "var(--gold)" }}>{FOUNDER_EMAIL}</a>{parts[1]}</>;
+}
+
 export default function FinLeadSite() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
+  const streamRef = useRef(null);
   const typed = useTypewriter(TYPING_QUESTIONS);
 
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
 
-  const send = async (textArg) => {
+  const send = (textArg) => {
     const text = (textArg ?? input).trim();
     if (!text || loading) return;
-    const next = [...messages, { role: "user", content: text }];
-    setMessages(next); setInput(""); setLoading(true);
-    try {
-      const res = await fetch("/api/copilot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next }),
-      });
-      const data = await res.json();
-      const reply = data.reply || data.error || "Sorry! Please try again.";
-      setMessages([...next, { role: "assistant", content: reply }]);
-    } catch (e) {
-      setMessages([...next, { role: "assistant", content: "There was a connection error. Please try again in a moment." }]);
-    } finally { setLoading(false); }
+    setInput("");
+    setMessages((m) => [...m, { role: "user", content: text }]);
+    setLoading(true);
+    const answer = matchAnswer(text);
+    setTimeout(() => {
+      setLoading(false);
+      setMessages((m) => [...m, { role: "assistant", content: "" }]);
+      let i = 0;
+      clearInterval(streamRef.current);
+      streamRef.current = setInterval(() => {
+        i += 2;
+        setMessages((m) => {
+          const copy = [...m];
+          copy[copy.length - 1] = { role: "assistant", content: answer.slice(0, i) };
+          return copy;
+        });
+        if (i >= answer.length) clearInterval(streamRef.current);
+      }, 16);
+    }, 650);
   };
 
   return (
@@ -221,7 +265,7 @@ export default function FinLeadSite() {
       <div className="fl-aurora" />
 
       {/* NAV — translucent dock */}
-      <div className="fl-navwrap">
+      <div className="fl-navwrap" style={{ position: "fixed", top: 14, left: 0, right: 0, zIndex: 50 }}>
         <nav style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px", height: 74, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Logo />
@@ -235,7 +279,7 @@ export default function FinLeadSite() {
       </div>
 
       {/* HERO */}
-      <header id="top" style={{ position: "relative", zIndex: 10, maxWidth: 1200, margin: "0 auto", padding: "56px 24px 48px", textAlign: "center" }}>
+      <header id="top" style={{ position: "relative", zIndex: 10, maxWidth: 1200, margin: "0 auto", padding: "120px 24px 48px", textAlign: "center" }}>
         <div className="fl-rise fl-eyebrow" style={{ animationDelay: ".05s", marginBottom: 22 }}>
           <DecodeText text="AI AGENTS FOR INSURANCE OPERATIONS" />
         </div>
@@ -325,7 +369,7 @@ export default function FinLeadSite() {
             )}
             {messages.map((m, i) => (
               <div key={i} style={{ display: "flex", marginBottom: 12, justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
-                <div className={m.role === "user" ? "fl-bubble-u" : "fl-bubble-a"} style={{ padding: "11px 15px", maxWidth: "82%", fontSize: 15, lineHeight: 1.55, whiteSpace: "pre-wrap" }}>{m.content}</div>
+                <div className={m.role === "user" ? "fl-bubble-u" : "fl-bubble-a"} style={{ padding: "11px 15px", maxWidth: "82%", fontSize: 15, lineHeight: 1.55, whiteSpace: "pre-wrap" }}>{m.role === "assistant" ? renderText(m.content) : m.content}</div>
               </div>
             ))}
             {loading && (
