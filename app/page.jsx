@@ -269,7 +269,7 @@ function DemoModal({ open, onClose }) {
         ) : (
           <>
             <p className="fl-muted" style={{ fontSize: 13.5, lineHeight: 1.55, margin: "6px 0 20px" }}>
-              This form is handled by Clooker, our in-house AI agent. He loves use-cases that FinLead's agents can't solve — sadly, he hasn't met one yet. Care to try?
+              This form is handled by Clooker, our in-house AI agent. He loves use-cases that FinLead's agents can't solve! Sadly, he hasn't met one yet. Care to try?
             </p>
             {FIELDS.map(([label, key, type]) => (
               <label key={key} style={{ display: "block", marginBottom: 12 }}>
