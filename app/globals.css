@@ -108,3 +108,17 @@ section[id]{scroll-margin-top:100px}
 /* suite sub-item divider */
 .fl-subitem{padding:16px 0;border-top:1px solid var(--line)}
 .fl-subitem:first-of-type{border-top:none;padding-top:4px}
+/* ---- v3: larger taskbar + full responsiveness ---- */
+.fl-navwrap nav{height:84px!important}
+.fl-dock{padding:13px 30px;font-size:15px;gap:34px}
+
+@media (max-width:600px){
+  .fl-navwrap nav{height:66px!important}
+  .fl-console{transform:none;box-shadow:0 28px 70px rgba(0,0,0,.5)}
+  .fl-row{grid-template-columns:1.25fr .9fr .9fr .8fr;gap:8px;padding:11px 12px;font-size:12px}
+  .fl-pill{font-size:10px;padding:3px 8px}
+  .fl-glass{border-radius:16px}
+}
+@media (max-width:420px){
+  .fl-row{font-size:11px;padding:10px 8px;gap:6px}
+}
