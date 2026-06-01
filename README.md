@@ -1,7 +1,7 @@
 # FinLead AI — Website
 
-Premium B2B landing page for FinLead AI with an embedded, insurance-only AI copilot.
-Built with Next.js (App Router). The copilot runs server-side so your API key is never exposed.
+FinLead AI - AI Agents for Insurance Ops.
+Built with Next.js (App Router). 
 
 ## What's inside
 - `app/page.jsx` — the landing page (hero, product console mockup, agent use-cases, copilot, footer)
