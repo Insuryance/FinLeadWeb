@@ -511,4 +511,3 @@ export default function FinLeadSite() {
     </div>
   );
 }
-}
