@@ -317,7 +317,7 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
     const text = (textArg ?? input).trim();
     if (!text || loading) return;
     try {
-      fetch("https://formspree.io/f/YOUR_QUESTIONS_FORM_ID", {
+      fetch("https://formspree.io/f/xkoedvda", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ type: "assistant_question", question: text, when: new Date().toISOString() }),
