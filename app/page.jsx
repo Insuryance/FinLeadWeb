@@ -180,9 +180,11 @@ const SUGGESTIONS = [
   "What are the three agent suites?",
   "How does the Intelligence suite cut leakage?",
   "How is this different from ChatGPT or Claude?",
+  "Can I customise my AI Agents?",
+  "Can I Integrate these AI Agents with my existing software?",
+  "Are your Agents compliant?",
   "How does pricing work?",
 ];
-
 const TYPING_QUESTIONS = [
   "What does FinLead AI do?",
   "How do FinLead's agents reconcile commissions across carriers?",
@@ -300,12 +302,27 @@ export default function FinLeadSite() {
   const scrollRef = useRef(null);
   const streamRef = useRef(null);
   const typed = useTypewriter(TYPING_QUESTIONS);
-
-  useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
-
-  const send = (textArg) => {
+useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
+  useEffect(() => {
+    const strip = () => { if (window.location.hash) window.history.replaceState(null, "", window.location.pathname + window.location.search); };
+    window.addEventListener("hashchange", strip);
+    return () => window.removeEventListener("hashchange", strip);
+  }, []);
+  useEffect(() => {
+    const strip = () => { if (window.location.hash) window.history.replaceState(null, "", window.location.pathname + window.location.search); };
+    window.addEventListener("hashchange", strip);
+    return () => window.removeEventListener("hashchange", strip);
+  }, []);
+ const send = (textArg) => {
     const text = (textArg ?? input).trim();
     if (!text || loading) return;
+    try {
+      fetch("https://formspree.io/f/YOUR_QUESTIONS_FORM_ID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ type: "assistant_question", question: text, when: new Date().toISOString() }),
+      });
+    } catch (e) {}
     setInput("");
     setMessages((m) => [...m, { role: "user", content: text }]);
     setLoading(true);
@@ -356,7 +373,9 @@ export default function FinLeadSite() {
           The insurance back-office, <span className="fl-gold-grad">run by AI agents.</span>
         </h1>
         <p className="fl-rise fl-muted" style={{ animationDelay: ".3s", fontSize: "clamp(16px,2vw,20px)", maxWidth: "58ch", lineHeight: 1.6, margin: "28px auto 0" }}>
-          FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more with intelligence, speed and accuracy. We don't sell seats. We own the outcome.
+          FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more with intelligence, speed and accuracy.
+          <span style={{ display: "block", marginTop: 16, color: "var(--gold)", fontWeight: 600 }}>We don't sell seats. We own the outcome.</span>
+        </p>
         </p>
         <div className="fl-rise" style={{ animationDelay: ".45s", display: "flex", justifyContent: "center", gap: 12, marginTop: 36, flexWrap: "wrap" }}>
           <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
@@ -378,8 +397,10 @@ export default function FinLeadSite() {
       {/* TRUST STRIP */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
-        <div className="fl-muted fl-serif" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-          <span>5+ insurers</span><span>·</span><span>10+ brokers &amp; more</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Full audit trail, incl. AI audits</span>
+        <div className="fl-muted fl-serif fl-trust" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
+          <span>5+ insurers</span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
+        </div>
+        <span>5+ insurers</span><span>·</span><span>10+ brokers &amp; more</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Full audit trail, incl. AI audits</span>
         </div>
       </section>
 
