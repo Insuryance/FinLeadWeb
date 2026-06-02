@@ -497,7 +497,7 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
           Hand your back-office <span className="fl-gold-grad">to FinLead's AI agents.</span>
         </h2>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-          <button className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
+          <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
           <a href="mailto:surya@finleadai.com" className="fl-btn fl-btn-ghost">Talk to founders</a>
         </div>
       </section>
