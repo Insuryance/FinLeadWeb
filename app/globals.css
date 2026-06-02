@@ -122,3 +122,15 @@ section[id]{scroll-margin-top:100px}
 @media (max-width:420px){
   .fl-row{font-size:11px;padding:10px 8px;gap:6px}
 }
+/* ---- v4: mobile polish ---- */
+html{scroll-behavior:smooth}
+.fl-pill{white-space:nowrap}
+@media (max-width:600px){
+  .fl-trust{flex-direction:column;gap:10px!important;font-size:16px!important}
+  .fl-trust .fl-sep{display:none}
+  .fl-row{grid-template-columns:1.2fr .85fr .85fr auto;gap:6px;padding:10px 10px;font-size:11px}
+  .fl-console > div{border-radius:12px}
+}
+@media (max-width:420px){
+  .fl-row{font-size:10.5px;gap:5px;padding:9px 8px}
+}
