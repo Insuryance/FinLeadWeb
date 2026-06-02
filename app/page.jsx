@@ -308,11 +308,6 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
     window.addEventListener("hashchange", strip);
     return () => window.removeEventListener("hashchange", strip);
   }, []);
-  useEffect(() => {
-    const strip = () => { if (window.location.hash) window.history.replaceState(null, "", window.location.pathname + window.location.search); };
-    window.addEventListener("hashchange", strip);
-    return () => window.removeEventListener("hashchange", strip);
-  }, []);
  const send = (textArg) => {
     const text = (textArg ?? input).trim();
     if (!text || loading) return;
@@ -376,7 +371,6 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
           FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies, MGAs and more with intelligence, speed and accuracy.
           <span style={{ display: "block", marginTop: 16, color: "var(--gold)", fontWeight: 600 }}>We don't sell seats. We own the outcome.</span>
         </p>
-        </p>
         <div className="fl-rise" style={{ animationDelay: ".45s", display: "flex", justifyContent: "center", gap: 12, marginTop: 36, flexWrap: "wrap" }}>
           <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine">Book a demo <ArrowUpRight size={17} /></button>
           <a href="#assistant" className="fl-btn fl-btn-ghost">Ask the assistant <Sparkles size={16} /></a>
@@ -399,8 +393,6 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif fl-trust" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
           <span>5+ insurers</span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
-        </div>
-        <span>5+ insurers</span><span>·</span><span>10+ brokers &amp; more</span><span>·</span><span>Tax &amp; compliance aware</span><span>·</span><span>Full audit trail, incl. AI audits</span>
         </div>
       </section>
 
