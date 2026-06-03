@@ -442,10 +442,7 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
             {messages.length === 0 && (
               <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px" }}>
                 <Sparkles size={26} color="var(--gold)" />
-                <p className="fl-muted" style={{ fontSize: 15, margin: "16px 0 20px" }}>Try one of these to start:</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
-                  {SUGGESTIONS.map((s, i) => <button key={i} className="fl-chip" onClick={() => send(s)}>{s}</button>)}
-                </div>
+                <p className="fl-muted" style={{ fontSize: 15, margin: "16px 0 0" }}>Ask me anything about FinLead AI, or tap a question below.</p>
               </div>
             )}
             {messages.map((m, i) => (
@@ -461,6 +458,14 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
               </div>
             )}
           </div>
+          {SUGGESTIONS.filter((s) => !messages.some((m) => m.role === "user" && m.content === s)).length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 12 }}>
+              {SUGGESTIONS
+                .filter((s) => !messages.some((m) => m.role === "user" && m.content === s))
+                .slice(0, 4)
+                .map((s, i) => <button key={i} className="fl-chip" onClick={() => send(s)}>{s}</button>)}
+            </div>
+          )}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8 }}>
             <input
               className="fl-input"
