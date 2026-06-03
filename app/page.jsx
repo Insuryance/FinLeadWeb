@@ -145,7 +145,84 @@ function LiveConsole() {
     </div>
   );
 }
+/* ---------- Second live demo: Payout / PoSP feed ---------- */
+const PRODUCERS = ["Producer #A2291", "Producer #B0473", "Producer #C8810", "Producer #D1567", "Producer #E4002", "Producer #F7320"];
+const mkPayout = () => {
+  const gross = rnd(20, 120) * 1000 + rnd(0, 9) * 100;
+  const tds = Math.round(gross * 0.05);
+  const breach = Math.random() < 0.25;
+  return {
+    name: PRODUCERS[rnd(0, PRODUCERS.length - 1)],
+    gross, tds, net: gross - tds,
+    status: "calculating",
+    note: breach ? "breach" : "clean",
+    flash: true, id: Math.random(),
+  };
+};
 
+function PayoutConsole() {
+  const [rows, setRows] = useState([
+    { name: "Producer #A2291", gross: 84000, tds: 4200, net: 79800, status: "paid", note: "clean", id: 1 },
+    { name: "Producer #B0473", gross: 61500, tds: 3075, net: 58425, status: "review", note: "breach", id: 2 },
+    { name: "Producer #C8810", gross: 47200, tds: 2360, net: 44840, status: "paid", note: "clean", id: 3 },
+    { name: "Producer #D1567", gross: 92800, tds: 4640, net: 88160, status: "calculating", note: "clean", id: 4 },
+  ]);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setRows((prev) => {
+        const i = rnd(0, prev.length - 1);
+        const r = prev[i];
+        let updated;
+        if (r.status === "calculating") {
+          updated = { ...r, status: r.note === "breach" ? "review" : "paid", flash: true };
+        } else {
+          updated = mkPayout();
+        }
+        return prev.map((x, idx) => (idx === i ? updated : { ...x, flash: false }));
+      });
+    }, 2600);
+    return () => clearInterval(t);
+  }, []);
+
+  const pillStyle = (s) => ({
+    background: s === "paid" ? "rgba(80,190,110,.14)" : s === "review" ? "rgba(230,80,80,.16)" : "rgba(125,150,210,.16)",
+    color: s === "paid" ? "#6FCF7F" : s === "review" ? "#FF7E7E" : "#94A9E6",
+  });
+
+  const counts = rows.reduce((a, r) => { a[r.status] = (a[r.status] || 0) + 1; return a; }, {});
+
+  return (
+    <div className="fl-rise fl-console fl-glass" style={{ animationDelay: ".6s", padding: 6 }}>
+      <div style={{ borderRadius: 14, overflow: "hidden", background: "var(--ink2)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid var(--line)" }}>
+          {[0, 1, 2].map((i) => <span key={i} style={{ width: 10, height: 10, borderRadius: 99, background: "#3a3a40" }} />)}
+          <span className="fl-muted" style={{ marginLeft: 12, fontSize: 12 }}>FinLead Console: Producer Payouts</span>
+          <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 7, fontSize: 12, color: "#6FCF7F" }}>
+            <span className="fl-dot" style={{ background: "#6FCF7F" }} /> Agent active
+          </span>
+        </div>
+        <div className="fl-row fl-muted" style={{ borderTop: "none", textTransform: "uppercase", letterSpacing: ".1em", fontSize: 11 }}>
+          <span>Producer</span><span>Gross</span><span>Net (post-TDS)</span><span>Status</span>
+        </div>
+        {rows.map((r) => (
+          <div className={`fl-row${r.flash ? " fl-rowflash" : ""}`} key={r.id}>
+            <span style={{ color: "var(--ivory)" }}>{r.name}</span>
+            <span className="fl-muted">{inr(r.gross)}</span>
+            <span style={{ color: r.status === "calculating" ? "var(--muted2)" : "var(--ivory)" }}>{r.status === "calculating" ? "-" : inr(r.net)}</span>
+            <span><span className="fl-pill" style={{ ...pillStyle(r.status) }}>{r.status === "paid" && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}</span></span>
+          </div>
+        ))}
+        <div className="fl-muted" style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 18px", borderTop: "1px solid var(--line)", fontSize: 12, flexWrap: "wrap" }}>
+          <span style={{ color: "#6FCF7F" }}>{counts.paid || 0} paid</span><span>·</span>
+          <span style={{ color: "#FF7E7E" }}>{counts.review || 0} in review</span><span>·</span>
+          <span style={{ color: "#94A9E6" }}>{counts.calculating || 0} calculating</span>
+          <span style={{ marginLeft: "auto" }}>FinLead agent · computing payouts in real time</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 /* ---------- Agent suites ---------- */
 const SUITES = [
   {
@@ -184,6 +261,9 @@ const SUGGESTIONS = [
   "Can I Integrate these AI Agents with my existing software?",
   "Are your Agents compliant?",
   "How does pricing work?",
+  "How do FinLead's agents reconcile commissions across carriers?",
+  "Is my data stored or taken by these AI Agents?",
+  "How do I get started?",
 ];
 const TYPING_QUESTIONS = [
   "What does FinLead AI do?",
@@ -303,12 +383,19 @@ export default function FinLeadSite() {
   const streamRef = useRef(null);
   const typed = useTypewriter(TYPING_QUESTIONS);
 useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
-  useEffect(() => {
+useEffect(() => {
     const strip = () => { if (window.location.hash) window.history.replaceState(null, "", window.location.pathname + window.location.search); };
     window.addEventListener("hashchange", strip);
     return () => window.removeEventListener("hashchange", strip);
   }, []);
- const send = (textArg) => {
+  const [chipCount, setChipCount] = useState(4);
+  useEffect(() => {
+    const fit = () => setChipCount(window.innerWidth < 600 ? 3 : window.innerWidth < 960 ? 5 : 7);
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+  const send = (textArg) => {
     const text = (textArg ?? input).trim();
     if (!text || loading) return;
     try {
@@ -427,7 +514,16 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
           })}
         </div>
       </section>
-
+{/* SECOND DEMO — payouts */}
+      <section style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px" }}>
+        <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 36px" }}>
+          <p className="fl-eyebrow" style={{ marginBottom: 14 }}>Another agent at work</p>
+          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(26px,3.4vw,38px)", lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>
+            From reconciliation to <span className="fl-gold-grad">producer payouts.</span>
+          </h2>
+        </div>
+        <PayoutConsole />
+      </section>
       {/* ASSISTANT */}
       <section id="assistant" style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px" }}>
         <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 40px" }}>
@@ -462,7 +558,7 @@ useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 12 }}>
               {SUGGESTIONS
                 .filter((s) => !messages.some((m) => m.role === "user" && m.content === s))
-                .slice(0, 4)
+                .slice(0, chipCount)
                 .map((s, i) => <button key={i} className="fl-chip" onClick={() => send(s)}>{s}</button>)}
             </div>
           )}
