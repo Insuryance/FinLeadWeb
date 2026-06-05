@@ -70,6 +70,12 @@ const REASONS = {
 const mkRow = () => ({ name: `${POOL[rnd(0, POOL.length - 1)]} · ${MONTHS[rnd(0, MONTHS.length - 1)]}`, expected: mkAmt(), reconciled: null, status: "processing", reason: REASONS.processing, flash: true, id: Math.random() });
 
 function LiveConsole() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 600);
+    check(); window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   const [rows, setRows] = useState([
     { name: "ABC Life · Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", reason: REASONS.matched, id: 1 },
     { name: "XYZ General Insurance · Apr'26", expected: 815200, reconciled: 802900, status: "flagged", reason: "Variance of ₹12,300 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
@@ -120,7 +126,7 @@ function LiveConsole() {
         </div>
         {rows.map((r) => (
           <div className={`fl-row${r.flash ? " fl-rowflash" : ""}`} key={r.id}>
-            <span style={{ color: "var(--ivory)" }}>{r.name}</span>
+            <span style={{ color: "var(--ivory)" }}>{isMobile ? r.name.split(" · ")[0].replace(/ (General|Health) Insurance/, m => m.includes("Health") ? " Health" : " Gen Ins") : r.name}</span>
             <span className="fl-muted">{inr(r.expected)}</span>
             <span style={{ color: r.reconciled == null ? "var(--muted2)" : "var(--ivory)" }}>{r.reconciled == null ? "-" : inr(r.reconciled)}</span>
             <span style={{ position: "relative", overflow: "visible" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)} onClick={() => setHover(hover === r.id ? null : r.id)}>
@@ -146,7 +152,7 @@ function LiveConsole() {
   );
 }
 /* ---------- Second live demo: Agent Onboarding feed ---------- */
-const ONB_NAMES = ["Producer #A2291", "Producer #B0473", "Producer #C8810", "Producer #D1567", "Producer #E4002", "Producer #F7320", "Producer #G5519"];
+const ONB_NAMES = ["Agent 1", "Agent 2", "Agent 3", "Agent 4", "Agent 5", "Agent 6", "Agent 7", "Agent 8", "Agent 9", "Agent 10"];
 const ONB_STAGES = [
   "KYC: PAN & Aadhaar",
   "IRDAI licence check",
@@ -167,11 +173,17 @@ const mkOnb = () => {
 };
 
 function OnboardConsole() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 600);
+    check(); window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   const [rows, setRows] = useState([
-    { name: "Producer #A2291", stage: "Activation", stageIdx: 4, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", id: 1 },
-    { name: "Producer #B0473", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the IRDAI registry. Held for manual review.", id: 2 },
-    { name: "Producer #C8810", stage: "PoSP exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming PoSP certification and exam completion.", id: 3 },
-    { name: "Producer #D1567", stage: "Agreement e-sign", stageIdx: 3, status: "cleared", reason: "Stage cleared. Awaiting the next step in onboarding.", id: 4 },
+    { name: "Agent 1", stage: "Activation", stageIdx: 4, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", id: 1 },
+    { name: "Agent 2", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the IRDAI registry. Held for manual review.", id: 2 },
+    { name: "Agent 3", stage: "PoSP exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming PoSP certification and exam completion.", id: 3 },
+    { name: "Agent 4", stage: "Agreement e-sign", stageIdx: 3, status: "cleared", reason: "Stage cleared. Awaiting the next step in onboarding.", id: 4 },
   ]);
   const [hover, setHover] = useState(null);
   useEffect(() => {
@@ -226,7 +238,7 @@ function OnboardConsole() {
         </div>
         {rows.map((r) => (
           <div className={`fl-row${r.flash ? " fl-rowflash" : ""}`} key={r.id}>
-            <span style={{ color: "var(--ivory)" }}>{r.name}</span>
+           <span style={{ color: "var(--ivory)" }}>{r.name}</span>
             <span className="fl-muted">{r.stage}</span>
             <span style={{ color: "var(--muted2)" }}>{r.stageIdx + 1}/5</span>
             <span style={{ position: "relative", overflow: "visible" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)} onClick={() => setHover(hover === r.id ? null : r.id)}>
