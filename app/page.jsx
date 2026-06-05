@@ -123,8 +123,8 @@ function LiveConsole() {
             <span style={{ color: "var(--ivory)" }}>{r.name}</span>
             <span className="fl-muted">{inr(r.expected)}</span>
             <span style={{ color: r.reconciled == null ? "var(--muted2)" : "var(--ivory)" }}>{r.reconciled == null ? "-" : inr(r.reconciled)}</span>
-            <span style={{ position: "relative" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)}>
-              <span className="fl-pill" style={{ ...pillStyle(r.status), cursor: "help" }}>
+            <span style={{ position: "relative", overflow: "visible" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)} onClick={() => setHover(hover === r.id ? null : r.id)}>
+              <span className="fl-pill" style={{ ...pillStyle(r.status), cursor: "pointer" }}>
                 {r.status === "matched" && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}
               </span>
               {hover === r.id && r.reason && (
@@ -168,12 +168,12 @@ const mkOnb = () => {
 
 function OnboardConsole() {
   const [rows, setRows] = useState([
-    { name: "Producer #A2291", stage: "Activation", stageIdx: 4, status: "activated", id: 1 },
-    { name: "Producer #B0473", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", id: 2 },
-    { name: "Producer #C8810", stage: "PoSP exam status", stageIdx: 2, status: "verifying", id: 3 },
-    { name: "Producer #D1567", stage: "Agreement e-sign", stageIdx: 3, status: "cleared", id: 4 },
+    { name: "Producer #A2291", stage: "Activation", stageIdx: 4, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", id: 1 },
+    { name: "Producer #B0473", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the IRDAI registry. Held for manual review.", id: 2 },
+    { name: "Producer #C8810", stage: "PoSP exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming PoSP certification and exam completion.", id: 3 },
+    { name: "Producer #D1567", stage: "Agreement e-sign", stageIdx: 3, status: "cleared", reason: "Stage cleared. Awaiting the next step in onboarding.", id: 4 },
   ]);
-
+  const [hover, setHover] = useState(null);
   useEffect(() => {
     const t = setInterval(() => {
       setRows((prev) => {
@@ -181,9 +181,9 @@ function OnboardConsole() {
         const r = prev[i];
         let updated;
         if (r.status === "activated" || r.status === "flagged") {
-          updated = mkOnb();
+          updated = { ...mkOnb(), reason: "Agent is confirming PAN & Aadhaar against KYC records." };
         } else if (r.stageIdx >= ONB_STAGES.length - 1) {
-          updated = { ...r, status: "activated", flash: true };
+          updated = { ...r, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", flash: true };
         } else {
           const next = r.stageIdx + 1;
           const flagged = Math.random() < 0.15;
@@ -192,6 +192,9 @@ function OnboardConsole() {
             stageIdx: next,
             stage: ONB_STAGES[next],
             status: flagged ? "flagged" : next === ONB_STAGES.length - 1 ? "cleared" : "verifying",
+            reason: flagged
+              ? `Verification failed at "${ONB_STAGES[next]}". Held for manual review.`
+              : `Agent is processing "${ONB_STAGES[next]}".`,
             flash: true,
           };
         }
@@ -226,7 +229,14 @@ function OnboardConsole() {
             <span style={{ color: "var(--ivory)" }}>{r.name}</span>
             <span className="fl-muted">{r.stage}</span>
             <span style={{ color: "var(--muted2)" }}>{r.stageIdx + 1}/5</span>
-            <span><span className="fl-pill" style={{ ...pillStyle(r.status) }}>{(r.status === "activated" || r.status === "cleared") && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}</span></span>
+            <span style={{ position: "relative", overflow: "visible" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)} onClick={() => setHover(hover === r.id ? null : r.id)}>
+              <span className="fl-pill" style={{ ...pillStyle(r.status), cursor: "pointer" }}>{(r.status === "activated" || r.status === "cleared") && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}</span>
+              {hover === r.id && r.reason && (
+                <span style={{ position: "absolute", bottom: "138%", right: 0, width: 220, whiteSpace: "normal", textAlign: "left", background: "#16161b", border: "1px solid var(--line)", color: "var(--ivory)", fontSize: 12, lineHeight: 1.45, padding: "9px 11px", borderRadius: 9, boxShadow: "0 14px 36px rgba(0,0,0,.55)", zIndex: 9 }}>
+                  {r.reason}
+                </span>
+              )}
+            </span>
           </div>
         ))}
         <div className="fl-muted" style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 18px", borderTop: "1px solid var(--line)", fontSize: 12, flexWrap: "wrap" }}>
@@ -663,7 +673,7 @@ useEffect(() => {
           </div>
           <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, textAlign: "center", maxWidth: "62ch", margin: "40px auto 0" }}>
             FinLead's AI Agents operate like trained employees rather than software you have to run.
-            <span style={{ color: "var(--gold)", fontWeight: 600 }}> Connected with a single hook, they work directly inside any system you already use! Internal or third-party</span>  with no migration, no rebuild, and a complete audit trail.
+            <span style={{ color: "var(--gold)", fontWeight: 600 }}> Connected with a single hook, they work directly inside any system you already use! Internal or third-party</span> with no migration, no rebuild, and a complete audit trail.
           </p>
         </div>
       </section>
