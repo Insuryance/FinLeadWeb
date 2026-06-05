@@ -115,7 +115,6 @@ section[id]{scroll-margin-top:100px}
 @media (max-width:600px){
   .fl-navwrap nav{height:66px!important}
   .fl-console{transform:none;box-shadow:0 28px 70px rgba(0,0,0,.5)}
-  .fl-row{grid-template-columns:1.25fr .9fr .9fr .8fr;gap:8px;padding:11px 12px;font-size:12px}
   .fl-pill{font-size:10px;padding:3px 8px}
   .fl-glass{border-radius:16px}
 }
@@ -128,11 +127,10 @@ html{scroll-behavior:smooth}
 @media (max-width:600px){
   .fl-trust{flex-direction:column;gap:10px!important;font-size:16px!important}
   .fl-trust .fl-sep{display:none}
-  .fl-row{grid-template-columns:1.2fr .85fr .85fr auto;gap:6px;padding:10px 10px;font-size:11px}
   .fl-console > div{border-radius:12px}
 }
 @media (max-width:420px){
-  .fl-row{font-size:10.5px;gap:5px;padding:9px 8px}
+  .fl-row{font-size:11px;gap:6px;padding:9px 8px}
 }
 /* ---- v5: console alignment on mobile ---- */
 .fl-row > span:not(:nth-child(4)) { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
