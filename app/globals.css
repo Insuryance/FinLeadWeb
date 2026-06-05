@@ -140,3 +140,30 @@ html{scroll-behavior:smooth}
   .fl-row { grid-template-columns: 1.3fr 1fr auto !important; gap: 8px; align-items: center; }
   .fl-row > span:nth-child(3) { display: none; }
 }
+/* ---- v6: clean, aligned console rows on mobile (authoritative) ---- */
+@media (max-width:600px){
+  .fl-row{
+    grid-template-columns: 1.5fr 1fr auto !important;
+    gap:10px !important;
+    padding:12px 12px !important;
+    align-items:center !important;
+    font-size:12px !important;
+  }
+  /* hide the cramped 3rd column (Reconciled / Step) */
+  .fl-row > span:nth-child(3){ display:none !important; }
+  /* force the text cells to one clean line, truncate with … */
+  .fl-row > span:nth-child(1),
+  .fl-row > span:nth-child(2){
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    min-width:0 !important;
+  }
+  /* keep the status pill fully visible (and its tap-tooltip un-clipped) */
+  .fl-row > span:nth-child(4){ overflow:visible !important; justify-self:end; }
+}
+@media (max-width:420px){
+  /* tiny phones: just name | status, the cleanest possible */
+  .fl-row{ grid-template-columns: 1.4fr auto !important; }
+  .fl-row > span:nth-child(2){ display:none !important; }
+}
