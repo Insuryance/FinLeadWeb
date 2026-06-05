@@ -108,62 +108,34 @@ section[id]{scroll-margin-top:100px}
 /* suite sub-item divider */
 .fl-subitem{padding:16px 0;border-top:1px solid var(--line)}
 .fl-subitem:first-of-type{border-top:none;padding-top:4px}
-/* ---- v3: larger taskbar + full responsiveness ---- */
+
+/* ---- v3: larger taskbar ---- */
 .fl-navwrap nav{height:84px!important}
 .fl-dock{padding:13px 30px;font-size:15px;gap:34px}
 
+/* ---- smooth scroll + pill never wraps ---- */
+html{scroll-behavior:smooth}
+.fl-pill{white-space:nowrap}
+
+/* ---- trust strip stacks on mobile ---- */
 @media (max-width:600px){
   .fl-navwrap nav{height:66px!important}
   .fl-console{transform:none;box-shadow:0 28px 70px rgba(0,0,0,.5)}
-  .fl-pill{font-size:10px;padding:3px 8px}
   .fl-glass{border-radius:16px}
-}
-@media (max-width:420px){
-  .fl-row{font-size:11px;padding:10px 8px;gap:6px}
-}
-/* ---- v4: mobile polish ---- */
-html{scroll-behavior:smooth}
-.fl-pill{white-space:nowrap}
-@media (max-width:600px){
   .fl-trust{flex-direction:column;gap:10px!important;font-size:16px!important}
   .fl-trust .fl-sep{display:none}
-  .fl-console > div{border-radius:12px}
 }
-@media (max-width:420px){
-  .fl-row{font-size:11px;gap:6px;padding:9px 8px}
-}
-/* ---- v5: console alignment on mobile ---- */
-.fl-row > span:not(:nth-child(4)) { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-.fl-row > span:nth-child(4) { overflow: visible; }
-@media (max-width: 600px){
-  /* 3 clean columns on phones: drop the narrow middle "Step" / "Reconciled" column */
-  .fl-row { grid-template-columns: 1.3fr 1fr auto !important; gap: 8px; align-items: center; }
-  .fl-row > span:nth-child(3) { display: none; }
-}
-/* ---- v6: clean, aligned console rows on mobile (authoritative) ---- */
-@media (max-width:600px){
+
+/* ---- CONSOLES: full 4 columns, aligned, sideways-scroll on mobile ---- */
+@media (max-width:720px){
+  .fl-console > div{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px; }
   .fl-row{
-    grid-template-columns: 1.5fr 1fr auto !important;
-    gap:10px !important;
-    padding:12px 12px !important;
+    grid-template-columns:180px 110px 110px 120px !important;
+    gap:14px !important;
+    padding:12px 16px !important;
+    font-size:12.5px !important;
     align-items:center !important;
-    font-size:12px !important;
+    min-width:560px;
   }
-  /* hide the cramped 3rd column (Reconciled / Step) */
-  .fl-row > span:nth-child(3){ display:none !important; }
-  /* force the text cells to one clean line, truncate with … */
-  .fl-row > span:nth-child(1),
-  .fl-row > span:nth-child(2){
-    white-space:nowrap !important;
-    overflow:hidden !important;
-    text-overflow:ellipsis !important;
-    min-width:0 !important;
-  }
-  /* keep the status pill fully visible (and its tap-tooltip un-clipped) */
-  .fl-row > span:nth-child(4){ overflow:visible !important; justify-self:end; }
-}
-@media (max-width:420px){
-  /* tiny phones: just name | status, the cleanest possible */
-  .fl-row{ grid-template-columns: 1.4fr auto !important; }
-  .fl-row > span:nth-child(2){ display:none !important; }
+  .fl-row > span{ white-space:nowrap !important; overflow:visible !important; text-overflow:clip !important; }
 }
