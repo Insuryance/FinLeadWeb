@@ -135,7 +135,8 @@ html{scroll-behavior:smooth}
   .fl-row{font-size:10.5px;gap:5px;padding:9px 8px}
 }
 /* ---- v5: console alignment on mobile ---- */
-.fl-row > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.fl-row > span:not(:nth-child(4)) { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.fl-row > span:nth-child(4) { overflow: visible; }
 @media (max-width: 600px){
   /* 3 clean columns on phones: drop the narrow middle "Step" / "Reconciled" column */
   .fl-row { grid-template-columns: 1.3fr 1fr auto !important; gap: 8px; align-items: center; }
