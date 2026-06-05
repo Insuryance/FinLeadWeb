@@ -26,11 +26,14 @@ function useTypewriter(items, { typing = 55, pausing = 1600, deleting = 28 } = {
   return text;
 }
 
-/* ---------- Decode text effect (parallel.ai style) ---------- */
+/* ---------- Decode text effect (new style) ---------- */
 function DecodeText({ text, className, style, delay = 200, speed = 0.5 }) {
-  const [out, setOut] = useState(text);
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*<>/_";
+  const scramble = (t) => t.split("").map((c) => (c === " " ? " " : chars[Math.floor(Math.random() * chars.length)])).join("");
+  const [out, setOut] = useState(() => scramble(text));
+  const done = useRef(false);
   useEffect(() => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*<>/_";
+    if (done.current) return;
     let iteration = 0;
     let id;
     const t = setTimeout(() => {
@@ -41,7 +44,7 @@ function DecodeText({ text, className, style, delay = 200, speed = 0.5 }) {
           return chars[Math.floor(Math.random() * chars.length)];
         }).join(""));
         iteration += speed;
-        if (iteration >= text.length) { clearInterval(id); setOut(text); }
+        if (iteration >= text.length) { clearInterval(id); setOut(text); done.current = true; }
       }, 40);
     }, delay);
     return () => { clearTimeout(t); clearInterval(id); };
