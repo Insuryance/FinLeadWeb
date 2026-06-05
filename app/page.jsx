@@ -390,9 +390,65 @@ function DemoModal({ open, onClose }) {
     </div>
   );
 }
+function PartnerModal({ open, onClose }) {
+  const [status, setStatus] = useState("idle");
+  const [form, setForm] = useState({ company: "", name: "", role: "", email: "", product: "", usecase: "" });
+  if (!open) return null;
+  const upd = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const submit = async () => {
+    if (!form.email || !form.company) { setStatus("need"); return; }
+    setStatus("sending");
+    try {
+      const res = await fetch("https://formspree.io/f/YOUR_PARTNER_FORM_ID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ type: "partner_inquiry", company: form.company, name: form.name, role: form.role, email: form.email, product: form.product, use_case: form.usecase }),
+      });
+      setStatus(res.ok ? "done" : "error");
+    } catch (e) { setStatus("error"); }
+  };
+  const FIELDS = [["Company", "company", "text"], ["Your name", "name", "text"], ["Role", "role", "text"], ["Work email", "email", "email"], ["Your product / platform", "product", "text"]];
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,.62)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div onClick={(e) => e.stopPropagation()} className="fl-glass" style={{ width: "100%", maxWidth: 540, maxHeight: "90vh", overflowY: "auto", padding: 28 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
+          <h3 className="fl-serif" style={{ fontSize: 26, fontWeight: 400, margin: 0 }}>Embed FinLead <span className="fl-gold-grad">agents.</span></h3>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--muted)", fontSize: 24, cursor: "pointer", lineHeight: 1 }}>×</button>
+        </div>
+        {status === "done" ? (
+          <p className="fl-muted" style={{ fontSize: 15, lineHeight: 1.6, marginTop: 14 }}>
+            Thank you. Your partnership enquiry is in. Our team will review how FinLead's agents can sit inside your product and reach out to scope a pilot.
+          </p>
+        ) : (
+          <>
+            <p className="fl-muted" style={{ fontSize: 13.5, lineHeight: 1.55, margin: "6px 0 20px" }}>
+              For InsurTech platforms that want to offer FinLead's AI agents inside their own product. Tell us about your platform and where you'd like the agents to operate.
+            </p>
+            {FIELDS.map(([label, key, type]) => (
+              <label key={key} style={{ display: "block", marginBottom: 12 }}>
+                <span className="fl-muted" style={{ fontSize: 12, letterSpacing: ".04em" }}>{label}</span>
+                <input className="fl-input" type={type} value={form[key]} onChange={upd(key)} style={{ width: "100%", padding: "11px 14px", fontSize: 14, marginTop: 5 }} />
+              </label>
+            ))}
+            <label style={{ display: "block", marginBottom: 16 }}>
+              <span className="fl-muted" style={{ fontSize: 12, letterSpacing: ".04em" }}>Where would the agents operate? (workflow / module)</span>
+              <textarea className="fl-input" value={form.usecase} onChange={upd("usecase")} rows={3} style={{ width: "100%", padding: "11px 14px", fontSize: 14, marginTop: 5, resize: "vertical" }} />
+            </label>
+            <button className="fl-btn fl-btn-shine" onClick={submit} disabled={status === "sending"} style={{ width: "100%", justifyContent: "center" }}>
+              {status === "sending" ? "Sending…" : "Submit partnership enquiry"}
+            </button>
+            {status === "need" && <p style={{ color: "#FF7E7E", fontSize: 12.5, marginTop: 10 }}>Please add at least your company and work email.</p>}
+            {status === "error" && <p style={{ color: "#FF7E7E", fontSize: 12.5, marginTop: 10 }}>Something went wrong — please email surya@finleadai.com.</p>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 export default function FinLeadSite() {
   const [messages, setMessages] = useState([]);
   const [demoOpen, setDemoOpen] = useState(false);
+  const [partnerOpen, setPartnerOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
@@ -605,15 +661,26 @@ useEffect(() => {
               </div>
             ))}
           </div>
-          <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, textAlign: "center", maxWidth: "60ch", margin: "40px auto 0" }}>
-            Our AI agents work like employees, not tools. Give them a login and
-            <span style={{ color: "var(--gold)", fontWeight: 600 }}> they operate any software you already run whether internal or external, with a single hook.</span> No rip-and-replace, no migration.
+          <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, textAlign: "center", maxWidth: "62ch", margin: "40px auto 0" }}>
+            FinLead's agents operate like trained employees rather than software you have to run.
+            <span style={{ color: "var(--gold)", fontWeight: 600 }}> Connected with a single hook, they work directly inside any system you already use — internal or third-party</span> — with no migration, no rebuild, and a complete audit trail.
           </p>
         </div>
       </section>
 
-      {/* CTA */}
-
+      {/* PARTNER / EMBED */}
+      <section style={{ position: "relative", zIndex: 10, maxWidth: 900, margin: "0 auto 112px", padding: "0 24px" }}>
+        <div className="fl-glass" style={{ padding: "48px 40px", textAlign: "center" }}>
+          <p className="fl-eyebrow" style={{ marginBottom: 16 }}>For InsurTech platforms</p>
+          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(26px,3.6vw,40px)", lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>
+            Offer FinLead's agents <span className="fl-gold-grad">inside your own product.</span>
+          </h2>
+          <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: "56ch", margin: "20px auto 28px" }}>
+            Already have a platform serving insurers, brokers or MGAs? Embed FinLead's AI agents as a native capability and cross-sell autonomous back-office operations to your customers.
+          </p>
+          <button onClick={() => setPartnerOpen(true)} className="fl-btn fl-btn-shine">Become a partner <ArrowUpRight size={17} /></button>
+        </div>
+      </section>
       {/* CTA */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 760, margin: "0 auto 96px", padding: "0 24px", textAlign: "center" }}>
         <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.05, letterSpacing: "-.02em", margin: 0 }}>
@@ -647,6 +714,7 @@ useEffect(() => {
         </div>
      </footer>
       <DemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
+      <PartnerModal open={partnerOpen} onClose={() => setPartnerOpen(false)} />
     </div>
   );
 }
