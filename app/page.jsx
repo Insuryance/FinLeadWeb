@@ -605,8 +605,14 @@ useEffect(() => {
               </div>
             ))}
           </div>
+          <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, textAlign: "center", maxWidth: "60ch", margin: "40px auto 0" }}>
+            Our AI agents work like employees, not tools. Give them a login and
+            <span style={{ color: "var(--gold)", fontWeight: 600 }}> they operate any software you already run whether internal or external, with a single hook.</span> No rip-and-replace, no migration.
+          </p>
         </div>
       </section>
+
+      {/* CTA */}
 
       {/* CTA */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 760, margin: "0 auto 96px", padding: "0 24px", textAlign: "center" }}>
