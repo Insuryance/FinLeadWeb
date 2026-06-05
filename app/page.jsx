@@ -662,8 +662,8 @@ useEffect(() => {
             ))}
           </div>
           <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, textAlign: "center", maxWidth: "62ch", margin: "40px auto 0" }}>
-            FinLead's agents operate like trained employees rather than software you have to run.
-            <span style={{ color: "var(--gold)", fontWeight: 600 }}> Connected with a single hook, they work directly inside any system you already use — internal or third-party</span> — with no migration, no rebuild, and a complete audit trail.
+            FinLead's AI Agents operate like trained employees rather than software you have to run.
+            <span style={{ color: "var(--gold)", fontWeight: 600 }}> Connected with a single hook, they work directly inside any system you already use! Internal or third-party</span>  with no migration, no rebuild, and a complete audit trail.
           </p>
         </div>
       </section>
