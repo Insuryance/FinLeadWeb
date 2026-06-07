@@ -130,7 +130,7 @@ html{scroll-behavior:smooth}
 @media (max-width:600px){
   .fl-console > div{ border-radius:12px; }
   .fl-row{
-    grid-template-columns: 1.2fr .85fr .85fr auto !important;
+    grid-template-columns: 1.1fr .95fr .5fr 1fr !important;
     gap: 8px !important;
     padding: 11px 12px !important;
     font-size: 11px !important;
