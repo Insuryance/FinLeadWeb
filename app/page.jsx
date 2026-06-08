@@ -341,6 +341,78 @@ const QA = [
     a: "Yes. Our Agents follow DPDP rigorously and are compliant ." },
   { q: "How do I get started?", keys: ["start", "started", "demo", "begin", "pilot", "contact"],
     a: `The fastest way is to book a demo or email the founders directly at surya@finleadai.com. They'll scope a pilot around your highest-volume workflow.` },
+  {
+  q: "Is FinLead AI a standalone platform or API-based?",
+  keys: [
+    "api",
+    "api based",
+    "standalone",
+    "platform",
+    "replace software",
+    "new software",
+    "dashboard",
+    "crm",
+    "system",
+    "workflow"
+  ],
+  a: "FinLead AI works alongside your existing systems rather than replacing them. Our AI Agents connect through APIs and backend integrations and execute work directly within your current workflows. Think of us as an intelligent operational layer that runs insurance operations end-to-end across your existing software stack."
+},
+  {
+  q: "How do you calculate commissions?",
+  keys: [
+    "calculate",
+    "calculation",
+    "commission",
+    "commissions",
+    "payout",
+    "broker payout",
+    "carrier payout",
+    "earning"
+  ],
+  a: "Our Finance Ops agents calculate commissions by combining carrier statements, policy data, producer hierarchies, payout structures and commission schedules. Every line item is matched against the expected payout and automatically reconciled, creating a complete audit trail with no manual spreadsheet work."
+},
+  {
+  q: "How long does implementation take?",
+  keys: [
+    "implementation",
+    "deploy",
+    "deployment",
+    "setup",
+    "onboard",
+    "onboarding",
+    "go live",
+    "timeline",
+    "install"
+  ],
+  a: "Most customers start with a focused pilot around a high-volume workflow. Depending on integration complexity and data availability, deployment can take anywhere from a few days to a few weeks. The goal is to get measurable outcomes quickly rather than spending months implementing software."
+},
+  {
+  q: "How do you identify revenue leakage?",
+  keys: [
+    "leakage",
+    "leak",
+    "revenue",
+    "profitability",
+    "margin",
+    "loss",
+    "commission leakage",
+    "recover"
+  ],
+  a: "The Intelligence suite continuously analyses commissions, payouts, claims and distribution performance to identify profitability leaks. It highlights anomalies, uncovers root causes and recommends corrective actions before small losses become significant margin erosion."
+},
+  {
+  q: "How secure are FinLead AI Agents?",
+  keys: [
+    "security",
+    "secure",
+    "data security",
+    "confidential",
+    "protection",
+    "sensitive data",
+    "risk"
+  ],
+  a: "Security is foundational to FinLead AI. Our agents are designed with strict access controls, auditability and enterprise-grade security practices. We follow DPDP requirements and ensure customer information remains protected throughout every workflow."
+},
 ];
 
 function matchAnswer(text) {
