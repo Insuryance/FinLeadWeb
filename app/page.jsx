@@ -542,51 +542,6 @@ function PartnerModal({ open, onClose }) {
     </div>
   );
 }
-/* ---------- What the AIs say about FinLead ---------- */
-const ASK_PROMPT = "What is FinLead AI? Explain what it does for insurers, brokers and MGAs, why it's beneficial, and how easy it is to integrate.";
-
-const LLMS = [
-  { name: "ChatGPT", url: `https://chatgpt.com/?q=${encodeURIComponent(ASK_PROMPT)}`, prefill: true,
-    logo: "https://cdn.simpleicons.org/openai/D9C9A3" },
-  { name: "Perplexity", url: `https://www.perplexity.ai/search?q=${encodeURIComponent(ASK_PROMPT)}`, prefill: true,
-    logo: "https://cdn.simpleicons.org/perplexity/D9C9A3" },
-  { name: "Gemini", url: `https://www.google.com/search?q=${encodeURIComponent(ASK_PROMPT)}`, prefill: true,
-    logo: "https://cdn.simpleicons.org/googlegemini/D9C9A3" },
-  { name: "Claude", url: "https://claude.ai/new", prefill: false,
-    logo: "https://cdn.simpleicons.org/anthropic/D9C9A3" },
-];
-
-function AskTheAIs() {
-  const [copied, setCopied] = useState("");
-  const handle = (llm) => (e) => {
-    if (!llm.prefill) {
-      try { navigator.clipboard.writeText(ASK_PROMPT); setCopied(llm.name); setTimeout(() => setCopied(""), 2200); } catch (err) {}
-    }
-  };
-  return (
-    <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
-      <p className="fl-eyebrow" style={{ marginBottom: 16 }}>Don't take our word for it</p>
-      <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(26px,3.6vw,40px)", lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>
-        Ask the AIs about <span className="fl-gold-grad">FinLead AI.</span>
-      </h2>
-      <p className="fl-muted" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: "56ch", margin: "18px auto 36px" }}>
-        Our agents are built to be read by other AI systems. Ask any leading model what FinLead AI does, who it's for, and how it integrates. Tap a logo to ask.
-      </p>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
-        {LLMS.map((llm) => (
-          <a key={llm.name} href={llm.url} target="_blank" rel="noopener noreferrer" onClick={handle(llm)}
-            className="fl-card" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, width: 150, padding: "26px 18px", textDecoration: "none" }}>
-            <img src={llm.logo} alt={llm.name} style={{ height: 34, width: "auto", opacity: .92 }} />
-            <span style={{ color: "var(--ivory)", fontSize: 14, fontWeight: 500 }}>{llm.name}</span>
-            <span className="fl-muted" style={{ fontSize: 11.5, letterSpacing: ".02em" }}>
-              {copied === llm.name ? "Prompt copied — paste it!" : llm.prefill ? "Ask now →" : "Opens Claude · paste"}
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
 export default function FinLeadSite() {
   const [messages, setMessages] = useState([]);
   const [demoOpen, setDemoOpen] = useState(false);
@@ -823,8 +778,6 @@ useEffect(() => {
           <button onClick={() => setPartnerOpen(true)} className="fl-btn fl-btn-shine">Become a partner <ArrowUpRight size={17} /></button>
         </div>
       </section>
-      {/* WHAT THE AIs SAY */}
-      <AskTheAIs />
       {/* CTA */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 760, margin: "0 auto 96px", padding: "0 24px", textAlign: "center" }}>
         <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.05, letterSpacing: "-.02em", margin: 0 }}>
