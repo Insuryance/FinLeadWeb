@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import InsightExplorer from "./InsightExplorer";
+import InsightChrome from "./InsightChrome";
 
 /* ---------- load all monthly JSON files at build time ---------- */
 function loadMonths() {
@@ -9,7 +10,7 @@ function loadMonths() {
   try { files = fs.readdirSync(dir).filter((f) => f.endsWith(".json")); } catch (e) { return []; }
   const months = files.map((f) => {
     const j = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
-    return { period: j.period, label: j.label, source: j.source, bySheet: j.sheets };
+    return { period: j.period, label: j.label, source: (j.source || "").replace(/\u2014/g, ","), bySheet: j.sheets };
   });
   // newest first
   months.sort((a, b) => (a.period < b.period ? 1 : -1));
@@ -52,11 +53,6 @@ export default function InsightPage() {
   const seg = latest.bySheet["Segmentwise Report"];
   const ranked = [...seg.records].sort((a, b) => (b.current["Grand Total"] || 0) - (a.current["Grand Total"] || 0));
   const top = ranked.slice(0, 10);
-  const industryTotal = seg.records.reduce((a, r) => a + (r.current["Grand Total"] || 0), 0);
-  // require a meaningful premium base (>= ₹200 Cr) so "fastest grower" isn't a near-zero-base artifact
-  const topGrower = [...seg.records]
-    .filter((r) => r.current["Growth %"] != null && (r.current["Grand Total"] || 0) >= 200)
-    .sort((a, b) => b.current["Growth %"] - a.current["Growth %"])[0];
 
   // JSON-LD Dataset structured data for AI crawlers + Google Dataset Search
   const jsonLd = {
@@ -88,15 +84,11 @@ export default function InsightPage() {
           India's general insurance, <span className="fl-gold-grad">by the numbers.</span>
         </h1>
 
-        {/* GEO-friendly written summary (crawlable prose) */}
-        <p className="fl-muted" style={{ fontSize: 17, lineHeight: 1.7, maxWidth: "70ch", marginTop: 22 }}>
-          For <b style={{ color: "var(--ivory)" }}>{latest.label}</b>, India's general insurance industry wrote approximately{" "}
-          <b style={{ color: "var(--ivory)" }}>{inrCr(Math.round(industryTotal))}</b> in gross direct premium across{" "}
-          {seg.records.length} insurers. The largest by premium was{" "}
-          <b style={{ color: "var(--ivory)" }}>{top[0].insurer}</b> ({inrCr(top[0].current["Grand Total"])}),
-          {topGrower ? <> and the fastest-growing was <b style={{ color: "var(--ivory)" }}>{topGrower.insurer}</b> ({pct(topGrower.current["Growth %"])} year on year)</> : null}.
-          Figures are sourced from the GIC Council monthly segment report and presented for analysis by FinLead AI. Explore the interactive views below to compare insurers, segments and market share.
+        {/* compact hook + interactive chrome */}
+        <p className="fl-muted" style={{ fontSize: 17, lineHeight: 1.7, maxWidth: "62ch", marginTop: 22 }}>
+          This page updates itself. Each month a FinLead AI agent visits the GIC Council, downloads the latest segment premium figures for India's general insurers, structures them, and publishes them here for anyone to use.
         </p>
+        <InsightChrome />
 
         {/* interactive explorer */}
         <div className="fl-glass" style={{ padding: "28px 26px", marginTop: 36 }}>
