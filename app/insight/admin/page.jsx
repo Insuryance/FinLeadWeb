@@ -15,10 +15,10 @@ function useSheetJS() {
 }
 
 const SHEETS = {
-  "Segmentwise Report": { hdr: 2 },
-  "Health Portfolio": { hdr: 3 },
-  "Liability Portfolio": { hdr: 3 },
-  "Miscellaneous portfolio": { hdr: 2 },
+  "Segmentwise Report": {},
+  "Health Portfolio": {},
+  "Liability Portfolio": {},
+  "Miscellaneous portfolio": {},
 };
 const SECTIONS = { "General Insurers": "General", "Stand-alone Health Insurers": "Standalone Health", "Specialised Insurers": "Specialised" };
 const SKIP = ["sub total", "previous year", "% growth", "% market", "industry total", "market share"];
@@ -27,15 +27,21 @@ const isSkip = (l) => SKIP.some((k) => l.toLowerCase().includes(k));
 
 function parseWorkbook(XLSX, wb) {
   const result = {};
-  for (const [name, cfg] of Object.entries(SHEETS)) {
+  for (const name of Object.keys(SHEETS)) {
     const ws = wb.Sheets[name];
     if (!ws) { result[name] = { error: "sheet missing", segments: [], records: [] }; continue; }
-    const grid = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true });
-    const hr = cfg.hdr - 1;
+    const grid = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: true, range: 0 });
+    // header row = the row directly above the first section header ("General Insurers")
+    let headerRow = -1;
+    for (let r = 0; r < grid.length; r++) {
+      const a = clean((grid[r] || [])[0]);
+      if (SECTIONS[a]) { headerRow = r - 1; break; }
+    }
+    if (headerRow < 0) headerRow = 1;
     const segs = {};
-    (grid[hr] || []).forEach((v, c) => { if (c > 0 && v != null && clean(v)) segs[c] = clean(v); });
+    (grid[headerRow] || []).forEach((v, c) => { if (c > 0 && clean(v)) segs[c] = clean(v); });
     const records = []; let section = null;
-    for (let r = hr + 1; r < grid.length; r++) {
+    for (let r = headerRow + 1; r < grid.length; r++) {
       const row = grid[r] || []; const a = row[0];
       if (a == null) continue;
       const label = clean(a);
