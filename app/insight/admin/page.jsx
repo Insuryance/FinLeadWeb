@@ -97,7 +97,7 @@ export default function InsightAdmin() {
     const payload = {
       period: `${year}-${month}`,
       label: `${MONTHS[Number(month) - 1]} ${year}`,
-      source: "GIC Council — Segmentwise Gross Direct Premium",
+      source: "GIC Council, Segmentwise Gross Direct Premium",
       generatedAt: new Date().toISOString(),
       sheets: data,
     };
@@ -151,7 +151,7 @@ export default function InsightAdmin() {
                 ))}
               </div>
               <p style={{ color: "#928E84", fontSize: 12, marginTop: 10 }}>
-                A normal month shows ~30+ insurers in Segmentwise and 5+ segments. If these are red, the file format may have changed — don't publish; flag it.
+                A normal month shows ~30+ insurers in Segmentwise and 5+ segments. If these are red, the file format may have changed, do not publish; flag it.
               </p>
             </div>
 
