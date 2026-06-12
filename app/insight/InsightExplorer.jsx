@@ -28,6 +28,16 @@ function niceMax(v) {
 const GROUPS = ["All", "General", "Standalone Health", "Specialised"];
 const SERIES = ["#D9C9A3", "#94A7C7", "#A6B89C", "#C2A3B0"];
 const GOLD = "#D9C9A3", GREEN = "#9BC4A0", RED = "#D69A9A";
+const IXL = { fontSize: 10, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 9 };
+function Kpi({ label, value, sub, name }) {
+  return (
+    <div style={{ background: "#0B0B0E", padding: "17px 20px" }}>
+      <div style={{ fontSize: 10, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</div>
+      <div style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums lining-nums", fontSize: name ? 16 : 24, color: "var(--ivory)", marginTop: 8, letterSpacing: "-.01em", lineHeight: name ? 1.25 : 1.08 }}>{value}</div>
+      <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{sub}</div>
+    </div>
+  );
+}
 
 /* ---------- reusable horizontal bar chart (with axis + gridlines) ---------- */
 function HBarChart({ items, valueFmt, tickFmt, colorFn, signed }) {
@@ -110,11 +120,11 @@ export default function InsightExplorer({ months }) {
       {/* filter bar */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 26, alignItems: "flex-end", justifyContent: "space-between", marginBottom: 30 }}>
         <div>
-          <div className="ix-flabel">Insurer group</div>
+          <div style={IXL}>Insurer group</div>
           <Segmented value={group} onChange={setGroup} options={GROUPS} />
         </div>
         <div>
-          <div className="ix-flabel">Period</div>
+          <div style={IXL}>Period</div>
           {months.length > 1 ? (
             <select className="ix-select" value={period} onChange={(e) => setPeriod(e.target.value)}>
               {months.map((m) => <option key={m.period} value={m.period}>{m.label}</option>)}
@@ -125,28 +135,12 @@ export default function InsightExplorer({ months }) {
         </div>
       </div>
 
-      {/* KPI tiles */}
-      <div className="ix-kpis">
-        <div className="ix-kpi">
-          <div className="l">{group === "All" ? "Industry GDPI" : "Segment GDPI"}</div>
-          <div className="v">{inr(Math.round(kpi.total))}</div>
-          <div className="s">gross direct premium</div>
-        </div>
-        <div className="ix-kpi">
-          <div className="l">Insurers</div>
-          <div className="v">{kpi.count}</div>
-          <div className="s">{group === "All" ? "writing premium" : group.toLowerCase()}</div>
-        </div>
-        <div className="ix-kpi">
-          <div className="l">Market leader</div>
-          <div className="v" style={{ fontSize: 17, lineHeight: 1.25 }}>{kpi.leader ? trunc(shortName(kpi.leader.insurer), 20) : "-"}</div>
-          <div className="s">{kpi.leader ? inr(kpi.leader.current["Grand Total"]) + " \u00B7 " + pct(kpi.leader.current["Market %"]) : ""}</div>
-        </div>
-        <div className="ix-kpi">
-          <div className="l">Fastest grower</div>
-          <div className="v" style={{ fontSize: 17, lineHeight: 1.25 }}>{kpi.grower ? trunc(shortName(kpi.grower.insurer), 20) : "-"}</div>
-          <div className="s">{kpi.grower ? pct(kpi.grower.current["Growth %"]) + " YoY" : ""}</div>
-        </div>
+      {/* KPI strip (styling baked in, cannot collapse) */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(168px,1fr))", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden", marginBottom: 36 }}>
+        <Kpi label={group === "All" ? "Industry GDPI" : "Segment GDPI"} value={inr(Math.round(kpi.total))} sub="gross direct premium" />
+        <Kpi label="Insurers" value={String(kpi.count)} sub={group === "All" ? "writing premium" : group.toLowerCase()} />
+        <Kpi label="Market leader" name value={kpi.leader ? trunc(shortName(kpi.leader.insurer), 18) : "-"} sub={kpi.leader ? inr(kpi.leader.current["Grand Total"]) + " \u00B7 " + pct(kpi.leader.current["Market %"]) : ""} />
+        <Kpi label="Fastest grower" name value={kpi.grower ? trunc(shortName(kpi.grower.insurer), 18) : "-"} sub={kpi.grower ? pct(kpi.grower.current["Growth %"]) + " YoY" : ""} />
       </div>
 
       {/* view tabs */}
