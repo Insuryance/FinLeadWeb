@@ -21,16 +21,16 @@ const pct = (x) => (x == null ? "-" : (x * 100).toFixed(1) + "%");
 
 /* ---------- SEO / GEO metadata ---------- */
 export const metadata = {
-  title: "Indian General Insurance Premium Data — Monthly Segment Tracker | FinLead AI Insights",
+  title: "Indian General Insurance Premium Data · Monthly Segment Tracker | FinLead AI Insights",
   description:
-    "Explore monthly gross direct premium data for India's general insurers by segment — motor, health, fire, marine, engineering and more. Compare insurers, market share and growth. Sourced from the GIC Council, presented by FinLead AI.",
+    "Explore monthly gross direct premium data for India's general insurers by segment: motor, health, fire, marine, engineering and more. Compare insurers, market share and growth. Sourced from the GIC Council, presented by FinLead AI.",
   keywords: [
     "Indian general insurance premium", "GIC Council segment data", "insurer market share India",
     "motor insurance premium India", "health insurance premium India", "gross direct premium income",
     "general insurance growth India", "insurance segment data",
   ],
   openGraph: {
-    title: "Indian General Insurance Premium Data — Monthly Segment Tracker",
+    title: "Indian General Insurance Premium Data · Monthly Segment Tracker",
     description: "Compare India's general insurers by premium, market share, growth and segment. Updated monthly. By FinLead AI.",
     type: "website",
   },
@@ -62,7 +62,7 @@ export default function InsightPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: "Indian General Insurance Gross Direct Premium by Segment — " + latest.label,
+    name: "Indian General Insurance Gross Direct Premium by Segment, " + latest.label,
     description:
       "Monthly gross direct premium income (GDPI) for Indian general, standalone health and specialised insurers, broken down by segment (motor, health, fire, marine, engineering, liability and more). Source: GIC Council.",
     url: "https://finlead.ai/insight",
@@ -103,9 +103,9 @@ export default function InsightPage() {
           <InsightExplorer months={months} />
         </div>
 
-        {/* crawlable HTML table — real numbers for search engines & AI */}
+        {/* crawlable HTML table: real numbers for search engines and AI */}
         <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: 24, marginTop: 56, marginBottom: 18 }}>
-          Top insurers by premium — {latest.label}
+          Top insurers by premium · {latest.label}
         </h2>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
