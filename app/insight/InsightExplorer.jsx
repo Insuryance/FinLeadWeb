@@ -9,6 +9,7 @@ const inr = (n) => {
   return "\u20B9" + Number(n).toLocaleString("en-IN", { maximumFractionDigits: 0 }) + "\u2009Cr";
 };
 const pct = (x) => (x == null || isNaN(x) ? "-" : (x * 100).toFixed(1) + "%");
+const pctTick = (x) => (x * 100).toFixed(0) + "%";
 const shortName = (s) =>
   s.replace(/ (General Insurance|Health Insurance|Insurance|Assurance|Co\.?|Company|Ltd\.?|Limited|of India)\b/gi, "")
     .replace(/\s+/g, " ").trim();
@@ -28,6 +29,7 @@ function niceMax(v) {
 }
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const monShort = (p) => MON[(+p.slice(5, 7)) - 1] + " " + p.slice(0, 4);
+const nextPeriod = (p) => { let y = +p.slice(0, 4), m = +p.slice(5, 7) + 1; if (m > 12) { m = 1; y++; } return y + "-" + String(m).padStart(2, "0"); };
 const GROUPS = ["All", "General", "Standalone Health", "Specialised"];
 const SERIES = ["#D9C9A3", "#94A7C7", "#A6B89C", "#C2A3B0"];
 const SERIES6 = ["#D9C9A3", "#94A7C7", "#A6B89C", "#C2A3B0", "#C9B07A", "#8FB8C4"];
@@ -52,37 +54,34 @@ function monthlySeries(monthsAsc, name, key) {
   }
   return pts;
 }
+/* raw reported value per month (for Growth % / Market %), not de-cumulated */
+function rawSeries(monthsAsc, name, key) {
+  return monthsAsc.map((m) => {
+    const rec = m.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === name);
+    return { period: m.period, label: m.label, value: rec ? (rec.current[key] == null ? null : rec.current[key]) : null };
+  });
+}
 const wma = (vals) => {
   const v = vals.slice(-3);
   if (!v.length) return null;
   const w = v.map((_, i) => i + 1);
   return v.reduce((a, x, i) => a + x * w[i], 0) / w.reduce((a, b) => a + b, 0);
 };
-function nextMonthLabel(period) {
-  let y = +period.slice(0, 4), m = +period.slice(5, 7) + 1;
-  if (m > 12) { m = 1; y++; }
-  return MON[m - 1] + " " + y;
-}
-/* forward + backward intelligence within a window */
+/* forward projection for the month AFTER the window, validated against actual when it exists */
 function computeIntel(monthsAsc, winSet, name) {
-  const pts = monthlySeries(monthsAsc, name, "Grand Total").filter((p) => winSet.has(p.period) && p.value != null);
-  if (pts.length < 4) return null;
-  const vals = pts.map((p) => p.value);
-  const projNext = wma(vals);
-  const mom = [];
-  for (let i = Math.max(1, vals.length - 3); i < vals.length; i++) mom.push(vals[i] / vals[i - 1] - 1);
-  const mw = mom.map((_, i) => i + 1);
-  const wmom = mom.length ? mom.reduce((a, x, i) => a + x * mw[i], 0) / mw.reduce((a, b) => a + b, 0) : 0;
-  let bt = pts.length - 1;
-  if (+pts[bt].period.slice(5, 7) === 4 && bt > 3) bt--; // skip FY reset month if possible
-  let predicted = null, actual = null, variance = null, btLabel = null;
-  if (bt >= 3) {
-    predicted = wma(vals.slice(bt - 3, bt));
-    actual = vals[bt];
-    variance = (actual - predicted) / predicted;
-    btLabel = monShort(pts[bt].period);
-  }
-  return { lastActual: vals[vals.length - 1], lastLabel: monShort(pts[pts.length - 1].period), projNext, projLabel: nextMonthLabel(pts[pts.length - 1].period), wmom, predicted, actual, variance, btLabel };
+  const full = monthlySeries(monthsAsc, name, "Grand Total");
+  const win = full.filter((p) => winSet.has(p.period) && p.value != null);
+  if (win.length < 3) return null;
+  const vals = win.map((p) => p.value);
+  const lastActual = vals[vals.length - 1];
+  const predicted = wma(vals);
+  const projGrowth = lastActual ? (predicted - lastActual) / lastActual : null;
+  const lastPeriod = win[win.length - 1].period;
+  const targetPeriod = nextPeriod(lastPeriod);
+  const ap = full.find((p) => p.period === targetPeriod);
+  const actualNext = ap ? ap.value : null;
+  const variance = actualNext != null ? (actualNext - predicted) / predicted : null;
+  return { lastActual, lastLabel: monShort(lastPeriod), predicted, projGrowth, targetLabel: monShort(targetPeriod), actualNext, variance };
 }
 
 function Kpi({ label, value, sub, name }) {
@@ -101,6 +100,33 @@ function Segmented({ value, onChange, options }) {
     </div>
   );
 }
+
+/* info "i" icon with a popover explaining the feature */
+function InfoButton({ info }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span style={{ position: "relative", display: "inline-block", marginLeft: 9, verticalAlign: "middle" }}>
+      <button onClick={() => setOpen((o) => !o)} aria-label="About this view"
+        style={{ width: 18, height: 18, borderRadius: "50%", border: "1px solid var(--gold-deep)", background: open ? "var(--gold-deep)" : "transparent", color: open ? "#0B0B0E" : "var(--gold)", fontSize: 11, fontStyle: "italic", fontFamily: "Georgia,serif", cursor: "pointer", lineHeight: 1, padding: 0 }}>i</button>
+      {open && (
+        <div style={{ position: "absolute", top: 26, left: 0, zIndex: 30, width: 300, background: "rgba(13,13,17,.97)", border: "1px solid var(--line)", borderRadius: 10, padding: "16px 18px", boxShadow: "0 20px 60px rgba(0,0,0,.6)", backdropFilter: "blur(12px)", cursor: "default" }}>
+          <div style={{ fontSize: 13.5, color: "var(--ivory)", fontWeight: 500, marginBottom: 8 }}>{info.title}</div>
+          <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.55, marginBottom: 10 }}>{info.what}</div>
+          <div style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 5 }}>How to use</div>
+          <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.55 }}>{info.how}</div>
+          <button onClick={() => setOpen(false)} style={{ marginTop: 12, fontSize: 11, color: "var(--gold)", background: "none", border: "none", cursor: "pointer", padding: 0, letterSpacing: ".08em" }}>Close</button>
+        </div>
+      )}
+    </span>
+  );
+}
+const INFO = {
+  leaderboard: { title: "Leaderboard", what: "Ranks insurers by premium, year-on-year growth, or market share for the period you choose.", how: "Use the metric buttons to switch between Premium, Growth and Market share. Toggle Bar Graph or Line Graph at the top right. In Line, you see how the top insurers moved over time." },
+  compare: { title: "Compare", what: "Puts up to four insurers side by side across the main lines of business.", how: "Tap an insurer chip to add or remove it. Switch Bar Graph for a snapshot, or Line Graph to track them over time." },
+  segments: { title: "Segments", what: "Shows which insurers write the most in a single line of business, such as Motor or Health.", how: "Pick a segment from the row of buttons. Bar Graph ranks insurers; Line Graph shows the trend over time." },
+  micro: { title: "Micro analysis", what: "Breaks one line of business into its sub-parts, for example Motor into Own Damage versus Third Party, and shows each insurer's split as a stacked bar.", how: "Pick a group (Motor, Marine, Health, Liability). Each bar shows one insurer; the coloured segments are the share of each sub-part for the selected month." },
+  intelligence: { title: "Intelligence", what: "A weighted projection of the next month's premium for each insurer, and how the last estimate compared with what actually happened. It is a directional model, not advice.", how: "Set a Range to choose the window the model learns from. The projection is for the month right after your window. If that month's actual figure exists in the data, you see predicted versus actual; if it is still in the future, you see the projected change instead." },
+};
 
 /* ---------- horizontal bar chart ---------- */
 function HBarChart({ items, valueFmt, tickFmt, colorFn, signed }) {
@@ -136,13 +162,13 @@ function HBarChart({ items, valueFmt, tickFmt, colorFn, signed }) {
 }
 
 /* ---------- multi-line chart with hover ---------- */
-function MultiLineChart({ series, axisMonths }) {
+function MultiLineChart({ series, axisMonths, valueFmt = inr, tickFmt = axisFmt }) {
   const W = 820, H = 388, padL = 54, padR = 18, padT = 16, padB = 50;
   const plotW = W - padL - padR, plotH = H - padT - padB;
   const n = axisMonths.length;
   const xOf = (i) => (n <= 1 ? padL + plotW / 2 : padL + (i / (n - 1)) * plotW);
   const allVals = series.flatMap((s) => s.points.map((p) => p.value).filter((v) => v != null));
-  const vmax = niceMax(Math.max(1, ...allVals));
+  const vmax = niceMax(Math.max(1e-9, ...allVals));
   let vmin = Math.min(0, ...allVals); vmin = vmin < 0 ? -niceMax(-vmin) : 0;
   const span = vmax - vmin || 1;
   const yOf = (v) => padT + plotH - ((v - vmin) / span) * plotH;
@@ -160,7 +186,7 @@ function MultiLineChart({ series, axisMonths }) {
       <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", overflow: "visible" }} role="img" aria-label="Line chart over time">
         {Array.from({ length: 5 }).map((_, i) => {
           const v = vmin + (span / 4) * i; const y = yOf(v);
-          return (<g key={i}><line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" /><text x={padL - 10} y={y + 3.5} textAnchor="end" fontSize="10" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{axisFmt(v)}</text></g>);
+          return (<g key={i}><line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" /><text x={padL - 10} y={y + 3.5} textAnchor="end" fontSize="10" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{tickFmt(v)}</text></g>);
         })}
         {axisMonths.map((m, i) => {
           const cm = +m.period.slice(5, 7); const x = xOf(i);
@@ -189,7 +215,7 @@ function MultiLineChart({ series, axisMonths }) {
             <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
               <span style={{ width: 9, height: 9, borderRadius: 2, background: s.color, flex: "none" }} />
               <span style={{ fontSize: 12, color: "var(--ivory)", flex: 1, whiteSpace: "nowrap" }}>{s.name}</span>
-              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 12.5, color: "var(--ivory)" }}>{inr(s.points[hi]?.value)}</span>
+              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 12.5, color: "var(--ivory)" }}>{valueFmt(s.points[hi]?.value)}</span>
             </div>
           ))}
         </div>
@@ -197,9 +223,17 @@ function MultiLineChart({ series, axisMonths }) {
     </div>
   );
 }
-
-function LineCaption({ range }) {
-  return <p style={{ color: "var(--muted2)", fontSize: 11.5, marginTop: 14, lineHeight: 1.5 }}>Monthly premium derived from year-to-date figures{range ? ", across the selected window" : ""}. The financial year resets every April.</p>;
+function Legend({ series }) {
+  return <div className="ix-legend">{series.map((s) => <span key={s.name}><span style={{ width: 11, height: 11, borderRadius: 2, background: s.color }} />{s.name}</span>)}</div>;
+}
+/* build line series for any metric: premium = de-cumulated monthly; growth/market = reported per month */
+function seriesForMetric(ctx, names, metric) {
+  const useMonthly = metric === "Grand Total";
+  return names.map((nm, i) => ({
+    name: shortName(nm),
+    color: (names.length > 4 ? SERIES6 : SERIES)[i % (names.length > 4 ? 6 : 4)],
+    points: (useMonthly ? monthlySeries(ctx.monthsAsc, clean(nm), "Grand Total") : rawSeries(ctx.monthsAsc, clean(nm), metric)).filter((p) => ctx.winSet.has(p.period)),
+  }));
 }
 
 /* ---------- root ---------- */
@@ -214,11 +248,12 @@ export default function InsightExplorer({ months }) {
   const [chartType, setChartType] = useState("bar");
   const [tab, setTab] = useState("leaderboard");
 
-  const lo = rangeFrom <= rangeTo ? rangeFrom : rangeTo;
-  const hi = rangeFrom <= rangeTo ? rangeTo : rangeFrom;
   const isRange = mode === "range";
+  // guards: From can never be after To
+  const onFrom = (v) => { setRangeFrom(v); if (v > rangeTo) setRangeTo(v); };
+  const onTo = (v) => { setRangeTo(v); if (v < rangeFrom) setRangeFrom(v); };
+  const lo = rangeFrom, hi = rangeTo;
 
-  // line/intelligence window: full history in single mode, [lo,hi] in range mode
   const lineMonths = isRange ? monthsAsc.filter((m) => m.period >= lo && m.period <= hi) : monthsAsc;
   const winSet = useMemo(() => new Set(lineMonths.map((m) => m.period)), [lineMonths]);
   const baseMonth = isRange ? (lineMonths[lineMonths.length - 1] || monthsAsc[N - 1]) : (months.find((m) => m.period === period) || months[0]);
@@ -227,7 +262,6 @@ export default function InsightExplorer({ months }) {
   }, [baseMonth]);
   const rows = useMemo(() => baseMonth.bySheet["Segmentwise Report"].records.filter((r) => group === "All" || r.group === group), [baseMonth, group]);
 
-  // value resolver: snapshot YTD (single) or window sum of monthly (range)
   const getValue = useMemo(() => {
     if (!isRange) return (name, key) => (baseRecs[name] ? baseRecs[name].current[key] : null);
     return (name, key) => monthlySeries(monthsAsc, name, key).reduce((a, p) => a + (winSet.has(p.period) && p.value != null ? p.value : 0), 0);
@@ -237,9 +271,8 @@ export default function InsightExplorer({ months }) {
 
   const kpi = useMemo(() => {
     const ranked = [...rows].map((r) => ({ r, v: getValue(clean(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v);
-    const total = ranked.reduce((a, x) => a + x.v, 0);
     const grower = isRange ? null : [...rows].filter((r) => r.current["Growth %"] != null && (r.current["Grand Total"] || 0) >= 200).sort((a, b) => b.current["Growth %"] - a.current["Growth %"])[0];
-    return { total, count: rows.length, leader: ranked[0], grower };
+    return { total: ranked.reduce((a, x) => a + x.v, 0), count: rows.length, leader: ranked[0], grower };
   }, [rows, getValue, isRange]);
 
   return (
@@ -267,12 +300,12 @@ export default function InsightExplorer({ months }) {
           ) : (
             <>
               <div><div style={IXL}>From</div>
-                <select className="ix-select" value={rangeFrom} onChange={(e) => setRangeFrom(e.target.value)}>
-                  {monthsAsc.map((m) => <option key={m.period} value={m.period}>{m.label}</option>)}
+                <select className="ix-select" value={rangeFrom} onChange={(e) => onFrom(e.target.value)}>
+                  {monthsAsc.filter((m) => m.period <= rangeTo).map((m) => <option key={m.period} value={m.period}>{m.label}</option>)}
                 </select></div>
               <div><div style={IXL}>To</div>
-                <select className="ix-select" value={rangeTo} onChange={(e) => setRangeTo(e.target.value)}>
-                  {monthsAsc.map((m) => <option key={m.period} value={m.period}>{m.label}</option>)}
+                <select className="ix-select" value={rangeTo} onChange={(e) => onTo(e.target.value)}>
+                  {monthsAsc.filter((m) => m.period >= rangeFrom).map((m) => <option key={m.period} value={m.period}>{m.label}</option>)}
                 </select></div>
             </>
           )}
@@ -310,48 +343,49 @@ export default function InsightExplorer({ months }) {
   );
 }
 
-function lineSeriesFor(ctx, names, key) {
-  return names.map((nm, i) => ({
-    name: shortName(nm),
-    color: (names.length > 4 ? SERIES6 : SERIES)[i % (names.length > 4 ? 6 : 4)],
-    points: monthlySeries(ctx.monthsAsc, clean(nm), key).filter((p) => ctx.winSet.has(p.period)),
-  }));
-}
-
 /* ---------- 1. Leaderboard ---------- */
 function Leaderboard({ rows, ctx }) {
   const [sortKey, setSortKey] = useState("Grand Total");
   const [all, setAll] = useState(false);
-  const eff = ctx.isRange ? "Grand Total" : sortKey;
-  const valOf = (r) => (eff === "Grand Total" ? (ctx.getValue(clean(r.insurer), "Grand Total") || 0) : (r.current[eff] || 0));
-  const sorted = [...rows].sort((a, b) => valOf(b) - valOf(a));
+  // metric control shows whenever Line, or whenever not a range (snapshot supports all three)
+  const showMetric = ctx.chartType === "line" || !ctx.isRange;
+  const eff = (ctx.isRange && ctx.chartType === "bar") ? "Grand Total" : (showMetric ? sortKey : "Grand Total");
+  const isPctM = eff !== "Grand Total";
+
+  const head = (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
+      <p className="ix-charth" style={{ margin: 0 }}>
+        {ctx.chartType === "line"
+          ? (eff === "Grand Total" ? "Monthly premium over time" : eff === "Growth %" ? "Year-on-year growth over time" : "Market share over time") + " \u00B7 top six insurers"
+          : (ctx.isRange ? "Premium written in window" : "Ranked by " + (eff === "Grand Total" ? "premium" : eff === "Growth %" ? "growth" : "market share"))}
+        <InfoButton info={INFO.leaderboard} />
+      </p>
+      {showMetric && <Segmented value={sortKey} onChange={setSortKey} options={[{ v: "Grand Total", l: "Premium" }, { v: "Growth %", l: "Growth" }, { v: "Market %", l: "Market share" }]} />}
+    </div>
+  );
 
   if (ctx.chartType === "line") {
-    const top = sorted.slice(0, 6);
+    const top = [...rows].sort((a, b) => (ctx.getValue(clean(b.insurer), "Grand Total") || 0) - (ctx.getValue(clean(a.insurer), "Grand Total") || 0)).slice(0, 6);
+    const series = seriesForMetric(ctx, top.map((r) => r.insurer), eff);
     return (<div>
-      <p className="ix-charth">Monthly premium over time \u00B7 top six insurers</p>
-      <Legend series={lineSeriesFor(ctx, top.map((r) => r.insurer), "Grand Total")} />
-      <MultiLineChart series={lineSeriesFor(ctx, top.map((r) => r.insurer), "Grand Total")} axisMonths={ctx.lineMonths} />
-      <LineCaption range={ctx.isRange} />
+      {head}
+      <Legend series={series} />
+      <MultiLineChart series={series} axisMonths={ctx.lineMonths} valueFmt={isPctM ? pct : inr} tickFmt={isPctM ? pctTick : axisFmt} />
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, marginTop: 14, lineHeight: 1.5 }}>
+        {eff === "Grand Total" ? "Monthly premium derived from year-to-date figures; the financial year resets every April." : eff === "Growth %" ? "Year-on-year growth as reported each month (year-to-date basis)." : "Market share as reported each month (year-to-date basis)."}
+      </p>
     </div>);
   }
+
+  const valOf = (r) => (eff === "Grand Total" ? (ctx.getValue(clean(r.insurer), "Grand Total") || 0) : (r.current[eff] || 0));
+  const sorted = [...rows].sort((a, b) => valOf(b) - valOf(a));
   const shown = all ? sorted : sorted.slice(0, 15);
-  const isPct = eff !== "Grand Total";
-  const items = shown.map((r) => {
-    const v = valOf(r);
-    return { key: r.insurer, label: r.insurer, value: v, title: shortName(r.insurer) + " \u00B7 " + (isPct ? pct(v) : inr(v)) };
-  });
+  const items = shown.map((r) => { const v = valOf(r); return { key: r.insurer, label: r.insurer, value: v, title: shortName(r.insurer) + " \u00B7 " + (isPctM ? pct(v) : inr(v)) }; });
   return (<div>
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
-      <p className="ix-charth" style={{ margin: 0 }}>{ctx.isRange ? "Premium written in window" : "Ranked by " + (eff === "Grand Total" ? "premium" : eff === "Growth %" ? "growth" : "market share")}</p>
-      {!ctx.isRange && <Segmented value={sortKey} onChange={setSortKey} options={[{ v: "Grand Total", l: "Premium" }, { v: "Growth %", l: "Growth" }, { v: "Market %", l: "Market share" }]} />}
-    </div>
-    <HBarChart items={items} valueFmt={(v) => (isPct ? pct(v) : inr(v))} tickFmt={(v) => (isPct ? (v * 100).toFixed(0) + "%" : axisFmt(v))} colorFn={(v) => (isPct ? (v >= 0 ? GREEN : RED) : GOLD)} signed={isPct} />
+    {head}
+    <HBarChart items={items} valueFmt={(v) => (isPctM ? pct(v) : inr(v))} tickFmt={(v) => (isPctM ? pctTick(v) : axisFmt(v))} colorFn={(v) => (isPctM ? (v >= 0 ? GREEN : RED) : GOLD)} signed={isPctM} />
     {sorted.length > 15 && <button className="ix-toggle" onClick={() => setAll((a) => !a)}>{all ? "Show top 15" : "Show all " + sorted.length}</button>}
   </div>);
-}
-function Legend({ series }) {
-  return <div className="ix-legend">{series.map((s) => <span key={s.name}><span style={{ width: 11, height: 11, borderRadius: 2, background: s.color }} />{s.name}</span>)}</div>;
 }
 
 /* ---------- 2. Compare ---------- */
@@ -370,15 +404,17 @@ function Compare({ rows, ctx }) {
       })}
     </div>
   );
+  const heading = (txt) => <p className="ix-charth">{txt}<InfoButton info={INFO.compare} /></p>;
 
   if (ctx.chartType === "line") {
+    const series = seriesForMetric(ctx, chosen, "Grand Total");
     return (<div>
-      <p className="ix-charth">Monthly premium over time \u00B7 selected insurers</p>
+      {heading("Monthly premium over time \u00B7 selected insurers")}
       {chips}
       {chosen.length === 0 ? <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Choose at least one insurer above.</p> : (<>
-        <Legend series={lineSeriesFor(ctx, chosen, "Grand Total")} />
-        <MultiLineChart series={lineSeriesFor(ctx, chosen, "Grand Total")} axisMonths={ctx.lineMonths} />
-        <LineCaption range={ctx.isRange} />
+        <Legend series={series} />
+        <MultiLineChart series={series} axisMonths={ctx.lineMonths} />
+        <p style={{ color: "var(--muted2)", fontSize: 11.5, marginTop: 14, lineHeight: 1.5 }}>Monthly premium derived from year-to-date figures; the financial year resets every April.</p>
       </>)}
     </div>);
   }
@@ -392,7 +428,7 @@ function Compare({ rows, ctx }) {
   const nSeries = Math.max(chosen.length, 1);
   const barW = Math.min(34, (bandW - bandW * 0.22) / nSeries);
   return (<div>
-    <p className="ix-charth">{ctx.isRange ? "Premium written by line of business \u00B7 selected window" : "Premium by line of business \u00B7 grouped by insurer"}</p>
+    {heading(ctx.isRange ? "Premium written by line of business \u00B7 selected window" : "Premium by line of business \u00B7 grouped by insurer")}
     {chips}
     {chosen.length === 0 ? <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Choose at least one insurer above.</p> : (<>
       <Legend series={chosen.map((c, i) => ({ name: shortName(c), color: SERIES[i % 4] }))} />
@@ -428,23 +464,23 @@ function Segments({ rows, segments, ctx }) {
   const valOf = (r) => ctx.getValue(clean(r.insurer), sname) || 0;
   const ranked = [...rows].filter((r) => valOf(r) > 0).sort((a, b) => valOf(b) - valOf(a));
   const total = ranked.reduce((a, r) => a + valOf(r), 0);
-
   const picker = <div className="ix-seg" style={{ flexWrap: "wrap", marginBottom: 22 }}>{avail.map((s) => <button key={s} data-active={sname === s} onClick={() => { setSname(s); setAll(false); }}>{s}</button>)}</div>;
 
   if (ctx.chartType === "line") {
     const top = ranked.slice(0, 6);
+    const series = seriesForMetric(ctx, top.map((r) => r.insurer), sname);
     return (<div>
-      <p className="ix-charth">Monthly {sname} premium over time \u00B7 top six insurers</p>
+      <p className="ix-charth">Monthly {sname} premium over time \u00B7 top six insurers<InfoButton info={INFO.segments} /></p>
       {picker}
-      <Legend series={lineSeriesFor(ctx, top.map((r) => r.insurer), sname)} />
-      <MultiLineChart series={lineSeriesFor(ctx, top.map((r) => r.insurer), sname)} axisMonths={ctx.lineMonths} />
-      <LineCaption range={ctx.isRange} />
+      <Legend series={series} />
+      <MultiLineChart series={series} axisMonths={ctx.lineMonths} />
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, marginTop: 14, lineHeight: 1.5 }}>Monthly premium derived from year-to-date figures; the financial year resets every April.</p>
     </div>);
   }
   const shown = all ? ranked : ranked.slice(0, 15);
   const items = shown.map((r) => ({ key: r.insurer, label: r.insurer, value: valOf(r), title: shortName(r.insurer) + " \u00B7 " + inr(valOf(r)) + " \u00B7 " + ((valOf(r) / total) * 100).toFixed(1) + "% of total" }));
   return (<div>
-    <p className="ix-charth">Premium by insurer within a line of business</p>
+    <p className="ix-charth">Premium by insurer within a line of business<InfoButton info={INFO.segments} /></p>
     {picker}
     <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 22, paddingBottom: 18, borderBottom: "1px solid var(--line)" }}>
       <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 28, color: "var(--gold)" }}>{inr(total)}</span>
@@ -470,7 +506,7 @@ function Micro({ month, group }) {
   const rows = (sheet ? sheet.records : []).filter((r) => group === "All" || r.group === group);
   const withTotal = rows.map((r) => ({ ...r, _t: keys.reduce((a, k) => a + (r.current[k] || 0), 0) })).filter((r) => r._t > 0).sort((a, b) => b._t - a._t).slice(0, 12);
   return (<div>
-    <p className="ix-charth">Sub-segment split within a line of business \u00B7 {month.label}</p>
+    <p className="ix-charth">Sub-segment split within a line of business \u00B7 {month.label}<InfoButton info={INFO.micro} /></p>
     <div className="ix-seg" style={{ flexWrap: "wrap", marginBottom: 24 }}>{MICRO.map((m) => <button key={m.id} data-active={mid === m.id} onClick={() => setMid(m.id)}>{m.tab}</button>)}</div>
     <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 18, flexWrap: "wrap" }}>
       <span className="fl-serif" style={{ fontSize: 19, color: "var(--ivory)", fontWeight: 350 }}>{cfg.title}</span>
@@ -496,11 +532,11 @@ function Stat({ label, value, sub, delta }) {
   </div>);
 }
 function Intelligence({ rows, ctx }) {
-  if (ctx.lineMonths.length < 4) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Select at least four months to generate projections.</p>;
+  if (ctx.lineMonths.length < 3) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Select at least three months (use Range) to generate projections.<InfoButton info={INFO.intelligence} /></p>;
   const top = [...rows].map((r) => ({ r, v: ctx.getValue(clean(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v).slice(0, 12);
   return (<div>
-    <p className="ix-charth" style={{ marginBottom: 8 }}>Weighted projection and last-month accuracy{ctx.isRange ? " \u00B7 selected window" : ""}</p>
-    <p style={{ color: "var(--muted2)", fontSize: 11.5, marginBottom: 24, lineHeight: 1.5 }}>Estimates use a weighted moving average on monthly premium, recent months counting more. Directional only.</p>
+    <p className="ix-charth" style={{ marginBottom: 8 }}>Weighted projection and prediction accuracy{ctx.isRange ? " \u00B7 selected window" : ""}<InfoButton info={INFO.intelligence} /></p>
+    <p style={{ color: "var(--muted2)", fontSize: 11.5, marginBottom: 24, lineHeight: 1.5 }}>The projection is for the month after your selected window, using a weighted moving average of monthly premium. Where that month's actual exists, it is compared. Directional only.</p>
     {top.map(({ r }) => {
       const I = computeIntel(ctx.monthsAsc, ctx.winSet, clean(r.insurer));
       if (!I) return null;
@@ -510,8 +546,10 @@ function Intelligence({ rows, ctx }) {
           <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 14, color: "var(--muted)" }}>{inr(I.lastActual)}<span style={{ fontSize: 10.5, color: "var(--muted2)" }}> {I.lastLabel}</span></span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12 }}>
-          <Stat label={"Projected " + I.projLabel} value={inr(Math.round(I.projNext))} delta={I.wmom} />
-          <Stat label={I.btLabel ? I.btLabel + " \u00B7 predicted vs actual" : "predicted vs actual"} value={I.predicted != null ? inr(Math.round(I.actual)) : "-"} sub={I.predicted != null ? "model expected " + inr(Math.round(I.predicted)) : ""} delta={I.variance} />
+          <Stat label={"Projected " + I.targetLabel} value={inr(Math.round(I.predicted))} delta={I.projGrowth} />
+          {I.actualNext != null
+            ? <Stat label={I.targetLabel + " \u00B7 predicted vs actual"} value={inr(Math.round(I.actualNext))} sub={"model expected " + inr(Math.round(I.predicted))} delta={I.variance} />
+            : <Stat label={I.targetLabel + " \u00B7 outlook"} value="Future month" sub={"projected " + inr(Math.round(I.predicted)) + ", no actuals yet"} />}
         </div>
       </div>);
     })}
