@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 
 /* ---------- formatting ---------- */
 const clean = (s) => (s == null ? "" : String(s).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim());
@@ -51,6 +51,83 @@ function monthlySeries(monthsAsc, name, key) {
     prevYtd = ytd; prevFY = fy;
   }
   return pts;
+}
+
+/* weighted moving average of the last up-to-3 values (recent weighted most) */
+function wma(vals) {
+  const v = vals.slice(-3);
+  if (!v.length) return null;
+  const w = v.map((_, i) => i + 1);
+  const sw = w.reduce((a, b) => a + b, 0);
+  return v.reduce((a, x, i) => a + x * w[i], 0) / sw;
+}
+function nextMonthLabel(period) {
+  let y = +period.slice(0, 4), m = +period.slice(5, 7) + 1;
+  if (m > 12) { m = 1; y++; }
+  return MON[m - 1] + " " + y;
+}
+function monthLabelP(period) { return MON[(+period.slice(5, 7)) - 1] + " " + period.slice(0, 4); }
+
+/* forward projection + backward accuracy for one insurer (Grand Total, monthly) */
+function computeIntel(monthsAsc, name) {
+  const pts = monthlySeries(monthsAsc, name, "Grand Total").filter((p) => p.value != null);
+  const vals = pts.map((p) => p.value);
+  if (vals.length < 4) return null;
+  const lastActual = vals[vals.length - 1];
+  const projNext = wma(vals);
+  const mom = [];
+  for (let i = Math.max(1, vals.length - 3); i < vals.length; i++) mom.push(vals[i] / vals[i - 1] - 1);
+  const mw = mom.map((_, i) => i + 1);
+  const wmom = mom.length ? mom.reduce((a, x, i) => a + x * mw[i], 0) / mw.reduce((a, b) => a + b, 0) : 0;
+  let bt = pts.length - 1;
+  if (+pts[bt].period.slice(5, 7) === 4 && bt > 0) bt--; // skip financial-year reset month
+  let predicted = null, actual = null, variance = null, btLabel = null;
+  if (bt >= 3) {
+    predicted = wma(vals.slice(bt - 3, bt));
+    actual = vals[bt];
+    variance = (actual - predicted) / predicted;
+    btLabel = monthLabelP(pts[bt].period);
+  }
+  return { lastActual, projNext, wmom, predicted, actual, variance, btLabel };
+}
+
+function Stat({ label, value, sub, delta }) {
+  const up = delta != null && delta >= 0;
+  return (
+    <div style={{ background: "#0B0B0E", border: "1px solid var(--line)", borderRadius: 5, padding: "12px 14px" }}>
+      <div style={{ fontSize: 9.5, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</div>
+      <div className="ix-num" style={{ fontSize: 18, color: "var(--ivory)", marginTop: 6 }}>{value}</div>
+      {sub && <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 3 }}>{sub}</div>}
+      {delta != null && <div style={{ fontSize: 12, color: up ? GREEN : RED, marginTop: 5 }}>{(up ? "\u25B2 +" : "\u25BC ") + (delta * 100).toFixed(1) + "%"}</div>}
+    </div>
+  );
+}
+function Intelligence({ rows, monthsAsc }) {
+  if (monthsAsc.length < 4) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Add at least four months of data to generate projections.</p>;
+  const top = [...rows].sort((a, b) => (b.current["Grand Total"] || 0) - (a.current["Grand Total"] || 0)).slice(0, 12);
+  const nextLabel = nextMonthLabel(monthsAsc[monthsAsc.length - 1].period);
+  return (
+    <div>
+      <p className="ix-charth" style={{ marginBottom: 8 }}>Weighted projection and last-month accuracy</p>
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, marginBottom: 24, lineHeight: 1.5 }}>Estimates use a weighted moving average on monthly premium, with recent months counting more. Directional only.</p>
+      {top.map((r) => {
+        const I = computeIntel(monthsAsc, clean(r.insurer));
+        if (!I) return null;
+        return (
+          <div key={r.insurer} style={{ padding: "16px 12px", borderTop: "1px solid var(--line)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12, gap: 12 }}>
+              <span style={{ color: "var(--ivory)", fontSize: 14 }}>{r.insurer}</span>
+              <span className="ix-num" style={{ fontSize: 14, color: "var(--muted)" }}>{inr(I.lastActual)}<span style={{ fontSize: 10.5, color: "var(--muted2)" }}> last month</span></span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12 }}>
+              <Stat label={"Projected " + nextLabel} value={inr(Math.round(I.projNext))} delta={I.wmom} />
+              <Stat label={I.btLabel ? I.btLabel + " \u00B7 predicted vs actual" : "predicted vs actual"} value={I.predicted != null ? inr(Math.round(I.actual)) : "-"} sub={I.predicted != null ? "model expected " + inr(Math.round(I.predicted)) : ""} delta={I.variance} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function Kpi({ label, value, sub, name }) {
@@ -113,7 +190,7 @@ function HBarChart({ items, valueFmt, tickFmt, colorFn, signed }) {
   );
 }
 
-/* ---------- multi-series line chart (over time) ---------- */
+/* ---------- multi-series line chart (over time) with hover readout ---------- */
 function MultiLineChart({ series, axisMonths }) {
   const W = 820, H = 388, padL = 54, padR = 18, padT = 16, padB = 50;
   const plotW = W - padL - padR, plotH = H - padT - padB;
@@ -125,52 +202,80 @@ function MultiLineChart({ series, axisMonths }) {
   const span = vmax - vmin || 1;
   const yOf = (v) => padT + plotH - ((v - vmin) / span) * plotH;
   const ticks = 4;
+  const [hi, setHi] = useState(null);
+  const boxRef = useRef(null);
+
+  const onMove = (e) => {
+    const r = boxRef.current.getBoundingClientRect();
+    const vbx = ((e.clientX - r.left) / r.width) * W;
+    let i = Math.round(((vbx - padL) / plotW) * (n - 1));
+    i = Math.max(0, Math.min(n - 1, i));
+    setHi(i);
+  };
+
   return (
-    <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", overflow: "visible" }} role="img" aria-label="Line chart over time">
-      {Array.from({ length: ticks + 1 }).map((_, i) => {
-        const v = vmin + (span / ticks) * i; const y = yOf(v);
-        return (
-          <g key={i}>
-            <line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" strokeWidth="1" />
-            <text x={padL - 10} y={y + 3.5} textAnchor="end" fontSize="10" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{axisFmt(v)}</text>
-          </g>
-        );
-      })}
-      {axisMonths.map((m, i) => {
-        const cm = +m.period.slice(5, 7); const x = xOf(i);
-        const showYear = cm === 4 || i === 0;
-        return (
-          <g key={m.period}>
-            <text x={x} y={H - padB + 19} textAnchor="middle" fontSize="9.5" fill="#928E84" fontFamily="'Hanken Grotesk',sans-serif">{MON[cm - 1]}</text>
-            {showYear && <text x={x} y={H - padB + 32} textAnchor="middle" fontSize="9" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif">{"\u2019" + m.period.slice(2, 4)}</text>}
-          </g>
-        );
-      })}
-      <line x1={padL} y1={padT + plotH} x2={W - padR} y2={padT + plotH} stroke="rgba(255,255,255,.16)" strokeWidth="1" />
-      {series.map((s, si) => {
-        let d = ""; let started = false;
-        s.points.forEach((p, i) => {
-          if (p.value == null) { started = false; return; }
-          d += (started ? " L " : " M ") + xOf(i).toFixed(1) + " " + yOf(p.value).toFixed(1);
-          started = true;
-        });
-        return (
-          <g key={s.name}>
-            <path d={d} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
-            {s.points.map((p, i) => p.value == null ? null : (
-              <circle key={i} cx={xOf(i)} cy={yOf(p.value)} r="3" fill="#0B0B0E" stroke={s.color} strokeWidth="1.6">
-                <title>{s.name + " \u00B7 " + MON[(+p.period.slice(5, 7)) - 1] + " " + p.period.slice(0, 4) + ": " + inr(p.value)}</title>
-              </circle>
-            ))}
-          </g>
-        );
-      })}
-    </svg>
+    <div ref={boxRef} style={{ position: "relative" }} onMouseMove={onMove} onMouseLeave={() => setHi(null)}>
+      <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", overflow: "visible" }} role="img" aria-label="Line chart over time">
+        {Array.from({ length: ticks + 1 }).map((_, i) => {
+          const v = vmin + (span / ticks) * i; const y = yOf(v);
+          return (
+            <g key={i}>
+              <line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" strokeWidth="1" />
+              <text x={padL - 10} y={y + 3.5} textAnchor="end" fontSize="10" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{axisFmt(v)}</text>
+            </g>
+          );
+        })}
+        {axisMonths.map((m, i) => {
+          const cm = +m.period.slice(5, 7); const x = xOf(i);
+          const showYear = cm === 4 || i === 0;
+          return (
+            <g key={m.period}>
+              <text x={x} y={H - padB + 19} textAnchor="middle" fontSize="9.5" fill={hi === i ? "#F4F1EA" : "#928E84"} fontFamily="'Hanken Grotesk',sans-serif">{MON[cm - 1]}</text>
+              {showYear && <text x={x} y={H - padB + 32} textAnchor="middle" fontSize="9" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif">{"\u2019" + m.period.slice(2, 4)}</text>}
+            </g>
+          );
+        })}
+        <line x1={padL} y1={padT + plotH} x2={W - padR} y2={padT + plotH} stroke="rgba(255,255,255,.16)" strokeWidth="1" />
+        {hi != null && <line x1={xOf(hi)} y1={padT} x2={xOf(hi)} y2={padT + plotH} stroke="rgba(217,201,163,.35)" strokeWidth="1" strokeDasharray="3 3" />}
+        {series.map((s) => {
+          let d = ""; let started = false;
+          s.points.forEach((p, i) => {
+            if (p.value == null) { started = false; return; }
+            d += (started ? " L " : " M ") + xOf(i).toFixed(1) + " " + yOf(p.value).toFixed(1);
+            started = true;
+          });
+          return (
+            <g key={s.name}>
+              <path d={d} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity={hi != null ? 0.9 : 1} />
+              {s.points.map((p, i) => p.value == null ? null : (
+                <circle key={i} cx={xOf(i)} cy={yOf(p.value)} r={hi === i ? 4.5 : 3} fill="#0B0B0E" stroke={s.color} strokeWidth={hi === i ? 2.2 : 1.6} />
+              ))}
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* hover readout */}
+      {hi != null && (
+        <div style={{ position: "absolute", top: 0, right: 0, background: "rgba(13,13,17,.9)", border: "1px solid var(--line)", borderRadius: 8, padding: "10px 13px", pointerEvents: "none", backdropFilter: "blur(10px)", minWidth: 150 }}>
+          <div style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 8 }}>
+            {MON[(+axisMonths[hi].period.slice(5, 7)) - 1] + " " + axisMonths[hi].period.slice(0, 4)}
+          </div>
+          {[...series].sort((a, b) => (b.points[hi]?.value || 0) - (a.points[hi]?.value || 0)).map((s) => (
+            <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+              <span style={{ width: 9, height: 9, borderRadius: 2, background: s.color, flex: "none" }} />
+              <span style={{ fontSize: 12, color: "var(--ivory)", flex: 1, whiteSpace: "nowrap" }}>{s.name}</span>
+              <span className="ix-num" style={{ fontSize: 12.5, color: "var(--ivory)" }}>{inr(s.points[hi]?.value)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
 function ChartTypeToggle({ value, onChange }) {
-  return <Segmented value={value} onChange={onChange} options={[{ v: "bar", l: "Bar" }, { v: "line", l: "Line" }]} />;
+  return <Segmented value={value} onChange={onChange} options={[{ v: "bar", l: "Bar Graph" }, { v: "line", l: "Line Graph" }]} />;
 }
 function LineCaption() {
   return <p style={{ color: "var(--muted2)", fontSize: 11.5, marginTop: 14, lineHeight: 1.5 }}>Line shows monthly premium derived from the year-to-date figures, so each point is the premium written in that month. The financial year resets every April.</p>;
@@ -229,11 +334,11 @@ export default function InsightExplorer({ months }) {
       {/* tabs + chart-type toggle */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "1px solid var(--line)", flexWrap: "wrap", gap: 12 }}>
         <div className="ix-tabs" style={{ borderBottom: "none" }}>
-          {[["leaderboard", "Leaderboard"], ["compare", "Compare"], ["segments", "Segments"], ["micro", "Micro analysis"]].map(([k, l]) => (
+          {[["leaderboard", "Leaderboard"], ["compare", "Compare"], ["segments", "Segments"], ["micro", "Micro analysis"], ["intelligence", "Intelligence"]].map(([k, l]) => (
             <button key={k} className="ix-tab" data-active={tab === k} onClick={() => setTab(k)}>{l}</button>
           ))}
         </div>
-        {canLine && tab !== "micro" && <div style={{ paddingBottom: 10 }}><ChartTypeToggle value={chartType} onChange={setChartType} /></div>}
+        {canLine && tab !== "micro" && tab !== "intelligence" && <div style={{ paddingBottom: 10 }}><ChartTypeToggle value={chartType} onChange={setChartType} /></div>}
       </div>
 
       <div style={{ marginTop: 34 }}>
@@ -241,6 +346,7 @@ export default function InsightExplorer({ months }) {
         {tab === "compare" && <Compare rows={rows} allRows={seg.records} {...shared} />}
         {tab === "segments" && <Segments rows={rows} segments={seg.segments} {...shared} />}
         {tab === "micro" && <Micro month={month} group={group} />}
+        {tab === "intelligence" && <Intelligence rows={rows} monthsAsc={monthsAsc} />}
       </div>
     </div>
   );
