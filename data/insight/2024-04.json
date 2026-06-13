@@ -1,0 +1,3330 @@
+{
+  "period": "2024-04",
+  "label": "April 2024",
+  "source": "GIC Council, Segmentwise Gross Direct Premium",
+  "generatedAt": "2026-06-13T08:09:46.502Z",
+  "sheets": {
+    "Segmentwise Report": {
+      "segments": [
+        "Fire",
+        "Marine Total",
+        "Marine Cargo",
+        "Marine Hull",
+        "Engineering",
+        "Motor Total",
+        "Motor OD",
+        "Motor TP",
+        "Health",
+        "Aviation",
+        "Liability",
+        "P.A.",
+        "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)",
+        "Grand Total",
+        "Growth %",
+        "Market %",
+        "Accretion"
+      ],
+      "records": [
+        {
+          "insurer": "Acko General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 66.9,
+            "Motor OD": 23.81,
+            "Motor TP": 43.09,
+            "Health": 95.36,
+            "Aviation": 0,
+            "Liability": 5.48,
+            "P.A.": 1.17,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 4.66,
+            "Grand Total": 173.57,
+            "Growth %": 0.3563335156677346,
+            "Market %": 0.00584823104235781,
+            "Accretion": 45.6
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 49.21,
+            "Motor OD": 17.47,
+            "Motor TP": 31.74,
+            "Health": 64.35,
+            "Aviation": 0,
+            "Liability": 9.91,
+            "P.A.": 0.82,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 3.68,
+            "Grand Total": 127.97,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Bajaj Allianz General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 689.31,
+            "Marine Total": 59.15,
+            "Marine Cargo": 55.7,
+            "Marine Hull": 3.44,
+            "Engineering": 56.32,
+            "Motor Total": 543.62,
+            "Motor OD": 321.67,
+            "Motor TP": 221.95,
+            "Health": 715.71,
+            "Aviation": 2.1,
+            "Liability": 121.6,
+            "P.A.": 26.58,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 174.18,
+            "Grand Total": 2388.56,
+            "Growth %": 0.45424878384384487,
+            "Market %": 0.08047963783219549,
+            "Accretion": 746.09
+          },
+          "previous": {
+            "Fire": 507.88,
+            "Marine Total": 61.92,
+            "Marine Cargo": 59.55,
+            "Marine Hull": 2.38,
+            "Engineering": 63.17,
+            "Motor Total": 425.88,
+            "Motor OD": 198.04,
+            "Motor TP": 227.84,
+            "Health": 419.48,
+            "Aviation": 1.88,
+            "Liability": 78.5,
+            "P.A.": 21.92,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 61.83,
+            "Grand Total": 1642.47,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Cholamandalam MS General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 120.52,
+            "Marine Total": 25.45,
+            "Marine Cargo": 24.09,
+            "Marine Hull": 1.36,
+            "Engineering": 4.98,
+            "Motor Total": 381.83,
+            "Motor OD": 168.57,
+            "Motor TP": 213.26,
+            "Health": 138.31,
+            "Aviation": 0,
+            "Liability": 3.86,
+            "P.A.": 32.43,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 15.65,
+            "Grand Total": 723.03,
+            "Growth %": 0.13632148862939858,
+            "Market %": 0.024361620617364563,
+            "Accretion": 86.74
+          },
+          "previous": {
+            "Fire": 102.82,
+            "Marine Total": 20.63,
+            "Marine Cargo": 20.51,
+            "Marine Hull": 0.12,
+            "Engineering": 4.24,
+            "Motor Total": 387.5,
+            "Motor OD": 175.44,
+            "Motor TP": 212.06,
+            "Health": 74.97,
+            "Aviation": 0,
+            "Liability": 2.56,
+            "P.A.": 34.66,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 8.91,
+            "Grand Total": 636.29,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Zuno General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 13.44,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0.77,
+            "Motor Total": 36.8,
+            "Motor OD": 19.78,
+            "Motor TP": 17.02,
+            "Health": 35.83,
+            "Aviation": 0,
+            "Liability": 0.01,
+            "P.A.": 3.56,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.06,
+            "Grand Total": 90.47,
+            "Growth %": 0.5438566552901023,
+            "Market %": 0.0030482771354618373,
+            "Accretion": 31.87
+          },
+          "previous": {
+            "Fire": 11.46,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0.65,
+            "Motor Total": 17.28,
+            "Motor OD": 10.18,
+            "Motor TP": 7.09,
+            "Health": 24.27,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 4.94,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.01,
+            "Grand Total": 58.6,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Future Generali India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 122.61,
+            "Marine Total": 19.06,
+            "Marine Cargo": 19.06,
+            "Marine Hull": 0,
+            "Engineering": 6.52,
+            "Motor Total": 167.56,
+            "Motor OD": 70.91,
+            "Motor TP": 96.65,
+            "Health": 321.83,
+            "Aviation": 0,
+            "Liability": 6.3,
+            "P.A.": 12.13,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 34.83,
+            "Grand Total": 690.84,
+            "Growth %": 0.33276743513070317,
+            "Market %": 0.023277017533574175,
+            "Accretion": 172.49
+          },
+          "previous": {
+            "Fire": 110.39,
+            "Marine Total": 16.37,
+            "Marine Cargo": 16.37,
+            "Marine Hull": 0,
+            "Engineering": 8.34,
+            "Motor Total": 168.5,
+            "Motor OD": 78.85,
+            "Motor TP": 89.64,
+            "Health": 128.57,
+            "Aviation": -0.01,
+            "Liability": 7.1,
+            "P.A.": 9.53,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 69.57,
+            "Grand Total": 518.35,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Go Digit General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 148.12,
+            "Marine Total": 19.31,
+            "Marine Cargo": 19.31,
+            "Marine Hull": 0,
+            "Engineering": 7,
+            "Motor Total": 393.27,
+            "Motor OD": 162.24,
+            "Motor TP": 231.03,
+            "Health": 233.63,
+            "Aviation": 0,
+            "Liability": 16.9,
+            "P.A.": 20.09,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 52.06,
+            "Grand Total": 890.38,
+            "Growth %": 0.07958871886897687,
+            "Market %": 0.030000276289073844,
+            "Accretion": 65.64
+          },
+          "previous": {
+            "Fire": 121.09,
+            "Marine Total": 20.17,
+            "Marine Cargo": 20.17,
+            "Marine Hull": 0,
+            "Engineering": 8.04,
+            "Motor Total": 387.93,
+            "Motor OD": 128.22,
+            "Motor TP": 259.7,
+            "Health": 226.51,
+            "Aviation": 0,
+            "Liability": 7.39,
+            "P.A.": 22.59,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 31.03,
+            "Grand Total": 824.74,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "HDFC Ergo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 512.01,
+            "Marine Total": 36.41,
+            "Marine Cargo": 35.69,
+            "Marine Hull": 0.72,
+            "Engineering": 33.74,
+            "Motor Total": 319.97,
+            "Motor OD": 209.81,
+            "Motor TP": 110.16,
+            "Health": 552.22,
+            "Aviation": 0.88,
+            "Liability": 145.37,
+            "P.A.": 43.57,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 83.27,
+            "Grand Total": 1727.44,
+            "Growth %": 0.2025171943307438,
+            "Market %": 5.82,
+            "Accretion": 290.92
+          },
+          "previous": {
+            "Fire": 397.52,
+            "Marine Total": 42.55,
+            "Marine Cargo": 39.62,
+            "Marine Hull": 2.93,
+            "Engineering": 31.07,
+            "Motor Total": 287.21,
+            "Motor OD": 132.49,
+            "Motor TP": 154.73,
+            "Health": 460.2,
+            "Aviation": 1.43,
+            "Liability": 118.86,
+            "P.A.": 43.17,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 54.5,
+            "Grand Total": 1436.52,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ICICI Lombard General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 812.94,
+            "Marine Total": 191.23,
+            "Marine Cargo": 161.07,
+            "Marine Hull": 30.16,
+            "Engineering": 124.7,
+            "Motor Total": 778.79,
+            "Motor OD": 394.98,
+            "Motor TP": 383.82,
+            "Health": 1109.57,
+            "Aviation": 26.31,
+            "Liability": 161.72,
+            "P.A.": 75.91,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 84.84,
+            "Grand Total": 3366.02,
+            "Growth %": 0.22650041356794362,
+            "Market %": 0.11341396931034878,
+            "Accretion": 621.61
+          },
+          "previous": {
+            "Fire": 749.16,
+            "Marine Total": 148.09,
+            "Marine Cargo": 143.76,
+            "Marine Hull": 4.33,
+            "Engineering": 146.92,
+            "Motor Total": 584.51,
+            "Motor OD": 283.52,
+            "Motor TP": 300.99,
+            "Health": 831.95,
+            "Aviation": 30.98,
+            "Liability": 114.15,
+            "P.A.": 74.75,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 63.9,
+            "Grand Total": 2744.41,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "IFFCO-Tokio General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 188.98,
+            "Marine Total": 30.07,
+            "Marine Cargo": 30.01,
+            "Marine Hull": 0.05,
+            "Engineering": 22.5,
+            "Motor Total": 294.25,
+            "Motor OD": 145.67,
+            "Motor TP": 148.59,
+            "Health": 62.13,
+            "Aviation": 0,
+            "Liability": 27.68,
+            "P.A.": 13.29,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 55.87,
+            "Grand Total": 694.77,
+            "Growth %": -0.3050493128213336,
+            "Market %": 0.023409434126282973,
+            "Accretion": -304.97
+          },
+          "previous": {
+            "Fire": 201.14,
+            "Marine Total": 29.53,
+            "Marine Cargo": 29.51,
+            "Marine Hull": 0.02,
+            "Engineering": 19.61,
+            "Motor Total": 328.12,
+            "Motor OD": 175.99,
+            "Motor TP": 152.13,
+            "Health": 342.57,
+            "Aviation": 0,
+            "Liability": 19.11,
+            "P.A.": 12.36,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 47.3,
+            "Grand Total": 999.74,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kotak Mahindra General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 13.41,
+            "Marine Total": 2.11,
+            "Marine Cargo": 2.11,
+            "Marine Hull": 0,
+            "Engineering": 1.06,
+            "Motor Total": 74.12,
+            "Motor OD": 41.52,
+            "Motor TP": 32.6,
+            "Health": 46.94,
+            "Aviation": 0,
+            "Liability": 0.14,
+            "P.A.": 4.79,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 3.85,
+            "Grand Total": 146.42,
+            "Growth %": 0.37858958666792203,
+            "Market %": 0.004933444657613819,
+            "Accretion": 40.21
+          },
+          "previous": {
+            "Fire": 9.22,
+            "Marine Total": 1.47,
+            "Marine Cargo": 1.47,
+            "Marine Hull": 0,
+            "Engineering": 1.21,
+            "Motor Total": 49.1,
+            "Motor OD": 25.47,
+            "Motor TP": 23.63,
+            "Health": 37.86,
+            "Aviation": 0,
+            "Liability": 0.16,
+            "P.A.": 4.16,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 3.03,
+            "Grand Total": 106.21,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kshema General insurance",
+          "group": "General",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 0,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.27,
+            "Grand Total": 0.27,
+            "Growth %": 0,
+            "Market %": 0,
+            "Accretion": 0.27
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 0,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Liberty General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 11.05,
+            "Marine Total": 3.24,
+            "Marine Cargo": 3.24,
+            "Marine Hull": 0,
+            "Engineering": 3.1,
+            "Motor Total": 124.87,
+            "Motor OD": 76.09,
+            "Motor TP": 48.78,
+            "Health": 34.05,
+            "Aviation": 0,
+            "Liability": 1.07,
+            "P.A.": 2.31,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 6.99,
+            "Grand Total": 186.68,
+            "Growth %": -0.25586957388288756,
+            "Market %": 0.0062899566226154065,
+            "Accretion": -64.19
+          },
+          "previous": {
+            "Fire": 29.88,
+            "Marine Total": 8.49,
+            "Marine Cargo": 8.49,
+            "Marine Hull": 0,
+            "Engineering": 4.81,
+            "Motor Total": 106.73,
+            "Motor OD": 62.47,
+            "Motor TP": 44.26,
+            "Health": 79.02,
+            "Aviation": 0,
+            "Liability": 1.8,
+            "P.A.": 6.22,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 13.92,
+            "Grand Total": 250.87,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Magma HDI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 57.43,
+            "Marine Total": 4.4,
+            "Marine Cargo": 4.4,
+            "Marine Hull": 0,
+            "Engineering": 0.87,
+            "Motor Total": 168.47,
+            "Motor OD": 57.47,
+            "Motor TP": 111,
+            "Health": 110.12,
+            "Aviation": 0,
+            "Liability": 8.75,
+            "P.A.": 4.18,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 1.25,
+            "Grand Total": 355.47,
+            "Growth %": 0.5434414484824802,
+            "Market %": 0.011977131351195085,
+            "Accretion": 125.16
+          },
+          "previous": {
+            "Fire": 51.56,
+            "Marine Total": 3.52,
+            "Marine Cargo": 3.52,
+            "Marine Hull": 0,
+            "Engineering": 2.76,
+            "Motor Total": 102.72,
+            "Motor OD": 28.73,
+            "Motor TP": 73.99,
+            "Health": 61.02,
+            "Aviation": 0,
+            "Liability": 7.26,
+            "P.A.": 1.45,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.02,
+            "Grand Total": 230.31,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "National Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 212.98,
+            "Marine Total": 32.11,
+            "Marine Cargo": 17.29,
+            "Marine Hull": 14.81,
+            "Engineering": 43.89,
+            "Motor Total": 357.78,
+            "Motor OD": 120.21,
+            "Motor TP": 237.57,
+            "Health": 555.28,
+            "Aviation": 6.91,
+            "Liability": 29.18,
+            "P.A.": 17.73,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 126.65,
+            "Grand Total": 1382.5,
+            "Growth %": 0.1678986272439282,
+            "Market %": 0.04658166397453289,
+            "Accretion": 198.75
+          },
+          "previous": {
+            "Fire": 168.22,
+            "Marine Total": 16.95,
+            "Marine Cargo": 14.48,
+            "Marine Hull": 2.47,
+            "Engineering": 31.79,
+            "Motor Total": 409.18,
+            "Motor OD": 151.49,
+            "Motor TP": 257.69,
+            "Health": 453.11,
+            "Aviation": 1.68,
+            "Liability": 13.77,
+            "P.A.": 16.49,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 72.56,
+            "Grand Total": 1183.75,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Navi General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Fire": -0.06,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0.12,
+            "Motor OD": 0,
+            "Motor TP": 0.12,
+            "Health": 3.97,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 4.03,
+            "Growth %": -0.0840909090909091,
+            "Market %": 0.00013578597165813202,
+            "Accretion": -0.37
+          },
+          "previous": {
+            "Fire": -0.08,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0.23,
+            "Motor OD": 0.03,
+            "Motor TP": 0.21,
+            "Health": 4.24,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 4.4,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Raheja QBE General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 1.52,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0.15,
+            "Motor Total": 26.63,
+            "Motor OD": 8.51,
+            "Motor TP": 18.11,
+            "Health": 0.91,
+            "Aviation": 0,
+            "Liability": 5.18,
+            "P.A.": 0.05,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 34.43,
+            "Growth %": 1.8667776852622817,
+            "Market %": 0.0011600771722554554,
+            "Accretion": 22.42
+          },
+          "previous": {
+            "Fire": 0.33,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0.1,
+            "Motor Total": 3.77,
+            "Motor OD": 0.76,
+            "Motor TP": 3.01,
+            "Health": 0.34,
+            "Aviation": 0,
+            "Liability": 7.42,
+            "P.A.": 0.03,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.02,
+            "Grand Total": 12.01,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Reliance General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 474.14,
+            "Marine Total": 38.83,
+            "Marine Cargo": 35.53,
+            "Marine Hull": 3.31,
+            "Engineering": 81.71,
+            "Motor Total": 342.74,
+            "Motor OD": 149.68,
+            "Motor TP": 193.06,
+            "Health": 372.2,
+            "Aviation": 11.35,
+            "Liability": 16.12,
+            "P.A.": 31.57,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 31,
+            "Grand Total": 1399.67,
+            "Growth %": 0.2444497790580851,
+            "Market %": 0.047160186340133414,
+            "Accretion": 274.94
+          },
+          "previous": {
+            "Fire": 384.35,
+            "Marine Total": 31.56,
+            "Marine Cargo": 31.36,
+            "Marine Hull": 0.19,
+            "Engineering": 75.63,
+            "Motor Total": 239.15,
+            "Motor OD": 103.77,
+            "Motor TP": 135.38,
+            "Health": 330.69,
+            "Aviation": 13.37,
+            "Liability": 13.94,
+            "P.A.": 23.87,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 12.18,
+            "Grand Total": 1124.73,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Royal Sundaram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 79.34,
+            "Marine Total": 10.33,
+            "Marine Cargo": 10.33,
+            "Marine Hull": 0,
+            "Engineering": 7.56,
+            "Motor Total": 183.79,
+            "Motor OD": 53.78,
+            "Motor TP": 130.01,
+            "Health": 131.41,
+            "Aviation": 0,
+            "Liability": 1.63,
+            "P.A.": 8.47,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 3.16,
+            "Grand Total": 425.69,
+            "Growth %": 0.27471178320107803,
+            "Market %": 0.014343109249416928,
+            "Accretion": 91.74
+          },
+          "previous": {
+            "Fire": 101.07,
+            "Marine Total": 10.42,
+            "Marine Cargo": 10.42,
+            "Marine Hull": 0,
+            "Engineering": 6.12,
+            "Motor Total": 152.68,
+            "Motor OD": 71.64,
+            "Motor TP": 81.04,
+            "Health": 53.16,
+            "Aviation": 0,
+            "Liability": 2.17,
+            "P.A.": 7.38,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.95,
+            "Grand Total": 333.95,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "SBI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 246.17,
+            "Marine Total": 15.95,
+            "Marine Cargo": 15.95,
+            "Marine Hull": 0,
+            "Engineering": 12.8,
+            "Motor Total": 315.57,
+            "Motor OD": 145.88,
+            "Motor TP": 169.69,
+            "Health": 227.15,
+            "Aviation": 0,
+            "Liability": 8.32,
+            "P.A.": 52.21,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 26.3,
+            "Grand Total": 904.47,
+            "Growth %": 0.4521940176292086,
+            "Market %": 0.030475021783034906,
+            "Accretion": 281.64
+          },
+          "previous": {
+            "Fire": 183.19,
+            "Marine Total": 11.14,
+            "Marine Cargo": 11.14,
+            "Marine Hull": 0,
+            "Engineering": 7.93,
+            "Motor Total": 137.56,
+            "Motor OD": 64.58,
+            "Motor TP": 72.98,
+            "Health": 185.35,
+            "Aviation": 0,
+            "Liability": 34.6,
+            "P.A.": 45.37,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 17.69,
+            "Grand Total": 622.83,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Shriram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 10.85,
+            "Marine Total": 0.15,
+            "Marine Cargo": 0.15,
+            "Marine Hull": 0,
+            "Engineering": 1.87,
+            "Motor Total": 195.61,
+            "Motor OD": 44.94,
+            "Motor TP": 150.67,
+            "Health": 0.18,
+            "Aviation": 0,
+            "Liability": 0.86,
+            "P.A.": 8.47,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 1.25,
+            "Grand Total": 219.24,
+            "Growth %": 0.4017902813299233,
+            "Market %": 0.007387026408518329,
+            "Accretion": 62.84
+          },
+          "previous": {
+            "Fire": 8.82,
+            "Marine Total": 0.5,
+            "Marine Cargo": 0.5,
+            "Marine Hull": 0,
+            "Engineering": 1.63,
+            "Motor Total": 137.48,
+            "Motor OD": 30.69,
+            "Motor TP": 106.79,
+            "Health": 0.34,
+            "Aviation": 0,
+            "Liability": 0.48,
+            "P.A.": 6.32,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.83,
+            "Grand Total": 156.4,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Tata AIG General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 533.29,
+            "Marine Total": 109.46,
+            "Marine Cargo": 110.06,
+            "Marine Hull": -0.6,
+            "Engineering": 21.1,
+            "Motor Total": 574.38,
+            "Motor OD": 266,
+            "Motor TP": 308.38,
+            "Health": 231.9,
+            "Aviation": 24.67,
+            "Liability": 190.11,
+            "P.A.": 13.64,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 41.63,
+            "Grand Total": 1740.18,
+            "Growth %": 0.11341591380236991,
+            "Market %": 0.058633258600508234,
+            "Accretion": 177.26
+          },
+          "previous": {
+            "Fire": 493,
+            "Marine Total": 96.97,
+            "Marine Cargo": 96.97,
+            "Marine Hull": 0,
+            "Engineering": 21.27,
+            "Motor Total": 567.62,
+            "Motor OD": 236.16,
+            "Motor TP": 331.46,
+            "Health": 228.26,
+            "Aviation": 2.99,
+            "Liability": 102.67,
+            "P.A.": 22.9,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 27.24,
+            "Grand Total": 1562.92,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The New India Assurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 791.67,
+            "Marine Total": 120.09,
+            "Marine Cargo": 57.49,
+            "Marine Hull": 62.6,
+            "Engineering": 67.71,
+            "Motor Total": 691.4,
+            "Motor OD": 243.82,
+            "Motor TP": 447.58,
+            "Health": 3216.88,
+            "Aviation": 27.74,
+            "Liability": 35.04,
+            "P.A.": 49.02,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 259.48,
+            "Grand Total": 5259.03,
+            "Growth %": 0.03929291332358403,
+            "Market %": 0.17719664975912308,
+            "Accretion": 198.83
+          },
+          "previous": {
+            "Fire": 802.69,
+            "Marine Total": 133.01,
+            "Marine Cargo": 58.75,
+            "Marine Hull": 74.26,
+            "Engineering": 169.44,
+            "Motor Total": 650.01,
+            "Motor OD": 251.68,
+            "Motor TP": 398.34,
+            "Health": 2954.22,
+            "Aviation": 62.29,
+            "Liability": 43.68,
+            "P.A.": 44.63,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 200.22,
+            "Grand Total": 5060.2,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The Oriental Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 290.95,
+            "Marine Total": 64.23,
+            "Marine Cargo": 33.71,
+            "Marine Hull": 30.52,
+            "Engineering": 45.71,
+            "Motor Total": 328.37,
+            "Motor OD": 103.22,
+            "Motor TP": 225.16,
+            "Health": 630.57,
+            "Aviation": 6.43,
+            "Liability": 13.99,
+            "P.A.": 303.37,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": -3.56,
+            "Grand Total": 1680.07,
+            "Growth %": 0.09414461644665287,
+            "Market %": 0.05660792491406399,
+            "Accretion": 144.56
+          },
+          "previous": {
+            "Fire": 286.12,
+            "Marine Total": 52.71,
+            "Marine Cargo": 32.05,
+            "Marine Hull": 20.66,
+            "Engineering": 45.93,
+            "Motor Total": 259.38,
+            "Motor OD": 78.65,
+            "Motor TP": 180.73,
+            "Health": 646.23,
+            "Aviation": 4.63,
+            "Liability": 13.26,
+            "P.A.": 184.66,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 42.59,
+            "Grand Total": 1535.51,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "United India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 206.24,
+            "Marine Total": 35.45,
+            "Marine Cargo": 24.9,
+            "Marine Hull": 10.55,
+            "Engineering": 42.82,
+            "Motor Total": 562.74,
+            "Motor OD": 171.04,
+            "Motor TP": 391.7,
+            "Health": 1060.53,
+            "Aviation": 1.73,
+            "Liability": 19.61,
+            "P.A.": 37.3,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 57.05,
+            "Grand Total": 2023.47,
+            "Growth %": 0.11032643587337643,
+            "Market %": 0.06817837222607455,
+            "Accretion": 201.06
+          },
+          "previous": {
+            "Fire": 195.76,
+            "Marine Total": 29.69,
+            "Marine Cargo": 23.97,
+            "Marine Hull": 5.72,
+            "Engineering": 38.6,
+            "Motor Total": 423.6,
+            "Motor OD": 126.34,
+            "Motor TP": 297.26,
+            "Health": 1036.71,
+            "Aviation": 8.37,
+            "Liability": 20.91,
+            "P.A.": 25.32,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 43.45,
+            "Grand Total": 1822.41,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Universal Sompo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Fire": 73.66,
+            "Marine Total": 8.07,
+            "Marine Cargo": 6.53,
+            "Marine Hull": 1.55,
+            "Engineering": 1.7,
+            "Motor Total": 152.48,
+            "Motor OD": 70.56,
+            "Motor TP": 81.93,
+            "Health": 61.62,
+            "Aviation": 0,
+            "Liability": 3.03,
+            "P.A.": 30.14,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 81.49,
+            "Grand Total": 412.21,
+            "Growth %": 0.1736184266719812,
+            "Market %": 0.013888916967046798,
+            "Accretion": 60.98
+          },
+          "previous": {
+            "Fire": 60.07,
+            "Marine Total": 5.92,
+            "Marine Cargo": 3.59,
+            "Marine Hull": 2.33,
+            "Engineering": 1.46,
+            "Motor Total": 109.62,
+            "Motor OD": 50.35,
+            "Motor TP": 59.27,
+            "Health": 78.01,
+            "Aviation": 0,
+            "Liability": 2.77,
+            "P.A.": 33.09,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 60.29,
+            "Grand Total": 351.23,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Niva bupa health insurance company limited",
+          "group": "Standalone Health",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 434.7,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 9.5,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 444.2,
+            "Growth %": 0.24733235987869254,
+            "Market %": 0.014966781292938523,
+            "Accretion": 88.08
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 349.83,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 6.29,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 356.12,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Aditya Birla Health Insurance Co Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 339.91,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 17.69,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 357.6,
+            "Growth %": 0.3681753835558787,
+            "Market %": 0.012048899122815884,
+            "Accretion": 96.23
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 239.62,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 21.75,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 261.37,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Care Health Insurance Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 651.73,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 14.64,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 666.37,
+            "Growth %": 0.3141578085865857,
+            "Market %": 0.022452530504672316,
+            "Accretion": 159.3
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 489.66,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 17.41,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 507.07,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ManipalCigna Health Insurance Co Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 158.67,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 2.55,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 161.22,
+            "Growth %": 0.1823115283074214,
+            "Market %": 0.005432112742115147,
+            "Accretion": 24.86
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 134.23,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 2.13,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 136.36,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Star Health & Allied Insurance Co Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 1003.41,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 10.13,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0.04,
+            "Grand Total": 1013.58,
+            "Growth %": 0.23089440767502578,
+            "Market %": 0.034151351154652475,
+            "Accretion": 190.13
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 812.92,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 10.53,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 0,
+            "Grand Total": 823.45,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Agriculture Insurance Co Of India Ltd",
+          "group": "Specialised",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 0,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 31.04,
+            "Grand Total": 31.04,
+            "Growth %": -0.7331269882211332,
+            "Market %": 0.0010458552258730566,
+            "Accretion": -85.27
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 0,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 116.31,
+            "Grand Total": 116.31,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ECGC Ltd",
+          "group": "Specialised",
+          "current": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 0,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 86.14,
+            "Grand Total": 86.14,
+            "Growth %": 0.25531914893617014,
+            "Market %": 0.002902383026955705,
+            "Accretion": 17.52
+          },
+          "previous": {
+            "Fire": 0,
+            "Marine Total": 0,
+            "Marine Cargo": 0,
+            "Marine Hull": 0,
+            "Engineering": 0,
+            "Motor Total": 0,
+            "Motor OD": 0,
+            "Motor TP": 0,
+            "Health": 0,
+            "Aviation": 0,
+            "Liability": 0,
+            "P.A.": 0,
+            "All Other Misc (Crop Insurance + Credit Guarantee+All other misc)": 68.62,
+            "Grand Total": 68.62,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        }
+      ]
+    },
+    "Health Portfolio": {
+      "segments": [
+        "Health-Retail",
+        "Health-Group",
+        "Health-Government schemes",
+        "Overseas Medical",
+        "Grand Total",
+        "Growth %",
+        "Market %",
+        "Accretion"
+      ],
+      "records": [
+        {
+          "insurer": "Acko General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 6.71,
+            "Health-Group": 85.88,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 2.77,
+            "Grand Total": 95.36,
+            "Growth %": 0.481895881895882,
+            "Market %": 0.007606455276978348,
+            "Accretion": 31.01
+          },
+          "previous": {
+            "Health-Retail": 1.74,
+            "Health-Group": 58.18,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 4.43,
+            "Grand Total": 64.35,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Bajaj Allianz General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 68.76,
+            "Health-Group": 541.62,
+            "Health-Government schemes": 85.56,
+            "Overseas Medical": 19.77,
+            "Grand Total": 715.71,
+            "Growth %": 0.7061838466673024,
+            "Market %": 0.057089095074309704,
+            "Accretion": 296.23
+          },
+          "previous": {
+            "Health-Retail": 61.05,
+            "Health-Group": 341.41,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 17.02,
+            "Grand Total": 419.48,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Cholamandalam MS General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 47.38,
+            "Health-Group": 90.83,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.1,
+            "Grand Total": 138.31,
+            "Growth %": 0.8448712818460719,
+            "Market %": 0.011032391247471428,
+            "Accretion": 63.34
+          },
+          "previous": {
+            "Health-Retail": 50.17,
+            "Health-Group": 24.61,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.19,
+            "Grand Total": 74.97,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Zuno General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 0.39,
+            "Health-Group": 35.17,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.27,
+            "Grand Total": 35.83,
+            "Growth %": 0.4763081994231561,
+            "Market %": 0.0028580043264905012,
+            "Accretion": 11.56
+          },
+          "previous": {
+            "Health-Retail": 1.59,
+            "Health-Group": 21.02,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 1.66,
+            "Grand Total": 24.27,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Future Generali India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 14.76,
+            "Health-Group": 305.82,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 1.25,
+            "Grand Total": 321.83,
+            "Growth %": 1.5031500350003888,
+            "Market %": 0.025670988902998546,
+            "Accretion": 193.26
+          },
+          "previous": {
+            "Health-Retail": 14.03,
+            "Health-Group": 113.84,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.7,
+            "Grand Total": 128.57,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Go Digit General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 4.39,
+            "Health-Group": 228.56,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.68,
+            "Grand Total": 233.63,
+            "Growth %": 0.031433490795108404,
+            "Market %": 0.018635655897236276,
+            "Accretion": 7.12
+          },
+          "previous": {
+            "Health-Retail": 3.74,
+            "Health-Group": 222.02,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.75,
+            "Grand Total": 226.51,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "HDFC Ergo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 276.92,
+            "Health-Group": 272.44,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 2.86,
+            "Grand Total": 552.22,
+            "Growth %": 0.19995654063450682,
+            "Market %": 0.04404820399594152,
+            "Accretion": 92.02
+          },
+          "previous": {
+            "Health-Retail": 234.04,
+            "Health-Group": 223.46,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 2.7,
+            "Grand Total": 460.2,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ICICI Lombard General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 87.92,
+            "Health-Group": 1003.53,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 18.12,
+            "Grand Total": 1109.57,
+            "Growth %": 0.3336979385780394,
+            "Market %": 0.0885056059320141,
+            "Accretion": 277.62
+          },
+          "previous": {
+            "Health-Retail": 79,
+            "Health-Group": 738.16,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 14.79,
+            "Grand Total": 831.95,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "IFFCO-Tokio General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 19.08,
+            "Health-Group": 42.85,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.2,
+            "Grand Total": 62.13,
+            "Growth %": -0.8186356073211315,
+            "Market %": 0.004955841719365192,
+            "Accretion": -280.44
+          },
+          "previous": {
+            "Health-Retail": 14.44,
+            "Health-Group": 137.85,
+            "Health-Government schemes": 190,
+            "Overseas Medical": 0.28,
+            "Grand Total": 342.57,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kotak Mahindra General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 4.55,
+            "Health-Group": 42.39,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 46.94,
+            "Growth %": 0.23983095615425246,
+            "Market %": 0.0037442010350394674,
+            "Accretion": 9.08
+          },
+          "previous": {
+            "Health-Retail": 4.17,
+            "Health-Group": 33.69,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 37.86,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kshema General insurance",
+          "group": "General",
+          "current": {
+            "Health-Retail": 0,
+            "Health-Group": 0,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 0,
+            "Growth %": 0,
+            "Market %": 0,
+            "Accretion": 0
+          },
+          "previous": {
+            "Health-Retail": 0,
+            "Health-Group": 0,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Liberty General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 4.47,
+            "Health-Group": 27.23,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 2.35,
+            "Grand Total": 34.05,
+            "Growth %": -0.5690964312832194,
+            "Market %": 0.0027160214154898564,
+            "Accretion": -44.97
+          },
+          "previous": {
+            "Health-Retail": 5.4,
+            "Health-Group": 69.72,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 3.9,
+            "Grand Total": 79.02,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Magma HDI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 3.01,
+            "Health-Group": 107.11,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 110.12,
+            "Growth %": 0.8046542117338578,
+            "Market %": 0.008783796718758972,
+            "Accretion": 49.1
+          },
+          "previous": {
+            "Health-Retail": 2.75,
+            "Health-Group": 58.27,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 61.02,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "National Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 186.77,
+            "Health-Group": 368.08,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.43,
+            "Grand Total": 555.28,
+            "Growth %": 0.22548608505660866,
+            "Market %": 0.044292286977774084,
+            "Accretion": 102.17
+          },
+          "previous": {
+            "Health-Retail": 167.21,
+            "Health-Group": 285.43,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.47,
+            "Grand Total": 453.11,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Navi General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 3.98,
+            "Health-Group": -0.01,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 3.97,
+            "Growth %": -0.06367924528301887,
+            "Market %": 0.0003166697509396397,
+            "Accretion": -0.27
+          },
+          "previous": {
+            "Health-Retail": 3.71,
+            "Health-Group": 0.53,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 4.24,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Raheja QBE General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 0.18,
+            "Health-Group": 0.73,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 0.91,
+            "Growth %": 1.6764705882352942,
+            "Market %": 0.00007258676910707107,
+            "Accretion": 0.57
+          },
+          "previous": {
+            "Health-Retail": 0.12,
+            "Health-Group": 0.22,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 0.34,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Reliance General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 31.15,
+            "Health-Group": 331.75,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 9.3,
+            "Grand Total": 372.2,
+            "Growth %": 0.12552541655326738,
+            "Market %": 0.029688786221595438,
+            "Accretion": 41.51
+          },
+          "previous": {
+            "Health-Retail": 26.12,
+            "Health-Group": 296.34,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 8.23,
+            "Grand Total": 330.69,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Royal Sundaram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 13.78,
+            "Health-Group": 117.15,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.48,
+            "Grand Total": 131.41,
+            "Growth %": 1.4719714070729872,
+            "Market %": 0.010482008053143086,
+            "Accretion": 78.25
+          },
+          "previous": {
+            "Health-Retail": 14.83,
+            "Health-Group": 38.02,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.31,
+            "Grand Total": 53.16,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "SBI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 28.45,
+            "Health-Group": 198.59,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.11,
+            "Grand Total": 227.15,
+            "Growth %": 0.22551928783382796,
+            "Market %": 0.01811877428864966,
+            "Accretion": 41.8
+          },
+          "previous": {
+            "Health-Retail": 32.88,
+            "Health-Group": 152.39,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.08,
+            "Grand Total": 185.35,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Shriram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 0.18,
+            "Health-Group": 0,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 0.18,
+            "Growth %": -0.4705882352941177,
+            "Market %": 0,
+            "Accretion": -0.16
+          },
+          "previous": {
+            "Health-Retail": 0.34,
+            "Health-Group": 0,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 0.34,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Tata AIG General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 65.37,
+            "Health-Group": 131.56,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 34.97,
+            "Grand Total": 231.9,
+            "Growth %": 0.01594672741610451,
+            "Market %": 0.018497661270252506,
+            "Accretion": 3.64
+          },
+          "previous": {
+            "Health-Retail": 50.46,
+            "Health-Group": 151.71,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 26.09,
+            "Grand Total": 228.26,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The New India Assurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 269.58,
+            "Health-Group": 2292.1,
+            "Health-Government schemes": 654.23,
+            "Overseas Medical": 0.97,
+            "Grand Total": 3216.88,
+            "Growth %": 0.08891010148194797,
+            "Market %": 0.25659662176390635,
+            "Accretion": 262.66
+          },
+          "previous": {
+            "Health-Retail": 223.21,
+            "Health-Group": 2036.03,
+            "Health-Government schemes": 694.81,
+            "Overseas Medical": 0.17,
+            "Grand Total": 2954.22,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The Oriental Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 144.94,
+            "Health-Group": 485.08,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.55,
+            "Grand Total": 630.57,
+            "Growth %": -0.02423285827027524,
+            "Market %": 0.050297845050380006,
+            "Accretion": -15.66
+          },
+          "previous": {
+            "Health-Retail": 140.96,
+            "Health-Group": 400.34,
+            "Health-Government schemes": 104.33,
+            "Overseas Medical": 0.6,
+            "Grand Total": 646.23,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "United India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 123.46,
+            "Health-Group": 665.1,
+            "Health-Government schemes": 271.29,
+            "Overseas Medical": 0.68,
+            "Grand Total": 1060.53,
+            "Growth %": 0.02297653152762097,
+            "Market %": 0.08459389696826601,
+            "Accretion": 23.82
+          },
+          "previous": {
+            "Health-Retail": 104.45,
+            "Health-Group": 523.42,
+            "Health-Government schemes": 408.21,
+            "Overseas Medical": 0.63,
+            "Grand Total": 1036.71,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Universal Sompo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Health-Retail": 7.14,
+            "Health-Group": 52.52,
+            "Health-Government schemes": 0.81,
+            "Overseas Medical": 1.15,
+            "Grand Total": 61.62,
+            "Growth %": -0.21010126906806828,
+            "Market %": 0.004915161222393097,
+            "Accretion": -16.39
+          },
+          "previous": {
+            "Health-Retail": 7.74,
+            "Health-Group": 70.27,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0,
+            "Grand Total": 78.01,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Niva bupa health insurance company limited",
+          "group": "Standalone Health",
+          "current": {
+            "Health-Retail": 290.48,
+            "Health-Group": 142.32,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 1.9,
+            "Grand Total": 434.7,
+            "Growth %": 0.242603550295858,
+            "Market %": 0.03467414124268548,
+            "Accretion": 84.87
+          },
+          "previous": {
+            "Health-Retail": 220.79,
+            "Health-Group": 128.16,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.88,
+            "Grand Total": 349.83,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Aditya Birla Health Insurance Co Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Health-Retail": 95.11,
+            "Health-Group": 240.71,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 4.09,
+            "Grand Total": 339.91,
+            "Growth %": 0.4185376846673901,
+            "Market %": 0.02711315240349948,
+            "Accretion": 100.29
+          },
+          "previous": {
+            "Health-Retail": 60.79,
+            "Health-Group": 173.03,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 5.8,
+            "Grand Total": 239.62,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Care Health Insurance Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Health-Retail": 340.42,
+            "Health-Group": 300.15,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 11.16,
+            "Grand Total": 651.73,
+            "Growth %": 0.3309847649389372,
+            "Market %": 0.051985686846320246,
+            "Accretion": 162.07
+          },
+          "previous": {
+            "Health-Retail": 236.49,
+            "Health-Group": 241.12,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 12.05,
+            "Grand Total": 489.66,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ManipalCigna Health Insurance Co Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Health-Retail": 54.1,
+            "Health-Group": 104.46,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.11,
+            "Grand Total": 158.67,
+            "Growth %": 0.18207554198018328,
+            "Market %": 0.012656420499141719,
+            "Accretion": 24.44
+          },
+          "previous": {
+            "Health-Retail": 46.07,
+            "Health-Group": 88.05,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.11,
+            "Grand Total": 134.23,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Star Health & Allied Insurance Co Ltd",
+          "group": "Standalone Health",
+          "current": {
+            "Health-Retail": 898.53,
+            "Health-Group": 104.19,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.69,
+            "Grand Total": 1003.41,
+            "Growth %": 0.23432810116616642,
+            "Market %": 0.0800376813073914,
+            "Accretion": 190.49
+          },
+          "previous": {
+            "Health-Retail": 749.42,
+            "Health-Group": 63.05,
+            "Health-Government schemes": 0,
+            "Overseas Medical": 0.45,
+            "Grand Total": 812.92,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        }
+      ]
+    },
+    "Liability Portfolio": {
+      "segments": [
+        "Workmen's compensation/Employers' liability",
+        "Public Liability (Act)",
+        "Product Liability",
+        "Other liability covers",
+        "Grand Total",
+        "Growth %",
+        "Market %",
+        "Accretion"
+      ],
+      "records": [
+        {
+          "insurer": "Acko General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 5.48,
+            "Grand Total": 5.48,
+            "Growth %": -0.44702320887991925,
+            "Market %": 0.006667072206338586,
+            "Accretion": -4.43
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 9.91,
+            "Grand Total": 9.91,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Bajaj Allianz General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 7.33,
+            "Public Liability (Act)": 0.13,
+            "Product Liability": 17.07,
+            "Other liability covers": 97.07,
+            "Grand Total": 121.6,
+            "Growth %": 0.549044585987261,
+            "Market %": 0.1479408723158343,
+            "Accretion": 43.1
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 6.45,
+            "Public Liability (Act)": 0.09,
+            "Product Liability": 16.13,
+            "Other liability covers": 55.83,
+            "Grand Total": 78.5,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Cholamandalam MS General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.99,
+            "Public Liability (Act)": 2.23,
+            "Product Liability": 0.64,
+            "Other liability covers": 0,
+            "Grand Total": 3.86,
+            "Growth %": 0.5078124999999999,
+            "Market %": 0.004696149400815135,
+            "Accretion": 1.3
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.88,
+            "Public Liability (Act)": 1.16,
+            "Product Liability": 0.52,
+            "Other liability covers": 0,
+            "Grand Total": 2.56,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "zuno General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.01,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0,
+            "Grand Total": 0.01,
+            "Growth %": 0,
+            "Market %": 0,
+            "Accretion": 0.01
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Future Generali India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 3.95,
+            "Public Liability (Act)": 0.03,
+            "Product Liability": 2.32,
+            "Other liability covers": 0,
+            "Grand Total": 6.3,
+            "Growth %": -0.11267605633802814,
+            "Market %": 0.007664699799257863,
+            "Accretion": -0.8
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 3.82,
+            "Public Liability (Act)": 0.03,
+            "Product Liability": 3.25,
+            "Other liability covers": 0,
+            "Grand Total": 7.1,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Go Digit General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 5.73,
+            "Public Liability (Act)": 0.02,
+            "Product Liability": 0,
+            "Other liability covers": 11.15,
+            "Grand Total": 16.9,
+            "Growth %": 1.2868741542625166,
+            "Market %": 0.020560861366263155,
+            "Accretion": 9.51
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 3.94,
+            "Public Liability (Act)": 0.01,
+            "Product Liability": 0,
+            "Other liability covers": 3.44,
+            "Grand Total": 7.39,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "HDFC Ergo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 3.03,
+            "Public Liability (Act)": 0.27,
+            "Product Liability": 0.08,
+            "Other liability covers": 141.99,
+            "Grand Total": 145.37,
+            "Growth %": 0.2230355039542319,
+            "Market %": 0.1768599063203358,
+            "Accretion": 26.51
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 2.48,
+            "Public Liability (Act)": 0.22,
+            "Product Liability": 0.07,
+            "Other liability covers": 116.09,
+            "Grand Total": 118.86,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ICICI Lombard General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 15.89,
+            "Public Liability (Act)": 0.08,
+            "Product Liability": 0,
+            "Other liability covers": 145.75,
+            "Grand Total": 161.72,
+            "Growth %": 0.4167323696890056,
+            "Market %": 0.1967516272279336,
+            "Accretion": 47.57
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 15.16,
+            "Public Liability (Act)": 0.05,
+            "Product Liability": 0,
+            "Other liability covers": 98.94,
+            "Grand Total": 114.15,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "IFFCO-Tokio General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 5.81,
+            "Public Liability (Act)": 7.77,
+            "Product Liability": 0.59,
+            "Other liability covers": 13.51,
+            "Grand Total": 27.68,
+            "Growth %": 0.4484563055991628,
+            "Market %": 0.033676014356104386,
+            "Accretion": 8.57
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 4.68,
+            "Public Liability (Act)": 5.82,
+            "Product Liability": 0.85,
+            "Other liability covers": 7.76,
+            "Grand Total": 19.11,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kotak Mahindra General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.11,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0.03,
+            "Grand Total": 0.14,
+            "Growth %": -0.12499999999999993,
+            "Market %": 0.0001703266622057303,
+            "Accretion": -0.02
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.12,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0.04,
+            "Grand Total": 0.16,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kshema General insurance",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0,
+            "Grand Total": 0,
+            "Growth %": 0,
+            "Market %": 0,
+            "Accretion": 0
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Liberty General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.45,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0.62,
+            "Grand Total": 1.07,
+            "Growth %": -0.40555555555555556,
+            "Market %": 0.0013017823468580816,
+            "Accretion": -0.73
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.47,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 1.33,
+            "Grand Total": 1.8,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Magma HDI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.86,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 7.89,
+            "Grand Total": 8.75,
+            "Growth %": 0.20523415977961437,
+            "Market %": 0.010645416387858143,
+            "Accretion": 1.49
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.21,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 7.05,
+            "Grand Total": 7.26,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "National Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 5.89,
+            "Public Liability (Act)": 0.09,
+            "Product Liability": 0.44,
+            "Other liability covers": 22.76,
+            "Grand Total": 29.18,
+            "Growth %": 1.1190994916485113,
+            "Market %": 0.035500942879737214,
+            "Accretion": 15.41
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 5.36,
+            "Public Liability (Act)": 0.07,
+            "Product Liability": 0.39,
+            "Other liability covers": 7.95,
+            "Grand Total": 13.77,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Navi General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0,
+            "Grand Total": 0,
+            "Growth %": 0,
+            "Market %": 0,
+            "Accretion": 0
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Raheja QBE General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.23,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0.41,
+            "Other liability covers": 4.54,
+            "Grand Total": 5.18,
+            "Growth %": -0.30188679245283023,
+            "Market %": 0.00630208650161202,
+            "Accretion": -2.24
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.13,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0.61,
+            "Other liability covers": 6.68,
+            "Grand Total": 7.42,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Reliance General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 3.44,
+            "Public Liability (Act)": 0.33,
+            "Product Liability": 0.2,
+            "Other liability covers": 12.15,
+            "Grand Total": 16.12,
+            "Growth %": 0.1563845050215209,
+            "Market %": 0.01961189853397409,
+            "Accretion": 2.18
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 3.7,
+            "Public Liability (Act)": 0.18,
+            "Product Liability": 0.05,
+            "Other liability covers": 10.01,
+            "Grand Total": 13.94,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Royal Sundaram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.78,
+            "Public Liability (Act)": 0.8,
+            "Product Liability": 0.05,
+            "Other liability covers": 0,
+            "Grand Total": 1.63,
+            "Growth %": -0.24884792626728114,
+            "Market %": 0.0019830889956810025,
+            "Accretion": -0.54
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.43,
+            "Public Liability (Act)": 1.7,
+            "Product Liability": 0.04,
+            "Other liability covers": 0,
+            "Grand Total": 2.17,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "SBI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.77,
+            "Public Liability (Act)": 0.01,
+            "Product Liability": 0.22,
+            "Other liability covers": 7.32,
+            "Grand Total": 8.32,
+            "Growth %": -0.7595375722543353,
+            "Market %": 0.0101222702110834,
+            "Accretion": -26.28
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.46,
+            "Public Liability (Act)": 0.01,
+            "Product Liability": 0.31,
+            "Other liability covers": 33.82,
+            "Grand Total": 34.6,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Shriram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.58,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0.28,
+            "Grand Total": 0.86,
+            "Growth %": 0.7916666666666667,
+            "Market %": 0.001046292353549486,
+            "Accretion": 0.38
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.3,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0,
+            "Other liability covers": 0.18,
+            "Grand Total": 0.48,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Tata AIG General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 7.06,
+            "Public Liability (Act)": 0,
+            "Product Liability": 5.02,
+            "Other liability covers": 178.03,
+            "Grand Total": 190.11,
+            "Growth %": 0.85166066036817,
+            "Market %": 0.2312914410852242,
+            "Accretion": 87.44
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 6.44,
+            "Public Liability (Act)": 0,
+            "Product Liability": 4.58,
+            "Other liability covers": 91.65,
+            "Grand Total": 102.67,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The New India Assurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 10.86,
+            "Public Liability (Act)": 2.11,
+            "Product Liability": 0.5,
+            "Other liability covers": 21.57,
+            "Grand Total": 35.04,
+            "Growth %": -0.19780219780219782,
+            "Market %": 0.04263033031206278,
+            "Accretion": -8.64
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 10.26,
+            "Public Liability (Act)": 1.68,
+            "Product Liability": 0.47,
+            "Other liability covers": 31.27,
+            "Grand Total": 43.68,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The Oriental Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 5.23,
+            "Public Liability (Act)": 0.1,
+            "Product Liability": 0.29,
+            "Other liability covers": 8.37,
+            "Grand Total": 13.99,
+            "Growth %": 0.05505279034690803,
+            "Market %": 0.017020500030415477,
+            "Accretion": 0.73
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 5.09,
+            "Public Liability (Act)": 0.11,
+            "Product Liability": 0.34,
+            "Other liability covers": 7.72,
+            "Grand Total": 13.26,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "United India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 6.76,
+            "Public Liability (Act)": 3.97,
+            "Product Liability": 1.02,
+            "Other liability covers": 7.86,
+            "Grand Total": 19.61,
+            "Growth %": -0.06217120994739363,
+            "Market %": 0.02385789889895979,
+            "Accretion": -1.3
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 6.38,
+            "Public Liability (Act)": 2.28,
+            "Product Liability": 0.82,
+            "Other liability covers": 11.43,
+            "Grand Total": 20.91,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Universal Sompo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Workmen's compensation/Employers' liability": 0.2,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0.02,
+            "Other liability covers": 2.81,
+            "Grand Total": 3.03,
+            "Growth %": 0.09386281588447645,
+            "Market %": 0.0036863556177383055,
+            "Accretion": 0.26
+          },
+          "previous": {
+            "Workmen's compensation/Employers' liability": 0.24,
+            "Public Liability (Act)": 0,
+            "Product Liability": 0.03,
+            "Other liability covers": 2.5,
+            "Grand Total": 2.77,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        }
+      ]
+    },
+    "Miscellaneous portfolio": {
+      "segments": [
+        "Crop Insurance",
+        "Credit Guarantee",
+        "All Other miscellaneous",
+        "Grand Total",
+        "Growth %",
+        "Market %",
+        "Accretion"
+      ],
+      "records": [
+        {
+          "insurer": "Acko General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 4.66,
+            "Grand Total": 4.66,
+            "Growth %": 0.2663043478260869,
+            "Market %": 0.0037001453061354123,
+            "Accretion": 0.98
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 3.68,
+            "Grand Total": 3.68,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Bajaj Allianz General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": -5.11,
+            "Credit Guarantee": 2.59,
+            "All Other miscellaneous": 176.7,
+            "Grand Total": 174.18,
+            "Growth %": 1.817079087821446,
+            "Market %": 0.13830285609928458,
+            "Accretion": 112.35
+          },
+          "previous": {
+            "Crop Insurance": -3.37,
+            "Credit Guarantee": 1.17,
+            "All Other miscellaneous": 64.03,
+            "Grand Total": 61.83,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Cholamandalam MS General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 10.3,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 5.35,
+            "Grand Total": 15.65,
+            "Growth %": 0.7564534231200898,
+            "Market %": 0.012426453656871074,
+            "Accretion": 6.74
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 8.91,
+            "Grand Total": 8.91,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Zuno General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.06,
+            "Grand Total": 0.06,
+            "Growth %": 4.999999999999999,
+            "Market %": 0,
+            "Accretion": 0.05
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.01,
+            "Grand Total": 0.01,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Future Generali India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0.2,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 34.63,
+            "Grand Total": 34.83,
+            "Growth %": -0.49935316946959896,
+            "Market %": 0.027655807084269617,
+            "Accretion": -34.74
+          },
+          "previous": {
+            "Crop Insurance": 44.73,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 24.84,
+            "Grand Total": 69.57,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Go Digit General Insurance Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 52.06,
+            "Grand Total": 52.06,
+            "Growth %": 0.677731227844022,
+            "Market %": 0.041336816445796044,
+            "Accretion": 21.03
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 31.03,
+            "Grand Total": 31.03,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "HDFC Ergo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 10,
+            "Credit Guarantee": 23.95,
+            "All Other miscellaneous": 49.32,
+            "Grand Total": 83.27,
+            "Growth %": 0.5278899082568806,
+            "Market %": 0.06611826172572871,
+            "Accretion": 28.77
+          },
+          "previous": {
+            "Crop Insurance": 16.68,
+            "Credit Guarantee": 18.9,
+            "All Other miscellaneous": 18.92,
+            "Grand Total": 54.5,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ICICI Lombard General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 2.92,
+            "Credit Guarantee": 13.62,
+            "All Other miscellaneous": 68.3,
+            "Grand Total": 84.84,
+            "Growth %": 0.327699530516432,
+            "Market %": 0.06736487720440523,
+            "Accretion": 20.94
+          },
+          "previous": {
+            "Crop Insurance": 0.42,
+            "Credit Guarantee": 9.33,
+            "All Other miscellaneous": 54.15,
+            "Grand Total": 63.9,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "IFFCO-Tokio General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 5.24,
+            "All Other miscellaneous": 50.63,
+            "Grand Total": 55.87,
+            "Growth %": 0.18118393234672306,
+            "Market %": 0.04436204254373079,
+            "Accretion": 8.57
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0.92,
+            "All Other miscellaneous": 46.38,
+            "Grand Total": 47.3,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kotak Mahindra General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 3.85,
+            "Grand Total": 3.85,
+            "Growth %": 0.27062706270627074,
+            "Market %": 0.0030569870018500723,
+            "Accretion": 0.82
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 3.03,
+            "Grand Total": 3.03,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Kshema General insurance",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0.27,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0,
+            "Grand Total": 0.27,
+            "Growth %": 0,
+            "Market %": 0.00021438610142844665,
+            "Accretion": 0.27
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Liberty General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 6.99,
+            "Grand Total": 6.99,
+            "Growth %": -0.4978448275862069,
+            "Market %": 0.0055502179592031185,
+            "Accretion": -6.93
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 13.92,
+            "Grand Total": 13.92,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Magma HDI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 1.25,
+            "Grand Total": 1.25,
+            "Growth %": 61.5,
+            "Market %": 0.0009925282473539196,
+            "Accretion": 1.23
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.02,
+            "Grand Total": 0.02,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "National Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 126.65,
+            "Grand Total": 126.65,
+            "Growth %": 0.74545203969129,
+            "Market %": 0.10056296202189914,
+            "Accretion": 54.09
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 72.56,
+            "Grand Total": 72.56,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Navi General Insurance Co. Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0,
+            "Grand Total": 0,
+            "Growth %": 0,
+            "Market %": 0,
+            "Accretion": 0
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0,
+            "Grand Total": 0,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Raheja QBE General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0,
+            "Grand Total": 0,
+            "Growth %": -1,
+            "Market %": 0,
+            "Accretion": -0.02
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.02,
+            "Grand Total": 0.02,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Reliance General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 21.67,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 9.33,
+            "Grand Total": 31,
+            "Growth %": 1.5451559934318555,
+            "Market %": 0.024614700534377205,
+            "Accretion": 18.82
+          },
+          "previous": {
+            "Crop Insurance": 0.33,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 11.85,
+            "Grand Total": 12.18,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Royal Sundaram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 3.16,
+            "Grand Total": 3.16,
+            "Growth %": 2.3263157894736843,
+            "Market %": 0.002509111409310709,
+            "Accretion": 2.21
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.95,
+            "Grand Total": 0.95,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "SBI General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 11.49,
+            "Credit Guarantee": 1.19,
+            "All Other miscellaneous": 13.62,
+            "Grand Total": 26.3,
+            "Growth %": 0.4867156585641605,
+            "Market %": 0.020882794324326468,
+            "Accretion": 8.61
+          },
+          "previous": {
+            "Crop Insurance": 8.87,
+            "Credit Guarantee": 2.08,
+            "All Other miscellaneous": 6.74,
+            "Grand Total": 17.69,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Shriram General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 1.25,
+            "Grand Total": 1.25,
+            "Growth %": 0.5060240963855422,
+            "Market %": 0.0009925282473539196,
+            "Accretion": 0.42
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.83,
+            "Grand Total": 0.83,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Tata AIG General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 17.46,
+            "All Other miscellaneous": 24.17,
+            "Grand Total": 41.63,
+            "Growth %": 0.5282672540381793,
+            "Market %": 0.03305516074987494,
+            "Accretion": 14.39
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 12.32,
+            "All Other miscellaneous": 14.92,
+            "Grand Total": 27.24,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The New India Assurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 20,
+            "All Other miscellaneous": 239.48,
+            "Grand Total": 259.48,
+            "Growth %": 0.2959744281290581,
+            "Market %": 0.20603298369871606,
+            "Accretion": 59.26
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 8.53,
+            "All Other miscellaneous": 191.69,
+            "Grand Total": 200.22,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "The Oriental Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": -41.86,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 38.3,
+            "Grand Total": -3.56,
+            "Growth %": -1.0835876966424043,
+            "Market %": -0.002826720448463963,
+            "Accretion": -46.15
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 42.59,
+            "Grand Total": 42.59,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "United India Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 57.05,
+            "Grand Total": 57.05,
+            "Growth %": 0.3130034522439584,
+            "Market %": 0.04529898920923289,
+            "Accretion": 13.6
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 43.45,
+            "Grand Total": 43.45,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Universal Sompo General Insurance Co Ltd",
+          "group": "General",
+          "current": {
+            "Crop Insurance": 70.62,
+            "Credit Guarantee": 4.7,
+            "All Other miscellaneous": 6.17,
+            "Grand Total": 81.49,
+            "Growth %": 0.35163377011112945,
+            "Market %": 0.06470490150149673,
+            "Accretion": 21.2
+          },
+          "previous": {
+            "Crop Insurance": 50.04,
+            "Credit Guarantee": 4.56,
+            "All Other miscellaneous": 5.69,
+            "Grand Total": 60.29,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "Agriculture Insurance Co Of India Ltd",
+          "group": "Specialised",
+          "current": {
+            "Crop Insurance": 30.82,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 0.22,
+            "Grand Total": 31.04,
+            "Growth %": -0.7331269882211332,
+            "Market %": 0.024646461438292532,
+            "Accretion": -85.27
+          },
+          "previous": {
+            "Crop Insurance": 115.12,
+            "Credit Guarantee": 0,
+            "All Other miscellaneous": 1.19,
+            "Grand Total": 116.31,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        },
+        {
+          "insurer": "ECGC Ltd",
+          "group": "Specialised",
+          "current": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 86.14,
+            "All Other miscellaneous": 0,
+            "Grand Total": 86.14,
+            "Growth %": 0.25531914893617014,
+            "Market %": 0.06839710658165331,
+            "Accretion": 17.52
+          },
+          "previous": {
+            "Crop Insurance": 0,
+            "Credit Guarantee": 68.62,
+            "All Other miscellaneous": 0,
+            "Grand Total": 68.62,
+            "Growth %": null,
+            "Market %": null,
+            "Accretion": null
+          }
+        }
+      ]
+    }
+  }
+}
