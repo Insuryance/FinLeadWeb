@@ -1,4 +1,4 @@
-# FinLead AI — Website
+# FinLead AI Agentic Website (handled by AI Agents)
 
 FinLead AI - AI Agents for Insurance Ops.
 Built with Next.js (App Router). 
