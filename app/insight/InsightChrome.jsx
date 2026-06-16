@@ -8,6 +8,8 @@ const SUGGEST_ENDPOINT = "https://formspree.io/f/xkoedvda";
 const TICKER = [
   "A FinLead AI agent just collated a full underwriting dataset for an actuary.",
   "A FinLead AI agent onboarded an offline broker agent in under two minutes.",
+  "A FinLead AI agent helped Life Insurance company flag issues in lapse rates.",
+  "A FinLead AI agent helped strategy team get accurate data on time from sources like Vahaan.",
   "A FinLead AI agent cleaned datasets from 250 excel files within 3 minutes.",
   "A FinLead AI agent replaced 55 Full Time Employees for an Insurance company.",
   "A FinLead AI agent flagged leakages in commission payouts.",
