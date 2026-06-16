@@ -81,7 +81,7 @@ export default function InsightPage() {
         {/* header */}
         <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 16 }}>FinLead AI · Insights</p>
         <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
-          India's general insurance, <span className="fl-gold-grad">by the numbers.</span>
+          India's Insurance Data, <span className="fl-gold-grad">by the numbers.</span>
         </h1>
 
         {/* compact hook + interactive chrome */}
