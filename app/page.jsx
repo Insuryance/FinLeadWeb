@@ -636,6 +636,23 @@ useEffect(() => {
           <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex" }}>
             <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 55, width: "auto", display: "block", opacity: .9 }} />
           </a>
+          <a
+    href="https://www.transposeplatform.vc"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ display: "inline-flex", alignItems: "center" }}
+  >
+    <img
+      src="/TI_logo.jpeg"
+      alt="Transpose Platform"
+      style={{
+        height: 55,
+        width: "auto",
+        display: "block",
+        opacity: 0.9,
+      }}
+    />
+  </a>
         </div>
       </header>
 
