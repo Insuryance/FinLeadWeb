@@ -643,7 +643,7 @@ useEffect(() => {
     style={{ display: "inline-flex", alignItems: "center" }}
   >
     <img
-      src="/TI_logo.jpeg"
+      src="/TI_logo.png"
       alt="Transpose Platform"
       style={{
         height: 55,
