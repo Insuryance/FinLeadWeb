@@ -20,6 +20,7 @@ const TICKER = [
 ];
 const FIRST_MS = 5000;   // first card appears after 5s
 const ROTATE_MS = 20000; // then a new card every 20s
+const VISIBLE_MS = 7000; // each card stays 7s
 
 export default function InsightChrome() {
   return (
@@ -93,22 +94,31 @@ function SuggestFeature() {
 
 function AgentTicker() {
   const [idx, setIdx] = useState(0);
+  const [show, setShow] = useState(false);
   const iRef = useRef(0);
 
   useEffect(() => {
-    let firstT, intv;
+    let hideT, intv;
     const cycle = () => {
       setIdx(iRef.current);
+      setShow(true);
+      hideT = setTimeout(() => setShow(false), VISIBLE_MS);
       iRef.current = (iRef.current + 1) % TICKER.length;
     };
-    cycle();
-    firstT = setTimeout(() => { intv = setInterval(cycle, ROTATE_MS); }, FIRST_MS);
-    return () => { clearTimeout(firstT); clearInterval(intv); };
+    const firstT = setTimeout(() => { cycle(); intv = setInterval(cycle, ROTATE_MS); }, FIRST_MS);
+    return () => { clearTimeout(firstT); clearTimeout(hideT); clearInterval(intv); };
   }, []);
 
   return (
-    <div className="ix-status-rail" aria-live="polite">
-      <div className="ix-status-card">
+    <div style={{ position: "fixed", top: 90, right: 14, maxWidth: "min(330px, 86vw)", zIndex: 45, pointerEvents: "none" }}>
+      <div style={{
+        display: "flex", gap: 11, alignItems: "flex-start", padding: "12px 15px", borderRadius: 13,
+        background: "rgba(13,13,17,.82)", border: "1px solid var(--line)",
+        backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)",
+        boxShadow: "0 18px 50px rgba(0,0,0,.5)",
+        opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(-8px)",
+        transition: "opacity .5s var(--ease), transform .5s var(--ease)",
+      }}>
         <span style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--gold)", marginTop: 5, flex: "none", boxShadow: "0 0 10px rgba(217,201,163,.85)" }} />
         <div>
           <div style={{ fontSize: 9.5, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--gold-deep)", marginBottom: 3 }}>Agent activity</div>
