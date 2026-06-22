@@ -35,6 +35,17 @@ const SERIES = ["#D9C9A3", "#94A7C7", "#A6B89C", "#C2A3B0"];
 const SERIES6 = ["#D9C9A3", "#94A7C7", "#A6B89C", "#C2A3B0", "#C9B07A", "#8FB8C4"];
 const GOLD = "#D9C9A3", GREEN = "#9BC4A0", RED = "#D69A9A";
 const IXL = { fontSize: 10, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 9 };
+const pctScaleForMonth = (month) => {
+  const rows = month?.bySheet?.["Segmentwise Report"]?.records || [];
+  const totalMarket = rows.reduce((sum, row) => sum + (row.current?.["Market %"] || 0), 0);
+  return totalMarket > 2 ? 0.01 : 1;
+};
+const currentMetric = (rec, key, month) => {
+  const value = rec?.current?.[key];
+  if (value == null || isNaN(value)) return null;
+  if (key === "Growth %" || key === "Market %") return value * pctScaleForMonth(month);
+  return value;
+};
 
 /* de-cumulate YTD into per-month premium over the FULL timeline (resets each April) */
 function monthlySeries(monthsAsc, name, key) {
@@ -58,7 +69,7 @@ function monthlySeries(monthsAsc, name, key) {
 function rawSeries(monthsAsc, name, key) {
   return monthsAsc.map((m) => {
     const rec = m.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === name);
-    return { period: m.period, label: m.label, value: rec ? (rec.current[key] == null ? null : rec.current[key]) : null };
+    return { period: m.period, label: m.label, value: currentMetric(rec, key, m) };
   });
 }
 const wma = (vals) => {
@@ -101,29 +112,18 @@ function Segmented({ value, onChange, options }) {
   );
 }
 
-/* info "i" icon with a popover explaining the feature */
-function InfoButton({ info }) {
-  const [open, setOpen] = useState(false);
+/* info trigger that opens a side panel, keeping charts unobstructed */
+function InfoButton({ info, onOpen, isOpen }) {
   return (
-    <span style={{ position: "relative", display: "inline-block", marginLeft: 9, verticalAlign: "middle" }}>
-      <button onClick={() => setOpen((o) => !o)} aria-label="About this view"
-        style={{ width: 18, height: 18, borderRadius: "50%", border: "1px solid var(--gold-deep)", background: open ? "var(--gold-deep)" : "transparent", color: open ? "#0B0B0E" : "var(--gold)", fontSize: 11, fontStyle: "italic", fontFamily: "Georgia,serif", cursor: "pointer", lineHeight: 1, padding: 0 }}>i</button>
-      {open && (
-        <div style={{ position: "absolute", top: 26, left: 0, zIndex: 30, width: 300, background: "rgba(13,13,17,.97)", border: "1px solid var(--line)", borderRadius: 10, padding: "16px 18px", boxShadow: "0 20px 60px rgba(0,0,0,.6)", backdropFilter: "blur(12px)", cursor: "default" }}>
-          <div style={{ fontSize: 13.5, color: "var(--ivory)", fontWeight: 500, marginBottom: 8 }}>{info.title}</div>
-          <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.55, marginBottom: 10 }}>{info.what}</div>
-          <div style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 5 }}>How to use</div>
-          <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.55 }}>{info.how}</div>
-          <button onClick={() => setOpen(false)} style={{ marginTop: 12, fontSize: 11, color: "var(--gold)", background: "none", border: "none", cursor: "pointer", padding: 0, letterSpacing: ".08em" }}>Close</button>
-        </div>
-      )}
+    <span style={{ display: "inline-block", marginLeft: 9, verticalAlign: "middle" }}>
+      <button onClick={() => onOpen(info)} aria-label={"About " + info.title} aria-expanded={isOpen} className="ix-info-btn" data-open={isOpen ? "true" : "false"}>i</button>
     </span>
   );
 }
 const INFO = {
-  leaderboard: { title: "Leaderboard", what: "Ranks insurers by premium, year-on-year growth, or market share for the period you choose.", how: "Use the metric buttons to switch between Premium, Growth and Market share. Toggle Bar Graph or Line Graph at the top right. In Line, you see how the top insurers moved over time." },
-  compare: { title: "Compare", what: "Puts up to four insurers side by side across the main lines of business.", how: "Tap an insurer chip to add or remove it. Switch Bar Graph for a snapshot, or Line Graph to track them over time." },
-  segments: { title: "Segments", what: "Shows which insurers write the most in a single line of business, such as Motor or Health.", how: "Pick a segment from the row of buttons. Bar Graph ranks insurers; Line Graph shows the trend over time." },
+  leaderboard: { title: "Leaderboard", what: "Ranks insurers by premium, year-on-year growth, or market share for the period you choose.", how: "Use the metric buttons to switch between Premium, Growth and Market share. For Premium, Bar Graph shows cumulative financial-year-to-date premium for the selected month or window, while Line Graph shows monthly premium and is not cumulative. Growth and Market share follow the values reported for each month." },
+  compare: { title: "Compare", what: "Puts up to four insurers side by side across the main lines of business.", how: "Tap an insurer chip to add or remove it. In Premium, Bar Graph is cumulative financial-year-to-date, while Line Graph shows monthly premium and is not cumulative. Use the line view when you want month-by-month movement." },
+  segments: { title: "Segments", what: "Shows which insurers write the most in a single line of business, such as Motor or Health.", how: "Pick a segment from the row of buttons. In Premium, Bar Graph shows cumulative financial-year-to-date premium, while Line Graph shows monthly premium and is not cumulative." },
   micro: { title: "Micro analysis", what: "Breaks one line of business into its sub-parts, for example Motor into Own Damage versus Third Party, and shows each insurer's split as a stacked bar.", how: "Pick a group (Motor, Marine, Health, Liability). Each bar shows one insurer; the coloured segments are the share of each sub-part for the selected month." },
   intelligence: { title: "Intelligence", what: "A weighted projection of the next month's premium for each insurer, and how the last estimate compared with what actually happened. It is a directional model, not advice.", how: "Set a Range to choose the window the model learns from. The projection is for the month right after your window. If that month's actual figure exists in the data, you see predicted versus actual; if it is still in the future, you see the projected change instead." },
 };
@@ -247,6 +247,8 @@ export default function InsightExplorer({ months }) {
   const [group, setGroup] = useState("All");
   const [chartType, setChartType] = useState("bar");
   const [tab, setTab] = useState("leaderboard");
+  const [activeInfo, setActiveInfo] = useState(INFO.leaderboard);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   const isRange = mode === "range";
   // guards: From can never be after To
@@ -263,17 +265,19 @@ export default function InsightExplorer({ months }) {
   const rows = useMemo(() => baseMonth.bySheet["Segmentwise Report"].records.filter((r) => group === "All" || r.group === group), [baseMonth, group]);
 
   const getValue = useMemo(() => {
-    if (!isRange) return (name, key) => (baseRecs[name] ? baseRecs[name].current[key] : null);
+    if (!isRange) return (name, key) => currentMetric(baseRecs[name], key, baseMonth);
     return (name, key) => monthlySeries(monthsAsc, name, key).reduce((a, p) => a + (winSet.has(p.period) && p.value != null ? p.value : 0), 0);
-  }, [isRange, baseRecs, monthsAsc, winSet]);
+  }, [isRange, baseRecs, baseMonth, monthsAsc, winSet]);
 
   const ctx = { isRange, chartType, group, lineMonths, winSet, monthsAsc, getValue };
 
   const kpi = useMemo(() => {
     const ranked = [...rows].map((r) => ({ r, v: getValue(clean(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v);
-    const grower = isRange ? null : [...rows].filter((r) => r.current["Growth %"] != null && (r.current["Grand Total"] || 0) >= 200).sort((a, b) => b.current["Growth %"] - a.current["Growth %"])[0];
+    const grower = isRange ? null : [...rows]
+      .filter((r) => currentMetric(r, "Growth %", baseMonth) != null && (r.current["Grand Total"] || 0) >= 200)
+      .sort((a, b) => (currentMetric(b, "Growth %", baseMonth) || 0) - (currentMetric(a, "Growth %", baseMonth) || 0))[0];
     return { total: ranked.reduce((a, x) => a + x.v, 0), count: rows.length, leader: ranked[0], grower };
-  }, [rows, getValue, isRange]);
+  }, [rows, getValue, isRange, baseMonth]);
 
   return (
     <div>
@@ -319,32 +323,48 @@ export default function InsightExplorer({ months }) {
         <Kpi label={isRange ? "Top by volume" : "Market leader"} name value={kpi.leader ? trunc(shortName(kpi.leader.r.insurer), 18) : "-"} sub={kpi.leader ? inr(Math.round(kpi.leader.v)) : ""} />
         {isRange
           ? <Kpi label="Window" value={String(lineMonths.length)} sub={lineMonths.length === 1 ? "month" : "months"} />
-          : <Kpi label="Fastest grower" name value={kpi.grower ? trunc(shortName(kpi.grower.insurer), 18) : "-"} sub={kpi.grower ? pct(kpi.grower.current["Growth %"]) + " YoY" : ""} />}
+          : <Kpi label="Fastest grower" name value={kpi.grower ? trunc(shortName(kpi.grower.insurer), 18) : "-"} sub={kpi.grower ? pct(currentMetric(kpi.grower, "Growth %", baseMonth)) + " YoY" : ""} />}
       </div>
 
       {/* tabs + chart toggle */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "1px solid var(--line)", flexWrap: "wrap", gap: 12 }}>
         <div className="ix-tabs" style={{ borderBottom: "none" }}>
           {[["leaderboard", "Leaderboard"], ["compare", "Compare"], ["segments", "Segments"], ["micro", "Micro analysis"], ["intelligence", "Intelligence"]].map(([k, l]) => (
-            <button key={k} className="ix-tab" data-active={tab === k} onClick={() => setTab(k)}>{l}</button>
+            <button key={k} className="ix-tab" data-active={tab === k} onClick={() => { setTab(k); setActiveInfo(INFO[k]); setIsInfoOpen(false); }}>{l}</button>
           ))}
         </div>
         {tab !== "micro" && tab !== "intelligence" && <div style={{ paddingBottom: 10 }}><Segmented value={chartType} onChange={setChartType} options={[{ v: "bar", l: "Bar Graph" }, { v: "line", l: "Line Graph" }]} /></div>}
       </div>
 
-      <div style={{ marginTop: 34 }}>
-        {tab === "leaderboard" && <Leaderboard rows={rows} ctx={ctx} />}
-        {tab === "compare" && <Compare rows={rows} ctx={ctx} />}
-        {tab === "segments" && <Segments rows={rows} segments={baseMonth.bySheet["Segmentwise Report"].segments} ctx={ctx} />}
-        {tab === "micro" && <Micro month={baseMonth} group={group} />}
-        {tab === "intelligence" && <Intelligence rows={rows} ctx={ctx} />}
+      <div className="ix-layout" style={{ marginTop: 34 }}>
+        <div style={{ minWidth: 0 }}>
+          {tab === "leaderboard" && <Leaderboard rows={rows} ctx={ctx} onOpenInfo={(info) => { setActiveInfo(info); setIsInfoOpen((open) => (activeInfo.title === info.title ? !open : true)); }} isInfoOpen={isInfoOpen} />}
+          {tab === "compare" && <Compare rows={rows} ctx={ctx} onOpenInfo={(info) => { setActiveInfo(info); setIsInfoOpen((open) => (activeInfo.title === info.title ? !open : true)); }} isInfoOpen={isInfoOpen} />}
+          {tab === "segments" && <Segments rows={rows} segments={baseMonth.bySheet["Segmentwise Report"].segments} ctx={ctx} onOpenInfo={(info) => { setActiveInfo(info); setIsInfoOpen((open) => (activeInfo.title === info.title ? !open : true)); }} isInfoOpen={isInfoOpen} />}
+          {tab === "micro" && <Micro month={baseMonth} group={group} onOpenInfo={(info) => { setActiveInfo(info); setIsInfoOpen((open) => (activeInfo.title === info.title ? !open : true)); }} isInfoOpen={isInfoOpen} />}
+          {tab === "intelligence" && <Intelligence rows={rows} ctx={ctx} onOpenInfo={(info) => { setActiveInfo(info); setIsInfoOpen((open) => (activeInfo.title === info.title ? !open : true)); }} isInfoOpen={isInfoOpen} />}
+        </div>
+        <aside className="ix-sidepanel" data-open={isInfoOpen ? "true" : "false"}>
+          <div className="ix-sidepanel-card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 10 }}>
+              <div>
+                <div style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 6 }}>Definition</div>
+                <div style={{ fontSize: 15, color: "var(--ivory)", fontWeight: 500 }}>{activeInfo.title}</div>
+              </div>
+              <button className="ix-sidepanel-close" onClick={() => setIsInfoOpen(false)} aria-label="Close definition">×</button>
+            </div>
+            <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.6, marginBottom: 14 }}>{activeInfo.what}</div>
+            <div style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 6 }}>How to use</div>
+            <div style={{ fontSize: 12.5, color: "var(--muted)", lineHeight: 1.6 }}>{activeInfo.how}</div>
+          </div>
+        </aside>
       </div>
     </div>
   );
 }
 
 /* ---------- 1. Leaderboard ---------- */
-function Leaderboard({ rows, ctx }) {
+function Leaderboard({ rows, ctx, onOpenInfo, isInfoOpen }) {
   const [sortKey, setSortKey] = useState("Grand Total");
   const [all, setAll] = useState(false);
   // metric control shows whenever Line, or whenever not a range (snapshot supports all three)
@@ -358,7 +378,7 @@ function Leaderboard({ rows, ctx }) {
         {ctx.chartType === "line"
           ? (eff === "Grand Total" ? "Monthly premium over time" : eff === "Growth %" ? "Year-on-year growth over time" : "Market share over time") + " \u00B7 top six insurers"
           : (ctx.isRange ? "Premium written in window" : "Ranked by " + (eff === "Grand Total" ? "premium" : eff === "Growth %" ? "growth" : "market share"))}
-        <InfoButton info={INFO.leaderboard} />
+        <InfoButton info={INFO.leaderboard} onOpen={onOpenInfo} isOpen={isInfoOpen} />
       </p>
       {showMetric && <Segmented value={sortKey} onChange={setSortKey} options={[{ v: "Grand Total", l: "Premium" }, { v: "Growth %", l: "Growth" }, { v: "Market %", l: "Market share" }]} />}
     </div>
@@ -390,7 +410,7 @@ function Leaderboard({ rows, ctx }) {
 
 /* ---------- 2. Compare ---------- */
 const COMPARE_SEGS = [["Grand Total", "Total"], ["Fire", "Fire"], ["Motor Total", "Motor"], ["Health", "Health"], ["Marine Total", "Marine"], ["Engineering", "Eng."], ["Liability", "Liab."]];
-function Compare({ rows, ctx }) {
+function Compare({ rows, ctx, onOpenInfo, isInfoOpen }) {
   const [picked, setPicked] = useState(() => rows.slice(0, 3).map((r) => r.insurer));
   const [hover, setHover] = useState(null);
   const toggle = (name) => setPicked((p) => (p.includes(name) ? p.filter((x) => x !== name) : p.length < 4 ? [...p, name] : p));
@@ -404,7 +424,7 @@ function Compare({ rows, ctx }) {
       })}
     </div>
   );
-  const heading = (txt) => <p className="ix-charth">{txt}<InfoButton info={INFO.compare} /></p>;
+  const heading = (txt) => <p className="ix-charth">{txt}<InfoButton info={INFO.compare} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>;
 
   if (ctx.chartType === "line") {
     const series = seriesForMetric(ctx, chosen, "Grand Total");
@@ -457,7 +477,7 @@ function Compare({ rows, ctx }) {
 
 /* ---------- 3. Segments ---------- */
 const MAIN_SEGS = ["Fire", "Marine Total", "Engineering", "Motor Total", "Motor OD", "Motor TP", "Health", "Aviation", "Liability", "P.A."];
-function Segments({ rows, segments, ctx }) {
+function Segments({ rows, segments, ctx, onOpenInfo, isInfoOpen }) {
   const avail = MAIN_SEGS.filter((s) => segments.includes(s));
   const [sname, setSname] = useState(avail[0] || "Motor Total");
   const [all, setAll] = useState(false);
@@ -470,7 +490,7 @@ function Segments({ rows, segments, ctx }) {
     const top = ranked.slice(0, 6);
     const series = seriesForMetric(ctx, top.map((r) => r.insurer), sname);
     return (<div>
-      <p className="ix-charth">Monthly {sname} premium over time \u00B7 top six insurers<InfoButton info={INFO.segments} /></p>
+      <p className="ix-charth">Monthly {sname} premium over time \u00B7 top six insurers<InfoButton info={INFO.segments} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
       {picker}
       <Legend series={series} />
       <MultiLineChart series={series} axisMonths={ctx.lineMonths} />
@@ -480,7 +500,7 @@ function Segments({ rows, segments, ctx }) {
   const shown = all ? ranked : ranked.slice(0, 15);
   const items = shown.map((r) => ({ key: r.insurer, label: r.insurer, value: valOf(r), title: shortName(r.insurer) + " \u00B7 " + inr(valOf(r)) + " \u00B7 " + ((valOf(r) / total) * 100).toFixed(1) + "% of total" }));
   return (<div>
-    <p className="ix-charth">Premium by insurer within a line of business<InfoButton info={INFO.segments} /></p>
+    <p className="ix-charth">Premium by insurer within a line of business<InfoButton info={INFO.segments} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
     {picker}
     <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 22, paddingBottom: 18, borderBottom: "1px solid var(--line)" }}>
       <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 28, color: "var(--gold)" }}>{inr(total)}</span>
@@ -498,7 +518,7 @@ const MICRO = [
   { id: "health", title: "Health: Retail vs Group vs Government", tab: "Health", sheet: "Health Portfolio", parts: [["Health-Retail", "Retail"], ["Health-Group", "Group"], ["Health-Government schemes", "Government"]] },
   { id: "liab", title: "Liability by cover type", tab: "Liability", sheet: "Liability Portfolio", parts: [["Workmen's compensation/Employers' liability", "Workmen's comp."], ["Public Liability (Act)", "Public (Act)"], ["Product Liability", "Product"], ["Other liability covers", "Other"]] },
 ];
-function Micro({ month, group }) {
+function Micro({ month, group, onOpenInfo, isInfoOpen }) {
   const [mid, setMid] = useState("motor");
   const cfg = MICRO.find((m) => m.id === mid);
   const sheet = month.bySheet[cfg.sheet];
@@ -506,7 +526,7 @@ function Micro({ month, group }) {
   const rows = (sheet ? sheet.records : []).filter((r) => group === "All" || r.group === group);
   const withTotal = rows.map((r) => ({ ...r, _t: keys.reduce((a, k) => a + (r.current[k] || 0), 0) })).filter((r) => r._t > 0).sort((a, b) => b._t - a._t).slice(0, 12);
   return (<div>
-    <p className="ix-charth">Sub-segment split within a line of business \u00B7 {month.label}<InfoButton info={INFO.micro} /></p>
+    <p className="ix-charth">Sub-segment split within a line of business \u00B7 {month.label}<InfoButton info={INFO.micro} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
     <div className="ix-seg" style={{ flexWrap: "wrap", marginBottom: 24 }}>{MICRO.map((m) => <button key={m.id} data-active={mid === m.id} onClick={() => setMid(m.id)}>{m.tab}</button>)}</div>
     <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 18, flexWrap: "wrap" }}>
       <span className="fl-serif" style={{ fontSize: 19, color: "var(--ivory)", fontWeight: 350 }}>{cfg.title}</span>
@@ -531,11 +551,11 @@ function Stat({ label, value, sub, delta }) {
     {delta != null && <div style={{ fontSize: 12, color: up ? GREEN : RED, marginTop: 5 }}>{(up ? "\u25B2 +" : "\u25BC ") + (delta * 100).toFixed(1) + "%"}</div>}
   </div>);
 }
-function Intelligence({ rows, ctx }) {
-  if (ctx.lineMonths.length < 3) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Select at least three months (use Range) to generate projections.<InfoButton info={INFO.intelligence} /></p>;
+function Intelligence({ rows, ctx, onOpenInfo, isInfoOpen }) {
+  if (ctx.lineMonths.length < 3) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Select at least three months (use Range) to generate projections.<InfoButton info={INFO.intelligence} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>;
   const top = [...rows].map((r) => ({ r, v: ctx.getValue(clean(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v).slice(0, 12);
   return (<div>
-    <p className="ix-charth" style={{ marginBottom: 8 }}>Weighted projection and prediction accuracy{ctx.isRange ? " \u00B7 selected window" : ""}<InfoButton info={INFO.intelligence} /></p>
+    <p className="ix-charth" style={{ marginBottom: 8 }}>Weighted projection and prediction accuracy{ctx.isRange ? " \u00B7 selected window" : ""}<InfoButton info={INFO.intelligence} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
     <p style={{ color: "var(--muted2)", fontSize: 11.5, marginBottom: 24, lineHeight: 1.5 }}>The projection is for the month after your selected window, using a weighted moving average of monthly premium. Where that month's actual exists, it is compared. Directional only.</p>
     {top.map(({ r }) => {
       const I = computeIntel(ctx.monthsAsc, ctx.winSet, clean(r.insurer));
