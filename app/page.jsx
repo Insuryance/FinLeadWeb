@@ -612,7 +612,7 @@ useEffect(() => {
             <span className="fl-serif" style={{ fontSize: 22, letterSpacing: "-.02em" }}>FinLead<span className="fl-ital">.ai</span></span>
           </a>
           <div className="fl-dock">
-            <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a><a href="/insight">Insight</a><a href="/blog">Blog</a>
+            <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a><a href="/insight">Insight</a>
           </div>
           <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine" style={{ padding: "10px 20px", fontSize: 14 }}>Book a demo</button>
         </nav>
