@@ -112,7 +112,7 @@ export default function InsightAdmin() {
   const lbl = { color: "#928E84", fontSize: 12, letterSpacing: ".04em", textTransform: "uppercase" };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#08080A", color: "#F4F1EA", fontFamily: "system-ui, sans-serif", padding: "48px 20px" }}>
+    <div style={{ minHeight: "100vh", background: "#08080A", color: "#F4F1EA", fontFamily: "system-ui, sans-serif", padding: "112px 20px 48px" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <h1 style={{ fontSize: 26, fontWeight: 600, margin: "0 0 6px" }}>Insight data uploader</h1>
         <p style={{ color: "#928E84", fontSize: 14, margin: "0 0 28px" }}>

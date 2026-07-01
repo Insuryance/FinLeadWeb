@@ -3,6 +3,16 @@ import React, { useState, useMemo, useRef } from "react";
 
 /* ---------- formatting ---------- */
 const clean = (s) => (s == null ? "" : String(s).replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim());
+const canonicalInsurer = (s) => {
+  const value = clean(s);
+  if (/^Bajaj (Allianz )?General Insurance/i.test(value)) return "Bajaj Allianz General Insurance Co Ltd";
+  return value;
+};
+const displayInsurer = (s) => {
+  const value = canonicalInsurer(s);
+  if (value === "Bajaj Allianz General Insurance Co Ltd") return "Bajaj Allianz General Insurance";
+  return value;
+};
 const inr = (n) => {
   if (n == null || isNaN(n)) return "-";
   if (Math.abs(n) >= 100000) return "\u20B9" + (n / 100000).toFixed(2) + "\u2009L Cr";
@@ -11,7 +21,7 @@ const inr = (n) => {
 const pct = (x) => (x == null || isNaN(x) ? "-" : (x * 100).toFixed(1) + "%");
 const pctTick = (x) => (x * 100).toFixed(0) + "%";
 const shortName = (s) =>
-  s.replace(/ (General Insurance|Health Insurance|Insurance|Assurance|Co\.?|Company|Ltd\.?|Limited|of India)\b/gi, "")
+  displayInsurer(s).replace(/ (General Insurance|Health Insurance|Insurance|Assurance|Co\.?|Company|Ltd\.?|Limited|of India)\b/gi, "")
     .replace(/\s+/g, " ").trim();
 const trunc = (s, n) => (s.length > n ? s.slice(0, n - 1).trim() + "\u2026" : s);
 const axisFmt = (n) => {
@@ -50,8 +60,9 @@ const currentMetric = (rec, key, month) => {
 /* de-cumulate YTD into per-month premium over the FULL timeline (resets each April) */
 function monthlySeries(monthsAsc, name, key) {
   const pts = []; let prevYtd = null, prevFY = null;
+  const targetName = canonicalInsurer(name);
   for (const m of monthsAsc) {
-    const rec = m.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === name);
+    const rec = m.bySheet["Segmentwise Report"].records.find((r) => canonicalInsurer(r.insurer) === targetName);
     const ytd = rec ? (rec.current[key] == null ? null : rec.current[key]) : null;
     const cm = +m.period.slice(5, 7);
     const fy = cm >= 4 ? +m.period.slice(0, 4) : +m.period.slice(0, 4) - 1;
@@ -67,8 +78,9 @@ function monthlySeries(monthsAsc, name, key) {
 }
 /* raw reported value per month (for Growth % / Market %), not de-cumulated */
 function rawSeries(monthsAsc, name, key) {
+  const targetName = canonicalInsurer(name);
   return monthsAsc.map((m) => {
-    const rec = m.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === name);
+    const rec = m.bySheet["Segmentwise Report"].records.find((r) => canonicalInsurer(r.insurer) === targetName);
     return { period: m.period, label: m.label, value: currentMetric(rec, key, m) };
   });
 }
@@ -144,7 +156,7 @@ function HBarChart({ items, valueFmt, tickFmt, colorFn, signed }) {
     <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", overflow: "visible" }} role="img" aria-label="Bar chart">
       {Array.from({ length: 5 }).map((_, i) => {
         const v = vmin + (span / 4) * i; const x = xOf(v);
-        return (<g key={i}><line x1={x} y1={axisTop - 6} x2={x} y2={H - 4} stroke="rgba(255,255,255,.05)" /><text x={x} y={axisTop - 11} textAnchor="middle" fontSize="9.5" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{tickFmt(v)}</text></g>);
+        return (<g key={i}><line x1={x} y1={axisTop - 6} x2={x} y2={H - 4} stroke="rgba(255,255,255,.05)" /><text x={x} y={axisTop - 11} textAnchor="middle" fontSize="10.5" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{tickFmt(v)}</text></g>);
       })}
       {signed && <line x1={zeroX} y1={axisTop - 6} x2={zeroX} y2={H - 4} stroke="rgba(255,255,255,.18)" />}
       {items.map((d, i) => {
@@ -152,9 +164,9 @@ function HBarChart({ items, valueFmt, tickFmt, colorFn, signed }) {
         const x = xOf(v); const bx = Math.min(zeroX, x), bw = Math.max(2, Math.abs(x - zeroX));
         const col = colorFn(v, d);
         return (<g key={d.key || d.label}>
-          <text x={labelW - 12} y={cy + 4} textAnchor="end" fontSize="12.5" fill="#F4F1EA" fontFamily="'Hanken Grotesk',sans-serif">{trunc(d.label, 24)}</text>
+          <text x={labelW - 12} y={cy + 4} textAnchor="end" fontSize="13.5" fill="#F4F1EA" fontFamily="'Hanken Grotesk',sans-serif">{trunc(d.label, 24)}</text>
           <rect x={bx} y={cy - barH / 2} width={bw} height={barH} rx="2" fill={col}><title>{d.title}</title></rect>
-          <text x={W} y={cy + 4} textAnchor="end" fontSize="12.5" fill={signed ? col : "#F4F1EA"} fontFamily="'Fraunces',Georgia,serif" style={{ fontVariantNumeric: "tabular-nums" }}>{valueFmt(v)}</text>
+          <text x={W} y={cy + 4} textAnchor="end" fontSize="13.5" fill={signed ? col : "#F4F1EA"} fontFamily="'Fraunces',Georgia,serif" style={{ fontVariantNumeric: "tabular-nums" }}>{valueFmt(v)}</text>
         </g>);
       })}
     </svg>
@@ -180,31 +192,32 @@ function MultiLineChart({ series, axisMonths, valueFmt = inr, tickFmt = axisFmt 
     let i = Math.round(((vbx - padL) / plotW) * (n - 1));
     setHi(Math.max(0, Math.min(n - 1, i)));
   };
-  const everyN = n > 18 ? Math.ceil(n / 12) : 1;
+  const everyN = n > 24 ? Math.ceil(n / 8) : n > 12 ? Math.ceil(n / 7) : 1;
   return (
     <div ref={boxRef} style={{ position: "relative" }} onMouseMove={onMove} onMouseLeave={() => setHi(null)}>
       <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", overflow: "visible" }} role="img" aria-label="Line chart over time">
         {Array.from({ length: 5 }).map((_, i) => {
           const v = vmin + (span / 4) * i; const y = yOf(v);
-          return (<g key={i}><line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" /><text x={padL - 10} y={y + 3.5} textAnchor="end" fontSize="10" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{tickFmt(v)}</text></g>);
+          return (<g key={i}><line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" /><text x={padL - 10} y={y + 3.5} textAnchor="end" fontSize="10.5" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{tickFmt(v)}</text></g>);
         })}
         {axisMonths.map((m, i) => {
           const cm = +m.period.slice(5, 7); const x = xOf(i);
           const show = i % everyN === 0 || i === n - 1;
           const showYear = cm === 4 || i === 0;
           return show ? (<g key={m.period}>
-            <text x={x} y={H - padB + 19} textAnchor="middle" fontSize="9.5" fill={hi === i ? "#F4F1EA" : "#928E84"} fontFamily="'Hanken Grotesk',sans-serif">{MON[cm - 1]}</text>
-            {showYear && <text x={x} y={H - padB + 32} textAnchor="middle" fontSize="9" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif">{"\u2019" + m.period.slice(2, 4)}</text>}
+            <text x={x} y={H - padB + 19} textAnchor="middle" fontSize="10.5" fill={hi === i ? "#F4F1EA" : "#928E84"} fontFamily="'Hanken Grotesk',sans-serif">{MON[cm - 1]}</text>
+            {showYear && <text x={x} y={H - padB + 32} textAnchor="middle" fontSize="10.5" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif">{"\u2019" + m.period.slice(2, 4)}</text>}
           </g>) : null;
         })}
         <line x1={padL} y1={padT + plotH} x2={W - padR} y2={padT + plotH} stroke="rgba(255,255,255,.16)" />
         {hi != null && <line x1={xOf(hi)} y1={padT} x2={xOf(hi)} y2={padT + plotH} stroke="rgba(217,201,163,.35)" strokeDasharray="3 3" />}
         {series.map((s) => {
           let d = "", started = false;
+          const lastIndex = [...s.points].map((p) => p.value).reduce((acc, value, index) => (value != null ? index : acc), -1);
           s.points.forEach((p, i) => { if (p.value == null) { started = false; return; } d += (started ? " L " : " M ") + xOf(i).toFixed(1) + " " + yOf(p.value).toFixed(1); started = true; });
           return (<g key={s.name}>
             <path d={d} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" opacity={hi != null ? 0.9 : 1} />
-            {s.points.map((p, i) => p.value == null ? null : <circle key={i} cx={xOf(i)} cy={yOf(p.value)} r={hi === i ? 4.5 : (n > 18 ? 2 : 3)} fill="#0B0B0E" stroke={s.color} strokeWidth={hi === i ? 2.2 : 1.5} />)}
+            {s.points.map((p, i) => (p.value == null || (hi !== i && i !== lastIndex)) ? null : <circle key={i} cx={xOf(i)} cy={yOf(p.value)} r={hi === i ? 4.5 : 2.8} fill="#0B0B0E" stroke={s.color} strokeWidth={hi === i ? 2.2 : 1.5} />)}
           </g>);
         })}
       </svg>
@@ -214,8 +227,8 @@ function MultiLineChart({ series, axisMonths, valueFmt = inr, tickFmt = axisFmt 
           {[...series].sort((a, b) => (b.points[hi]?.value || 0) - (a.points[hi]?.value || 0)).map((s) => (
             <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
               <span style={{ width: 9, height: 9, borderRadius: 2, background: s.color, flex: "none" }} />
-              <span style={{ fontSize: 12, color: "var(--ivory)", flex: 1, whiteSpace: "nowrap" }}>{s.name}</span>
-              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 12.5, color: "var(--ivory)" }}>{valueFmt(s.points[hi]?.value)}</span>
+              <span style={{ fontSize: 12.5, color: "var(--ivory)", flex: 1, whiteSpace: "nowrap" }}>{s.name}</span>
+              <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 13, color: "var(--ivory)" }}>{valueFmt(s.points[hi]?.value)}</span>
             </div>
           ))}
         </div>
@@ -232,7 +245,7 @@ function seriesForMetric(ctx, names, metric) {
   return names.map((nm, i) => ({
     name: shortName(nm),
     color: (names.length > 4 ? SERIES6 : SERIES)[i % (names.length > 4 ? 6 : 4)],
-    points: (useMonthly ? monthlySeries(ctx.monthsAsc, clean(nm), "Grand Total") : rawSeries(ctx.monthsAsc, clean(nm), metric)).filter((p) => ctx.winSet.has(p.period)),
+    points: (useMonthly ? monthlySeries(ctx.monthsAsc, canonicalInsurer(nm), "Grand Total") : rawSeries(ctx.monthsAsc, canonicalInsurer(nm), metric)).filter((p) => ctx.winSet.has(p.period)),
   }));
 }
 
@@ -260,19 +273,19 @@ export default function InsightExplorer({ months }) {
   const winSet = useMemo(() => new Set(lineMonths.map((m) => m.period)), [lineMonths]);
   const baseMonth = isRange ? (lineMonths[lineMonths.length - 1] || monthsAsc[N - 1]) : (months.find((m) => m.period === period) || months[0]);
   const baseRecs = useMemo(() => {
-    const map = {}; baseMonth.bySheet["Segmentwise Report"].records.forEach((r) => { map[clean(r.insurer)] = r; }); return map;
+    const map = {}; baseMonth.bySheet["Segmentwise Report"].records.forEach((r) => { map[canonicalInsurer(r.insurer)] = r; }); return map;
   }, [baseMonth]);
   const rows = useMemo(() => baseMonth.bySheet["Segmentwise Report"].records.filter((r) => group === "All" || r.group === group), [baseMonth, group]);
 
   const getValue = useMemo(() => {
-    if (!isRange) return (name, key) => currentMetric(baseRecs[name], key, baseMonth);
+    if (!isRange) return (name, key) => currentMetric(baseRecs[canonicalInsurer(name)], key, baseMonth);
     return (name, key) => monthlySeries(monthsAsc, name, key).reduce((a, p) => a + (winSet.has(p.period) && p.value != null ? p.value : 0), 0);
   }, [isRange, baseRecs, baseMonth, monthsAsc, winSet]);
 
   const ctx = { isRange, chartType, group, lineMonths, winSet, monthsAsc, getValue };
 
   const kpi = useMemo(() => {
-    const ranked = [...rows].map((r) => ({ r, v: getValue(clean(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v);
+    const ranked = [...rows].map((r) => ({ r, v: getValue(canonicalInsurer(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v);
     const grower = isRange ? null : [...rows]
       .filter((r) => currentMetric(r, "Growth %", baseMonth) != null && (r.current["Grand Total"] || 0) >= 200)
       .sort((a, b) => (currentMetric(b, "Growth %", baseMonth) || 0) - (currentMetric(a, "Growth %", baseMonth) || 0))[0];
@@ -376,7 +389,7 @@ function Leaderboard({ rows, ctx, onOpenInfo, isInfoOpen }) {
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
       <p className="ix-charth" style={{ margin: 0 }}>
         {ctx.chartType === "line"
-          ? (eff === "Grand Total" ? "Monthly premium over time" : eff === "Growth %" ? "Year-on-year growth over time" : "Market share over time") + " \u00B7 top six insurers"
+          ? (eff === "Grand Total" ? "Monthly premium over time" : eff === "Growth %" ? "Year-on-year growth over time" : "Market share over time") + " \u00B7 top four insurers"
           : (ctx.isRange ? "Premium written in window" : "Ranked by " + (eff === "Grand Total" ? "premium" : eff === "Growth %" ? "growth" : "market share"))}
         <InfoButton info={INFO.leaderboard} onOpen={onOpenInfo} isOpen={isInfoOpen} />
       </p>
@@ -385,7 +398,7 @@ function Leaderboard({ rows, ctx, onOpenInfo, isInfoOpen }) {
   );
 
   if (ctx.chartType === "line") {
-    const top = [...rows].sort((a, b) => (ctx.getValue(clean(b.insurer), "Grand Total") || 0) - (ctx.getValue(clean(a.insurer), "Grand Total") || 0)).slice(0, 6);
+    const top = [...rows].sort((a, b) => (ctx.getValue(canonicalInsurer(b.insurer), "Grand Total") || 0) - (ctx.getValue(canonicalInsurer(a.insurer), "Grand Total") || 0)).slice(0, 4);
     const series = seriesForMetric(ctx, top.map((r) => r.insurer), eff);
     return (<div>
       {head}
@@ -397,7 +410,11 @@ function Leaderboard({ rows, ctx, onOpenInfo, isInfoOpen }) {
     </div>);
   }
 
-  const valOf = (r) => (eff === "Grand Total" ? (ctx.getValue(clean(r.insurer), "Grand Total") || 0) : (r.current[eff] || 0));
+  const valOf = (r) => (
+    eff === "Grand Total"
+      ? (ctx.getValue(canonicalInsurer(r.insurer), "Grand Total") || 0)
+      : (currentMetric(r, eff, ctx.lineMonths[ctx.lineMonths.length - 1] || ctx.monthsAsc[ctx.monthsAsc.length - 1]) || 0)
+  );
   const sorted = [...rows].sort((a, b) => valOf(b) - valOf(a));
   const shown = all ? sorted : sorted.slice(0, 15);
   const items = shown.map((r) => { const v = valOf(r); return { key: r.insurer, label: r.insurer, value: v, title: shortName(r.insurer) + " \u00B7 " + (isPctM ? pct(v) : inr(v)) }; });
@@ -441,7 +458,7 @@ function Compare({ rows, ctx, onOpenInfo, isInfoOpen }) {
 
   const W = 820, H = 392, padL = 48, padR = 14, padT = 16, padB = 40;
   const plotW = W - padL - padR, plotH = H - padT - padB;
-  const valAt = (name, key) => ctx.getValue(clean(name), key) || 0;
+  const valAt = (name, key) => ctx.getValue(canonicalInsurer(name), key) || 0;
   const maxVal = Math.max(...COMPARE_SEGS.flatMap(([k]) => chosen.map((c) => valAt(c, k))), 1);
   const top = niceMax(maxVal);
   const bandW = plotW / COMPARE_SEGS.length;
@@ -455,7 +472,7 @@ function Compare({ rows, ctx, onOpenInfo, isInfoOpen }) {
       <div style={{ position: "relative" }}>
         <svg viewBox={"0 0 " + W + " " + H} style={{ width: "100%", height: "auto", overflow: "visible" }} role="img" aria-label="Grouped bar chart">
           <defs>{SERIES.map((c, i) => <linearGradient key={i} id={"ixg" + i} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={c} stopOpacity="0.95" /><stop offset="100%" stopColor={c} stopOpacity="0.6" /></linearGradient>)}</defs>
-          {Array.from({ length: 5 }).map((_, i) => { const val = (top / 4) * i; const y = padT + plotH - (val / top) * plotH; return (<g key={i}><line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" /><text x={padL - 9} y={y + 3.5} textAnchor="end" fontSize="10" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{axisFmt(val)}</text></g>); })}
+          {Array.from({ length: 5 }).map((_, i) => { const val = (top / 4) * i; const y = padT + plotH - (val / top) * plotH; return (<g key={i}><line x1={padL} y1={y} x2={W - padR} y2={y} stroke="rgba(255,255,255,.055)" /><text x={padL - 9} y={y + 3.5} textAnchor="end" fontSize="10.5" fill="#56534C" fontFamily="'Hanken Grotesk',sans-serif" style={{ fontVariantNumeric: "tabular-nums" }}>{axisFmt(val)}</text></g>); })}
           {COMPARE_SEGS.map(([key, label], si) => {
             const bx = padL + si * bandW; const startX = bx + (bandW - barW * nSeries) / 2;
             return (<g key={key}>
@@ -481,16 +498,16 @@ function Segments({ rows, segments, ctx, onOpenInfo, isInfoOpen }) {
   const avail = MAIN_SEGS.filter((s) => segments.includes(s));
   const [sname, setSname] = useState(avail[0] || "Motor Total");
   const [all, setAll] = useState(false);
-  const valOf = (r) => ctx.getValue(clean(r.insurer), sname) || 0;
+  const valOf = (r) => ctx.getValue(canonicalInsurer(r.insurer), sname) || 0;
   const ranked = [...rows].filter((r) => valOf(r) > 0).sort((a, b) => valOf(b) - valOf(a));
   const total = ranked.reduce((a, r) => a + valOf(r), 0);
   const picker = <div className="ix-seg" style={{ flexWrap: "wrap", marginBottom: 22 }}>{avail.map((s) => <button key={s} data-active={sname === s} onClick={() => { setSname(s); setAll(false); }}>{s}</button>)}</div>;
 
   if (ctx.chartType === "line") {
-    const top = ranked.slice(0, 6);
+    const top = ranked.slice(0, 4);
     const series = seriesForMetric(ctx, top.map((r) => r.insurer), sname);
     return (<div>
-      <p className="ix-charth">Monthly {sname} premium over time \u00B7 top six insurers<InfoButton info={INFO.segments} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
+      <p className="ix-charth">Monthly {sname} premium over time \u00B7 top four insurers<InfoButton info={INFO.segments} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
       {picker}
       <Legend series={series} />
       <MultiLineChart series={series} axisMonths={ctx.lineMonths} />
@@ -534,7 +551,7 @@ function Micro({ month, group, onOpenInfo, isInfoOpen }) {
     </div>
     {withTotal.length === 0 ? <p style={{ color: "var(--muted2)", fontSize: 13 }}>No data for this segment in {month.label}.</p> : withTotal.map((r) => (
       <div key={r.insurer} className="ix-row" style={{ padding: "11px 0" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 7 }}><span style={{ color: "var(--ivory)", fontSize: 13.5 }}>{r.insurer}</span><span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 14, color: "var(--muted)" }}>{inr(r._t)}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 7 }}><span style={{ color: "var(--ivory)", fontSize: 13.5 }}>{displayInsurer(r.insurer)}</span><span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 14, color: "var(--muted)" }}>{inr(r._t)}</span></div>
         <div style={{ display: "flex", height: 11, borderRadius: 3, overflow: "hidden", background: "rgba(255,255,255,.045)" }}>{cfg.parts.map((p, i) => { const w = r._t > 0 ? ((r.current[p[0]] || 0) / r._t) * 100 : 0; return <div key={p[0]} title={p[1] + ": " + inr(r.current[p[0]]) + " (" + w.toFixed(0) + "%)"} style={{ width: w + "%", background: SERIES[i % 4] }} />; })}</div>
       </div>
     ))}
@@ -553,16 +570,16 @@ function Stat({ label, value, sub, delta }) {
 }
 function Intelligence({ rows, ctx, onOpenInfo, isInfoOpen }) {
   if (ctx.lineMonths.length < 3) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Select at least three months (use Range) to generate projections.<InfoButton info={INFO.intelligence} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>;
-  const top = [...rows].map((r) => ({ r, v: ctx.getValue(clean(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v).slice(0, 12);
+  const top = [...rows].map((r) => ({ r, v: ctx.getValue(canonicalInsurer(r.insurer), "Grand Total") || 0 })).sort((a, b) => b.v - a.v).slice(0, 12);
   return (<div>
     <p className="ix-charth" style={{ marginBottom: 8 }}>Weighted projection and prediction accuracy{ctx.isRange ? " \u00B7 selected window" : ""}<InfoButton info={INFO.intelligence} onOpen={onOpenInfo} isOpen={isInfoOpen} /></p>
     <p style={{ color: "var(--muted2)", fontSize: 11.5, marginBottom: 24, lineHeight: 1.5 }}>The projection is for the month after your selected window, using a weighted moving average of monthly premium. Where that month's actual exists, it is compared. Directional only.</p>
     {top.map(({ r }) => {
-      const I = computeIntel(ctx.monthsAsc, ctx.winSet, clean(r.insurer));
+      const I = computeIntel(ctx.monthsAsc, ctx.winSet, canonicalInsurer(r.insurer));
       if (!I) return null;
       return (<div key={r.insurer} style={{ padding: "16px 12px", borderTop: "1px solid var(--line)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12, gap: 12 }}>
-          <span style={{ color: "var(--ivory)", fontSize: 14 }}>{r.insurer}</span>
+          <span style={{ color: "var(--ivory)", fontSize: 14 }}>{displayInsurer(r.insurer)}</span>
           <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontVariantNumeric: "tabular-nums", fontSize: 14, color: "var(--muted)" }}>{inr(I.lastActual)}<span style={{ fontSize: 10.5, color: "var(--muted2)" }}> {I.lastLabel}</span></span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 12 }}>

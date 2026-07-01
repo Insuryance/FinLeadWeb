@@ -74,7 +74,7 @@ export default function InsightPage() {
     <div className="fl-root" style={{ position: "relative", zIndex: 1 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px 96px", position: "relative", zIndex: 10 }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "118px 24px 96px", position: "relative", zIndex: 10 }}>
         {/* back link */}
         <a href="/" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>&larr; FinLead AI</a>
 

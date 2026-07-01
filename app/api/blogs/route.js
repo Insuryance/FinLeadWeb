@@ -1,28 +1,22 @@
-import { saveBlog } from "../../../lib/blogs";
+import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
+import { createPost, getAllPosts } from "../../../lib/blogStore";
 
 export const runtime = "nodejs";
 
-export async function POST(req) {
-  try {
-    const body = await req.json();
-    const tags = String(body.tags || "")
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter(Boolean);
-
-    const post = saveBlog({
-      title: body.title,
-      slug: body.slug,
-      excerpt: body.excerpt,
-      content: body.content,
-      author: body.author,
-      status: body.status,
-      tags,
-    });
-
-    return Response.json({ ok: true, post });
-  } catch (error) {
-    return Response.json({ ok: false, error: error.message || "Could not save blog." }, { status: 400 });
-  }
+export async function GET() {
+  const posts = await getAllPosts();
+  return NextResponse.json({ posts });
 }
 
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    const post = await createPost(body);
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${post.slug}`);
+    return NextResponse.json({ post }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: error.message || "Could not publish blog." }, { status: 400 });
+  }
+}

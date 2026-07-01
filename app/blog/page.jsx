@@ -1,49 +1,65 @@
 import Link from "next/link";
-import { listBlogs } from "../../lib/blogs";
+import { getAllPosts } from "../../lib/blogStore";
 
 export const metadata = {
   title: "FinLead AI Blog",
-  description: "Notes, product updates, and insurance operations insights from FinLead AI.",
+  description: "Thoughts and updates from FinLead AI.",
 };
 
-function fmt(date) {
-  if (!date) return "Draft";
-  return new Date(date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+function formatDate(value) {
+  try {
+    return new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  } catch {
+    return value;
+  }
 }
 
-export default function BlogIndexPage() {
-  const posts = listBlogs().filter((post) => post.status === "published");
+function preview(content) {
+  return content.replace(/\s+/g, " ").trim().slice(0, 180) + (content.length > 180 ? "…" : "");
+}
+
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
-    <div className="fl-root" style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 24px 96px", position: "relative", zIndex: 10 }}>
-        <Link href="/" style={{ color: "var(--muted)", fontSize: 13 }}>&larr; FinLead AI</Link>
-        <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 14 }}>FinLead AI · Blog</p>
-        <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.08, letterSpacing: "-.02em", margin: 0 }}>
-          Notes from the team building <span className="fl-gold-grad">insurance AI agents.</span>
-        </h1>
-        <p className="fl-muted" style={{ fontSize: 17, lineHeight: 1.7, maxWidth: "62ch", marginTop: 22 }}>
-          Product updates, insurance operations insights, and thinking from FinLead AI.
-        </p>
-
-        <div style={{ display: "grid", gap: 18, marginTop: 36 }}>
-          {posts.length === 0 ? (
-            <div className="fl-glass" style={{ padding: 28 }}>
-              <div style={{ color: "var(--ivory)", fontSize: 18 }}>No published posts yet.</div>
-              <div className="fl-muted" style={{ marginTop: 10, fontSize: 14 }}>Visit the hidden admin route to create the first one.</div>
-            </div>
-          ) : posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="fl-glass" style={{ padding: 24, display: "block" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-                <div>
-                  <div style={{ color: "var(--ivory)", fontSize: 28, lineHeight: 1.15 }} className="fl-serif">{post.title}</div>
-                </div>
-                <div className="fl-muted" style={{ fontSize: 13, whiteSpace: "nowrap" }}>{fmt(post.publishedAt)}</div>
-              </div>
-            </Link>
-          ))}
+    <main style={{ minHeight: "100vh", background: "#08080A", color: "#F4F1EA", padding: "118px 24px 72px" }}>
+      <div style={{ maxWidth: 980, margin: "0 auto" }}>
+        <div style={{ marginBottom: 32 }}>
+          <p className="fl-eyebrow" style={{ marginBottom: 14 }}>Blog</p>
+          <h1 className="fl-serif" style={{ fontSize: "clamp(34px,5vw,56px)", lineHeight: 1.05, margin: 0 }}>Insights from FinLead AI</h1>
+          <p className="fl-muted" style={{ maxWidth: 680, marginTop: 16, fontSize: 17 }}>
+            Notes on insurance operations, AI workflows, and what we are learning while building FinLead.
+          </p>
         </div>
+
+        {posts.length === 0 ? (
+          <div className="fl-glass" style={{ padding: 28, borderRadius: 22 }}>
+            <p style={{ margin: 0, fontSize: 16, color: "var(--muted)" }}>No posts published yet.</p>
+          </div>
+        ) : (
+          <div style={{ display: "grid", gap: 18 }}>
+            {posts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="fl-glass"
+                style={{ display: "block", padding: 24, borderRadius: 22, transition: "transform .25s ease, border-color .25s ease" }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
+                  <div style={{ flex: "1 1 560px" }}>
+                    <h2 className="fl-serif" style={{ fontSize: 28, lineHeight: 1.15, margin: "0 0 10px" }}>{post.title}</h2>
+                    <p className="fl-muted" style={{ margin: 0, fontSize: 15.5 }}>{preview(post.content)}</p>
+                  </div>
+                  <div style={{ minWidth: 160, textAlign: "right" }}>
+                    <div style={{ color: "var(--gold)", fontSize: 13, marginBottom: 6 }}>{formatDate(post.publishedAt)}</div>
+                    <div style={{ color: "var(--muted)", fontSize: 14 }}>{post.author}</div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </main>
   );
 }

@@ -2,159 +2,130 @@
 
 import React, { useMemo, useState } from "react";
 
-const initialForm = {
-  title: "",
-  slug: "",
-  excerpt: "",
-  content: "",
-  author: "FinLead AI",
-  tags: "",
-  status: "published",
-};
-
-function slugify(input) {
-  return String(input || "")
+function makeSlug(value) {
+  return String(value || "")
     .toLowerCase()
-    .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 80);
 }
 
 export default function BlogAdminPage() {
-  const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState({ kind: "idle", message: "" });
-  const [savedPost, setSavedPost] = useState(null);
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("FinLead AI");
+  const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10));
+  const [coverImage, setCoverImage] = useState("");
+  const [content, setContent] = useState("");
+  const [status, setStatus] = useState({ type: "", message: "" });
+  const [publishing, setPublishing] = useState(false);
 
-  const effectiveSlug = useMemo(() => slugify(form.slug || form.title), [form.slug, form.title]);
-  const previewJson = useMemo(() => JSON.stringify({
-    slug: effectiveSlug,
-    title: form.title,
-    excerpt: form.excerpt,
-    content: form.content,
-    author: form.author,
-    tags: form.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
-    status: form.status,
-  }, null, 2), [effectiveSlug, form]);
+  const slugPreview = useMemo(() => makeSlug(title), [title]);
 
-  const update = (key) => (e) => setForm((curr) => ({ ...curr, [key]: e.target.value }));
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setPublishing(true);
+    setStatus({ type: "", message: "" });
 
-  async function submit(e) {
-    e.preventDefault();
-    setStatus({ kind: "saving", message: "Saving post…" });
-    setSavedPost(null);
     try {
-      const res = await fetch("/api/blogs", {
+      const response = await fetch("/api/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, slug: effectiveSlug }),
+        body: JSON.stringify({ title, author, publishedAt, coverImage, content }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "Could not save blog.");
-      setSavedPost(data.post);
-      setStatus({ kind: "done", message: `Saved ${data.post.slug}.json into data/blogs/.` });
-    } catch (error) {
-      setStatus({ kind: "error", message: error.message || "Could not save blog." });
-    }
-  }
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not publish blog.");
 
-  const field = {
-    width: "100%",
-    padding: "12px 14px",
-    borderRadius: 10,
-    background: "#08080A",
-    color: "#F4F1EA",
-    border: "1px solid rgba(255,255,255,0.12)",
-    fontSize: 14,
-    fontFamily: "inherit",
+      setStatus({ type: "success", message: `Published at /blog/${result.post.slug}` });
+      setTitle("");
+      setAuthor("FinLead AI");
+      setPublishedAt(new Date().toISOString().slice(0, 10));
+      setCoverImage("");
+      setContent("");
+    } catch (error) {
+      setStatus({ type: "error", message: error.message });
+    } finally {
+      setPublishing(false);
+    }
   };
-  const label = { color: "#928E84", fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8, display: "block" };
+
+  const box = { background: "#131317", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 18, padding: 22 };
+  const label = { display: "block", color: "#928E84", fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 };
+  const input = { width: "100%", padding: "12px 14px", borderRadius: 12, background: "#08080A", color: "#F4F1EA", border: "1px solid rgba(255,255,255,0.12)", fontSize: 15, fontFamily: "inherit" };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#08080A", color: "#F4F1EA", padding: "48px 20px", fontFamily: "'Hanken Grotesk', system-ui, sans-serif" }}>
-      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-        <div style={{ maxWidth: 720, marginBottom: 26 }}>
-          <div style={{ color: "#B6975C", fontSize: 12, letterSpacing: ".16em", textTransform: "uppercase", marginBottom: 12 }}>Hidden route · /blog/admin</div>
-          <h1 style={{ fontSize: 34, lineHeight: 1.1, margin: 0, fontWeight: 500 }}>Blog admin</h1>
-          <p style={{ color: "#928E84", fontSize: 15, lineHeight: 1.7, marginTop: 14 }}>
-            Create or update blog posts here. Each save writes a JSON file directly into <code>data/blogs/</code> in this repo.
+    <main style={{ minHeight: "100vh", background: "#08080A", color: "#F4F1EA", padding: "118px 24px 72px" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <div style={{ marginBottom: 28 }}>
+          <p className="fl-eyebrow" style={{ marginBottom: 14 }}>Internal</p>
+          <h1 className="fl-serif" style={{ fontSize: "clamp(34px,5vw,52px)", lineHeight: 1.05, margin: 0 }}>Blog publisher</h1>
+          <p className="fl-muted" style={{ marginTop: 14, fontSize: 16 }}>
+            This page is available only at <code>/blog/admin</code>. Publishing writes the post into <code>data/blogs.json</code> in this repo.
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(320px,.8fr)", gap: 22, alignItems: "start" }}>
-          <form onSubmit={submit} style={{ background: "#131317", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: 22 }}>
-            <div style={{ display: "grid", gap: 18 }}>
-              <div>
-                <label style={label}>Title</label>
-                <input value={form.title} onChange={update("title")} placeholder="A clear blog title" style={field} />
-              </div>
-              <div>
-                <label style={label}>Slug</label>
-                <input value={form.slug} onChange={update("slug")} placeholder="Optional — auto-generated if blank" style={field} />
-                <div style={{ color: "#928E84", fontSize: 12, marginTop: 8 }}>Final slug: <code>{effectiveSlug || "generated-from-title"}</code></div>
-              </div>
-              <div>
-                <label style={label}>Excerpt</label>
-                <textarea value={form.excerpt} onChange={update("excerpt")} rows={3} placeholder="Short summary for the blog index page" style={{ ...field, resize: "vertical" }} />
-              </div>
-              <div>
-                <label style={label}>Content</label>
-                <textarea value={form.content} onChange={update("content")} rows={14} placeholder="Write the blog body here…" style={{ ...field, resize: "vertical", lineHeight: 1.7 }} />
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 16 }}>
-                <div>
-                  <label style={label}>Author</label>
-                  <input value={form.author} onChange={update("author")} style={field} />
-                </div>
-                <div>
-                  <label style={label}>Status</label>
-                  <select value={form.status} onChange={update("status")} style={field}>
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label style={label}>Tags</label>
-                <input value={form.tags} onChange={update("tags")} placeholder="insurance ops, product, reconciliation" style={field} />
-              </div>
-
-              <button
-                type="submit"
-                style={{
-                  padding: "14px 18px",
-                  borderRadius: 999,
-                  border: "none",
-                  cursor: "pointer",
-                  background: "linear-gradient(135deg,#ECDDB4,#B6975C)",
-                  color: "#1b1505",
-                  fontWeight: 700,
-                  fontSize: 15,
-                }}
-              >
-                {status.kind === "saving" ? "Saving…" : "Save blog JSON"}
-              </button>
-
-              {status.kind !== "idle" && (
-                <div style={{ color: status.kind === "error" ? "#FF7E7E" : status.kind === "done" ? "#6FCF7F" : "#F4F1EA", fontSize: 14 }}>
-                  {status.message}
-                </div>
-              )}
-              {savedPost && (
-                <div style={{ color: "#928E84", fontSize: 13, lineHeight: 1.7 }}>
-                  Saved file: <code>data/blogs/{savedPost.slug}.json</code><br />
-                  Public URL: <code>/blog/{savedPost.slug}</code> {savedPost.status === "draft" ? "(drafts are hidden from the public list)" : ""}
-                </div>
-              )}
-            </div>
-          </form>
-
-          <div style={{ background: "#131317", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: 22, position: "sticky", top: 24 }}>
-            <div style={{ color: "#928E84", fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 12 }}>JSON preview</div>
-            <pre style={{ margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-word", color: "#F4F1EA", fontSize: 12.5, lineHeight: 1.65 }}>{previewJson}</pre>
+        <form onSubmit={onSubmit} style={{ display: "grid", gap: 18 }}>
+          <div style={box}>
+            <label style={label}>Title</label>
+            <input value={title} onChange={(event) => setTitle(event.target.value)} style={input} placeholder="How AI agents can improve insurance payouts" />
           </div>
-        </div>
+
+          <div style={{ display: "grid", gap: 18, gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))" }}>
+            <div style={box}>
+              <label style={label}>Author</label>
+              <input value={author} onChange={(event) => setAuthor(event.target.value)} style={input} placeholder="FinLead AI" />
+            </div>
+            <div style={box}>
+              <label style={label}>Publish date</label>
+              <input type="date" value={publishedAt} onChange={(event) => setPublishedAt(event.target.value)} style={input} />
+            </div>
+          </div>
+
+          <div style={box}>
+            <label style={label}>Cover image URL</label>
+            <input value={coverImage} onChange={(event) => setCoverImage(event.target.value)} style={input} placeholder="https://…" />
+          </div>
+
+          <div style={box}>
+            <label style={label}>Slug preview</label>
+            <div style={{ color: "#D9C9A3", fontSize: 15 }}>{slugPreview || "starts-after-you-add-a-title"}</div>
+          </div>
+
+          <div style={box}>
+            <label style={label}>Content</label>
+            <textarea
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+              rows={16}
+              style={{ ...input, resize: "vertical", lineHeight: 1.7 }}
+              placeholder={"Write the full post here.\n\nUse blank lines between paragraphs.\nUse # or ## for headings if you want simple sections."}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={publishing}
+            style={{
+              width: "100%",
+              padding: "15px",
+              borderRadius: 999,
+              border: "none",
+              cursor: publishing ? "wait" : "pointer",
+              background: "linear-gradient(135deg,#ECDDB4,#B6975C)",
+              color: "#1b1505",
+              fontWeight: 700,
+              fontSize: 15,
+            }}
+          >
+            {publishing ? "Publishing…" : "Publish blog"}
+          </button>
+
+          {status.message ? (
+            <p style={{ margin: 0, color: status.type === "error" ? "#FF8A8A" : "#6FCF7F", fontSize: 14 }}>
+              {status.message}
+            </p>
+          ) : null}
+        </form>
       </div>
-    </div>
+    </main>
   );
 }

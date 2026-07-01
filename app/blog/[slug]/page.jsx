@@ -1,46 +1,64 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getBlog, listBlogs } from "../../../lib/blogs";
+import { getAllPosts, getPostBySlug } from "../../../lib/blogStore";
 
 export async function generateStaticParams() {
-  return listBlogs().map((post) => ({ slug: post.slug }));
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }) {
-  const post = getBlog(params.slug);
-  if (!post) return {};
+  const post = await getPostBySlug(params.slug);
+  if (!post) return { title: "Blog not found" };
   return {
     title: `${post.title} | FinLead AI Blog`,
-    description: post.excerpt,
+    description: post.content.replace(/\s+/g, " ").trim().slice(0, 150),
   };
 }
 
-function fmt(date) {
-  if (!date) return "Draft";
-  return new Date(date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+function formatDate(value) {
+  try {
+    return new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+  } catch {
+    return value;
+  }
 }
 
-export default function BlogPostPage({ params }) {
-  const post = getBlog(params.slug);
-  if (!post || post.status !== "published") notFound();
+function renderBlocks(content) {
+  return content
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((block, index) => {
+      if (block.startsWith("## ")) return <h2 key={index} className="fl-serif" style={{ fontSize: 30, margin: "34px 0 12px" }}>{block.slice(3)}</h2>;
+      if (block.startsWith("# ")) return <h2 key={index} className="fl-serif" style={{ fontSize: 34, margin: "38px 0 14px" }}>{block.slice(2)}</h2>;
+      return <p key={index} style={{ margin: "0 0 18px", color: "var(--muted)", fontSize: 17, lineHeight: 1.8 }}>{block}</p>;
+    });
+}
+
+export default async function BlogPostPage({ params }) {
+  const post = await getPostBySlug(params.slug);
+  if (!post) notFound();
 
   return (
-    <div className="fl-root" style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
-      <div style={{ maxWidth: 780, margin: "0 auto", padding: "72px 24px 96px", position: "relative", zIndex: 10 }}>
-        <Link href="/blog" style={{ color: "var(--muted)", fontSize: 13 }}>&larr; All posts</Link>
-        <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 14 }}>FinLead AI · Blog</p>
-        <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(34px,5vw,56px)", lineHeight: 1.08, letterSpacing: "-.02em", margin: 0 }}>
-          {post.title}
-        </h1>
-        <div className="fl-muted" style={{ marginTop: 18, fontSize: 14 }}>
-          {fmt(post.publishedAt)} · {post.author}
+    <main style={{ minHeight: "100vh", background: "#08080A", color: "#F4F1EA", padding: "118px 24px 72px" }}>
+      <article style={{ maxWidth: 820, margin: "0 auto" }}>
+        <a href="/blog" style={{ display: "inline-block", marginBottom: 18, color: "var(--muted)", fontSize: 14 }}>← Back to blog</a>
+        <p className="fl-eyebrow" style={{ marginBottom: 14 }}>FinLead AI Blog</p>
+        <h1 className="fl-serif" style={{ fontSize: "clamp(36px,5vw,60px)", lineHeight: 1.04, margin: 0 }}>{post.title}</h1>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 18, marginBottom: 28, color: "var(--muted)", fontSize: 15 }}>
+          <span>{post.author}</span>
+          <span>•</span>
+          <span>{formatDate(post.publishedAt)}</span>
         </div>
-        <div className="fl-glass" style={{ padding: "30px 28px", marginTop: 28 }}>
-          <div style={{ color: "var(--ivory)", fontSize: 16, lineHeight: 1.85, whiteSpace: "pre-wrap" }}>
-            {post.content}
-          </div>
-        </div>
-      </div>
-    </div>
+        {post.coverImage ? (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            style={{ width: "100%", display: "block", borderRadius: 24, marginBottom: 30, border: "1px solid var(--line)" }}
+          />
+        ) : null}
+        <div>{renderBlocks(post.content)}</div>
+      </article>
+    </main>
   );
 }
