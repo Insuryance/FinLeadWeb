@@ -63,7 +63,11 @@ function inr(n) {
 
 /* ---------- Live, self-updating console ---------- */
 const POOL = ["Meridian Life", "Northgate General", "Beacon Health", "Atlas Health", "Crestpoint Specialty", "Sequoia Mutual", "Harborview P&C"];
-const MONTHS = ["Mar'26", "Apr'26", "May'26", "Jun'26"];
+const MON3 = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS = Array.from({ length: 4 }, (_, k) => {
+  const d = new Date(); d.setMonth(d.getMonth() - (3 - k));
+  return `${MON3[d.getMonth()]}'${String(d.getFullYear()).slice(2)}`;
+});
 const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
 const mkAmt = () => rnd(15, 145) * 1000 + rnd(0, 9) * 100;
 const REASONS = {
@@ -95,9 +99,16 @@ function LiveConsole() {
         let updated;
         if (r.status === "processing") {
           const flagged = Math.random() < 0.35;
-          const reconciled = flagged ? r.expected - rnd(2, 15) * 1000 : r.expected;
-          updated = { ...r, reconciled, status: flagged ? "flagged" : "matched",
-            reason: flagged ? `Variance of ${inr(r.expected - reconciled)} detected — suspected grid/rate mismatch. Held for review.` : REASONS.matched, flash: true };
+          let reconciled = r.expected, reason = REASONS.matched;
+          if (flagged) {
+            const over = Math.random() < 0.25; // 1 in 4 flags is an overpayment
+            const variance = Math.max(100, Math.round(r.expected * (rnd(5, 80) / 1000) / 100) * 100); // 0.5%–8%, rounded to $100
+            reconciled = over ? r.expected + variance : r.expected - variance;
+            reason = over
+              ? `Overpayment of ${inr(variance)} detected — suspected duplicate line item. Held for clawback review.`
+              : `Variance of ${inr(variance)} detected — suspected withholding/rate mismatch. Held for review.`;
+          }
+          updated = { ...r, reconciled, status: flagged ? "flagged" : "matched", reason, flash: true };
         } else {
           updated = mkRow();
         }
@@ -668,7 +679,7 @@ useEffect(() => {
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif fl-trust" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-          <span>"78,000+ policies processed monthly </span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
+          <span>78,000+ policies processed monthly </span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
         </div>
       </section>
 
