@@ -62,10 +62,10 @@ function inr(n) {
 }
 
 /* ---------- Live, self-updating console ---------- */
-const POOL = ["Meridian Life", "Northgate General", "EFG Health Insurance", "Atlas Health", "Crestpoint Specialty", "Allstate Insurance", "Prudential Insurance"];
+const POOL = ["Meridian Life", "Northgate General", "Beacon Health", "Atlas Health", "Crestpoint Specialty", "Sequoia Mutual", "Harborview P&C"];
 const MONTHS = ["Mar'26", "Apr'26", "May'26", "Jun'26"];
 const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
-const mkAmt = () => rnd(40, 150) * 10000 + rnd(0, 99) * 100;
+const mkAmt = () => rnd(15, 145) * 1000 + rnd(0, 9) * 100;
 const REASONS = {
   matched: "Reconciled against the carrier statement. No variance found.",
   processing: "Agent is extracting and matching the carrier statement…",
@@ -79,11 +79,11 @@ function LiveConsole() {
     check(); window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-  const [rows, setRows] = useState([
-    { name: "NorthGate General · Apr'26", expected: $12400, reconciled: $12400, status: "matched", reason: REASONS.matched, id: 1 },
-    { name: "Meridian Life· Apr'26", expected: $58020, reconciled: $56790, status: "flagged", reason: "Variance of $1230 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
-    { name: "Atlas Health · Apr'26", expected: $71394, reconciled: $71394, status: "matched", reason: REASONS.matched, id: 3 },
-    { name: "Crestpoint Specialty· Apr'26", expected: $33749, reconciled: null, status: "processing", reason: REASONS.processing, id: 4 },
+ const [rows, setRows] = useState([
+    { name: "Northgate General · Apr'26", expected: 124000, reconciled: 124000, status: "matched", reason: REASONS.matched, id: 1 },
+    { name: "Meridian Life · Apr'26", expected: 58020, reconciled: 56790, status: "flagged", reason: "Variance of $1,230 detected — suspected withholding/rate mismatch on tier 2. Held for review.", id: 2 },
+    { name: "Atlas Health · Apr'26", expected: 71394, reconciled: 71394, status: "matched", reason: REASONS.matched, id: 3 },
+    { name: "Crestpoint Specialty · Apr'26", expected: 33749, reconciled: null, status: "processing", reason: REASONS.processing, id: 4 },
   ]);
   const [hover, setHover] = useState(null);
 
@@ -157,9 +157,8 @@ function LiveConsole() {
 /* ---------- Second live demo: Agent Onboarding feed ---------- */
 const ONB_NAMES = ["Agent 1", "Agent 2", "Agent 3", "Agent 4", "Agent 5", "Agent 6", "Agent 7", "Agent 8", "Agent 9", "Agent 10"];
 const ONB_STAGES = [
-  "Validation of documents/KYC",
-  "Licence verification",
-  "State Licence Verification",
+  "Document & identity verification",
+  "State licence verification",
   "Producer exam status",
   "Agreement e-sign",
   "Activation",
@@ -185,8 +184,7 @@ function OnboardConsole() {
   }, []);
   const [rows, setRows] = useState([
     { name: "Agent 1", stage: "Activation", stageIdx: 4, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", id: 1 },
-    { name: "Agent 2", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the state registry. Held for manual review.", id: 2 },
-    { name: "Agent 3", stage: "Producer exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming Producer certification and exam completion.", id: 3 },
+    { name: "Agent 2", stage: "State licence verification", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the state registry. Held for manual review.", id: 2 },    { name: "Agent 3", stage: "Producer exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming Producer certification and exam completion.", id: 3 },
     { name: "Agent 4", stage: "Agreement e-sign", stageIdx: 3, status: "cleared", reason: "Stage cleared. Awaiting the next step in onboarding.", id: 4 },
   ]);
   const [hover, setHover] = useState(null);
@@ -197,7 +195,7 @@ function OnboardConsole() {
         const r = prev[i];
         let updated;
         if (r.status === "activated" || r.status === "flagged") {
-          updated = { ...mkOnb(), reason: "Agent is confirming PAN & Aadhaar against KYC records." };
+          updated = { ...mkOnb(), reason: "Agent is verifying identity documents against KYC records." };
         } else if (r.stageIdx >= ONB_STAGES.length - 1) {
           updated = { ...r, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", flash: true };
         } else {
@@ -244,7 +242,7 @@ function OnboardConsole() {
           <div className={`fl-row${r.flash ? " fl-rowflash" : ""}`} key={r.id}>
            <span style={{ color: "var(--ivory)" }}>{r.name}</span>
             <span className="fl-muted">{r.stage}</span>
-            <span style={{ color: "var(--muted2)" }}>{r.stageIdx + 1}/5</span>
+            <span style={{ color: "var(--muted2)" }}>{r.stageIdx + 1}/{ONB_STAGES.length}</span>
             <span style={{ position: "relative", overflow: "visible" }} onMouseEnter={() => setHover(r.id)} onMouseLeave={() => setHover(null)} onClick={() => setHover(hover === r.id ? null : r.id)}>
               <span className="fl-pill" style={{ ...pillStyle(r.status), cursor: "pointer" }}>{(r.status === "activated" || r.status === "cleared") && <Check size={11} style={{ display: "inline", marginRight: 3 }} />}{r.status}</span>
               {hover === r.id && r.reason && (
@@ -338,8 +336,8 @@ const QA = [
     a: "Yes! You can, its easy, our AI Agents get integrated to any software with just a simple backend integration. Any software whether it be external or internally built is nothing but a deployment playground for our AI Agents." },
 { q: "Is my data is stored or taken by these AI Agents?", keys: ["store", "data", "privacy", "theft"],
     a: "No. As our AI Agents have already been stress tested for data compliance and security aspect they see no value to your data points. In general - they're data blind." },
-{ q: "Are your Agents compliant?", keys: ["compliance", "compliant", "dpdp", "privacy"],
-    a: "Yes. Our Agents follow DPDP rigorously and are compliant with the latest DPDP and IT Act along with IRDAI compliances." },
+{ q: "Are your Agents compliant?", keys: ["compliance", "compliant", "dpdp", "gdpr", "privacy", "regulation"],
+    a: "Yes. Our agents are built to operate within the regulatory regimes of the markets they serve, including data protection frameworks such as GDPR and DPDP, and local insurance regulations. Every action is logged in a full audit trail, so compliance teams can inspect exactly what an agent did and why." },
   { q: "How do I get started?", keys: ["start", "started", "demo", "begin", "pilot", "contact"],
     a: `The fastest way is to book a demo or email the founders directly at surya@finleadai.com. They'll scope a demo call around your highest-volume workflow.` },
   { q: "Are your Agents compliant?", keys: ["compliance", "compliant", "dpdp", "privacy"],
@@ -501,7 +499,7 @@ function PartnerModal({ open, onClose }) {
     if (!form.email || !form.company) { setStatus("need"); return; }
     setStatus("sending");
     try {
-      const res = await fetch("https://formspree.io/f/YOUR_PARTNER_FORM_ID", {
+      const res = await fetch("hhttps://formspree.io/f/xkoedvda", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ type: "partner_inquiry", company: form.company, name: form.name, role: form.role, email: form.email, product: form.product, use_case: form.usecase }),
