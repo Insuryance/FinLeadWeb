@@ -58,11 +58,11 @@ function inr(n) {
   const last3 = s.slice(-3);
   let rest = s.slice(0, -3);
   if (rest) rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-  return "₹" + (rest ? rest + "," : "") + last3;
+  return "$" + (rest ? rest + "," : "") + last3;
 }
 
 /* ---------- Live, self-updating console ---------- */
-const POOL = ["ABC Life", "XYZ General Insurance", "EFG Health Insurance", "PQR General Insurance", "LMN Life", "RST General Insurance", "UVW Health Insurance"];
+const POOL = ["Meridian Life", "Northgate General", "EFG Health Insurance", "Atlas Health", "Crestpoint Specialty", "Allstate Insurance", "Prudential Insurance"];
 const MONTHS = ["Mar'26", "Apr'26", "May'26", "Jun'26"];
 const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
 const mkAmt = () => rnd(40, 150) * 10000 + rnd(0, 99) * 100;
@@ -81,7 +81,7 @@ function LiveConsole() {
   }, []);
   const [rows, setRows] = useState([
     { name: "ABC Life · Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", reason: REASONS.matched, id: 1 },
-    { name: "XYZ General Insurance · Apr'26", expected: 815200, reconciled: 802900, status: "flagged", reason: "Variance of ₹12,300 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
+    { name: "XYZ General Insurance · Apr'26", expected: 815200, reconciled: 802900, status: "flagged", reason: "Variance of $12,300 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
     { name: "EFG Health Insurance · Apr'26", expected: 490000, reconciled: 490000, status: "matched", reason: REASONS.matched, id: 3 },
     { name: "PQR General Insurance · Apr'26", expected: 672300, reconciled: null, status: "processing", reason: REASONS.processing, id: 4 },
   ]);
@@ -157,9 +157,10 @@ function LiveConsole() {
 /* ---------- Second live demo: Agent Onboarding feed ---------- */
 const ONB_NAMES = ["Agent 1", "Agent 2", "Agent 3", "Agent 4", "Agent 5", "Agent 6", "Agent 7", "Agent 8", "Agent 9", "Agent 10"];
 const ONB_STAGES = [
-  "KYC: PAN & Aadhaar",
-  "IRDAI licence check",
-  "PoSP exam status",
+  "Validation of documents/KYC",
+  "Licence verification",
+  "State Licence Verification",
+  "Producer exam status",
   "Agreement e-sign",
   "Activation",
 ];
@@ -184,8 +185,8 @@ function OnboardConsole() {
   }, []);
   const [rows, setRows] = useState([
     { name: "Agent 1", stage: "Activation", stageIdx: 4, status: "activated", reason: "All checks passed. Producer activated and ready to transact.", id: 1 },
-    { name: "Agent 2", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the IRDAI registry. Held for manual review.", id: 2 },
-    { name: "Agent 3", stage: "PoSP exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming PoSP certification and exam completion.", id: 3 },
+    { name: "Agent 2", stage: "IRDAI licence check", stageIdx: 1, status: "flagged", reason: "Licence number could not be verified against the state registry. Held for manual review.", id: 2 },
+    { name: "Agent 3", stage: "Producer exam status", stageIdx: 2, status: "verifying", reason: "Agent is confirming Producer certification and exam completion.", id: 3 },
     { name: "Agent 4", stage: "Agreement e-sign", stageIdx: 3, status: "cleared", reason: "Stage cleared. Awaiting the next step in onboarding.", id: 4 },
   ]);
   const [hover, setHover] = useState(null);
@@ -269,13 +270,13 @@ const SUITES = [
   {
     icon: Landmark, name: "Finance Ops", tag: "Agents that close the books.",
     items: [
-      ["Commission Reconciliation", "Match statements across carriers, flag tax and rate mismatches, and reconcile to the last rupee - no analyst, no spreadsheet."],
+      ["Commission Reconciliation", "Match statements across carriers, flag tax and rate mismatches, and reconcile to the last dollar - no analyst, no spreadsheet."],
       ["Statement & Policy Extraction", "Turn unstructured carrier PDFs and portals into clean, queryable data: premiums, slabs, clawbacks, effective dates."],
       ["Payout Calculation", "Compute payouts against your rules and cycles, with a defensible, fully auditable trail."],
     ],
   },
   {
-    icon: Users, name: "PoSP & Distribution", tag: "Agents that run your producer network.",
+    icon: Users, name: "Producers & Distribution", tag: "Agents that run your producer network.",
     items: [
       ["Agent Onboarding", "Onboard producers end-to-end - verification, licensing checks, and activation with no manual chase."],
       ["Agent Analysis", "Track producer performance, persistency, and productivity across the entire book in real time."],
@@ -322,11 +323,11 @@ const QA = [
   { q: "Who is FinLead AI built for?", keys: ["who", "for", "customer", "client", "serve", "built"],
     a: "Insurers, Brokers, Agencies, MGAs and other distributors: anyone running high-volume insurance operations who would rather hand the repetitive back-office work to agents than staff a BPO floor for it. Our AI Agents have been hard tested and have been proven to be the golden standard in this space." },
   { q: "How do FinLead's agents reconcile commissions across carriers?", keys: ["reconcile", "commission", "carrier", "statement", "finance"],
-    a: "The Finance Ops agents ingest statements from every carrier, normalise the formats, match each line against the expected payout, and flag any mismatch automatically: reconciling to the last rupee with a full audit trail, and no analyst touching a spreadsheet. Our AI Agents already have the intelligence to own the process end to end and can be deployed on any software - external or internal CRMs as well." },
+    a: "The Finance Ops agents ingest statements from every carrier, normalise the formats, match each line against the expected payout, and flag any mismatch automatically: reconciling to the last dollar with a full audit trail, and no analyst touching a spreadsheet. Our AI Agents already have the intelligence to own the process end to end and can be deployed on any software - external or internal CRMs as well." },
   { q: "How does the Intelligence suite cut leakage?", keys: ["leak", "leakage", "intelligence", "margin", "profit", "reduce"],
     a: "The Intelligence suite measures every commission, payout and claim against profitability, not vanity metrics. It detects leakage before it compounds, flags the root cause and recommends concrete corrective changes to recover and protect margin. Brokers love it." },
   { q: "What are the three agent suites?", keys: ["suite", "three", "agent", "layer"],
-    a: "Three suites: Finance Ops (commission reconciliation, statement and policy extraction, payout calculation), PoSP & Distribution (producer onboarding, analysis and intelligence), and Intelligence (leakage analysis, profitability guardrails and corrective insight)." },
+    a: "Three suites: Finance Ops (commission reconciliation, statement and policy extraction, payout calculation), Producers & Distribution (producer onboarding, analysis and intelligence), and Intelligence (leakage analysis, profitability guardrails and corrective insight)." },
   { q: "How does pricing work?", keys: ["price", "pricing", "cost", "much", "fee"],
     a: "Pricing is tied to the work the agents displace rather than per-seat licences, so it scales with the value delivered. The exact numbers depend on your volumes and which suites you deploy, which the founders can walk you through in a quick demo." },
 { q: "How does your agents are different from ChatGPT or Claude?", keys: ["different", "claude", "gpt", "chatgpt"],
@@ -669,7 +670,7 @@ useEffect(() => {
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
         <div className="fl-muted fl-serif fl-trust" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-          <span>5+ insurers</span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
+          <span>"78,000+ policies processed monthly </span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
         </div>
       </section>
 
