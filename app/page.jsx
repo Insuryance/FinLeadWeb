@@ -91,26 +91,35 @@ function LiveConsole() {
   ]);
   const [hover, setHover] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
     const t = setInterval(() => {
       setRows((prev) => {
-        const i = rnd(0, prev.length - 1);
-        const r = prev[i];
-        let updated;
-        if (r.status === "processing") {
-          const flagged = Math.random() < 0.35;
+        const procIdx = prev.map((r, k) => (r.status === "processing" ? k : -1)).filter((k) => k >= 0);
+        const flagIdx = prev.map((r, k) => (r.status === "flagged" ? k : -1)).filter((k) => k >= 0);
+        const matchIdx = prev.map((r, k) => (r.status === "matched" ? k : -1)).filter((k) => k >= 0);
+        let i, updated;
+
+        if (procIdx.length === 0) {
+          // Nothing in flight: retire a row and start a new one processing.
+          // Retire a flagged row only if we have more than 2; otherwise retire matched.
+          const pool = flagIdx.length > 2 ? flagIdx : matchIdx.length ? matchIdx : prev.map((_, k) => k);
+          i = pool[rnd(0, pool.length - 1)];
+          updated = mkRow();
+        } else {
+          // Resolve one processing row. If no flag is on screen, flag more often.
+          i = procIdx[rnd(0, procIdx.length - 1)];
+          const r = prev[i];
+          const flagged = flagIdx.length === 0 ? Math.random() < 0.6 : flagIdx.length >= 2 ? false : Math.random() < 0.3;
           let reconciled = r.expected, reason = REASONS.matched;
           if (flagged) {
-            const over = Math.random() < 0.25; // 1 in 4 flags is an overpayment
-            const variance = Math.max(100, Math.round(r.expected * (rnd(5, 80) / 1000) / 100) * 100); // 0.5%–8%, rounded to $100
+            const over = Math.random() < 0.25;
+            const variance = Math.max(100, Math.round(r.expected * (rnd(5, 80) / 1000) / 100) * 100);
             reconciled = over ? r.expected + variance : r.expected - variance;
             reason = over
               ? `Overpayment of ${inr(variance)} detected — suspected duplicate line item. Held for clawback review.`
               : `Variance of ${inr(variance)} detected — suspected withholding/rate mismatch. Held for review.`;
           }
           updated = { ...r, reconciled, status: flagged ? "flagged" : "matched", reason, flash: true };
-        } else {
-          updated = mkRow();
         }
         return prev.map((x, idx) => (idx === i ? updated : { ...x, flash: false }));
       });
