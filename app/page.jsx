@@ -52,12 +52,12 @@ function DecodeText({ text, className, style, delay = 200, speed = 0.5 }) {
   return <span className={className} style={style}>{out}</span>;
 }
 
-/* ---------- Indian-format currency ---------- */
+/* ---------- Global-format currency ---------- */
 function inr(n) {
   const s = String(n);
   const last3 = s.slice(-3);
   let rest = s.slice(0, -3);
-  if (rest) rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+  if (rest) rest = rest.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return "$" + (rest ? rest + "," : "") + last3;
 }
 
@@ -80,10 +80,10 @@ function LiveConsole() {
     return () => window.removeEventListener("resize", check);
   }, []);
   const [rows, setRows] = useState([
-    { name: "ABC Life · Apr'26", expected: 1240500, reconciled: 1240500, status: "matched", reason: REASONS.matched, id: 1 },
-    { name: "XYZ General Insurance · Apr'26", expected: 815200, reconciled: 802900, status: "flagged", reason: "Variance of $12,300 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
-    { name: "EFG Health Insurance · Apr'26", expected: 490000, reconciled: 490000, status: "matched", reason: REASONS.matched, id: 3 },
-    { name: "PQR General Insurance · Apr'26", expected: 672300, reconciled: null, status: "processing", reason: REASONS.processing, id: 4 },
+    { name: "NorthGate General · Apr'26", expected: $12400, reconciled: $12400, status: "matched", reason: REASONS.matched, id: 1 },
+    { name: "Meridian Life· Apr'26", expected: $58020, reconciled: $56790, status: "flagged", reason: "Variance of $1230 detected — suspected TDS/rate mismatch on slab 2. Held for review.", id: 2 },
+    { name: "Atlas Health · Apr'26", expected: $71394, reconciled: $71394, status: "matched", reason: REASONS.matched, id: 3 },
+    { name: "Crestpoint Specialty· Apr'26", expected: $33749, reconciled: null, status: "processing", reason: REASONS.processing, id: 4 },
   ]);
   const [hover, setHover] = useState(null);
 
@@ -97,7 +97,7 @@ function LiveConsole() {
           const flagged = Math.random() < 0.35;
           const reconciled = flagged ? r.expected - rnd(2, 15) * 1000 : r.expected;
           updated = { ...r, reconciled, status: flagged ? "flagged" : "matched",
-            reason: flagged ? `Variance of ${inr(r.expected - reconciled)} detected — suspected TDS/rate mismatch. Held for review.` : REASONS.matched, flash: true };
+            reason: flagged ? `Variance of ${inr(r.expected - reconciled)} detected — suspected grid/rate mismatch. Held for review.` : REASONS.matched, flash: true };
         } else {
           updated = mkRow();
         }
