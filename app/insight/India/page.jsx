@@ -37,7 +37,7 @@ export const metadata = {
     description: "Compare India's general insurers by premium, market share, growth and segment. Updated monthly. By FinLead AI.",
     type: "website",
   },
-  alternates: { canonical: "https://finlead.ai/insight" },
+  alternates: { canonical: "https://finlead.ai/insight/india" },
 };
 
 export default function InsightPage() {
@@ -63,7 +63,7 @@ export default function InsightPage() {
     name: "Indian General Insurance Gross Direct Premium by Segment, " + latest.label,
     description:
       "Monthly gross direct premium income (GDPI) for Indian general, standalone health and specialised insurers, broken down by segment (motor, health, fire, marine, engineering, liability and more). Source: GIC Council.",
-    url: "https://finlead.ai/insight",
+    url: "https://finlead.ai/insight/india",
     keywords: ["general insurance", "India", "gross direct premium", "insurer market share", "GIC Council"],
     creator: { "@type": "Organization", name: "FinLead AI", url: "https://finlead.ai" },
     temporalCoverage: months[months.length - 1].period + "/" + latest.period,
