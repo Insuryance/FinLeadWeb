@@ -5,7 +5,7 @@ export const metadata = {
   title: "FinLead AI — The insurance back-office, run by AI agents",
   description:
     "FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies and MGAs — commission reconciliation, payout calculation, policy extraction, distribution and leakage intelligence. We don't sell seats. We own the outcome.",
-  keywords: ["insurance AI agents", "commission reconciliation", "payout automation", "insurance back-office", "MGA", "brokers", "PoSP", "leakage analysis"],
+  keywords: ["insurance AI agents", "commission reconciliation", "payout automation", "insurance back-office", "MGA", "brokers", "producer management", "bordereaux processing", "commission accounting", "leakage analysis"],
   openGraph: {
     title: "FinLead AI — The insurance back-office, run by AI agents",
     description: "AI agents for insurance operations: finance ops, distribution, and profitability intelligence.",
@@ -23,8 +23,8 @@ const JSON_LD = {
   name: "FinLead AI",
   url: "https://finlead.ai",
   description:
-    "FinLead AI is an AI-native platform that deploys AI agents to run insurance operations for insurers, brokers, agencies and MGAs — including commission reconciliation, statement and policy extraction, payout calculation, producer/PoSP management, and leakage and profitability intelligence. FinLead AI is backed by Entrepreneur First.",
-  knowsAbout: ["Insurance operations", "Commission reconciliation", "Payout calculation", "Policy extraction", "PoSP and distribution", "Leakage analysis", "Insurance profitability"],
+    "FinLead AI is an AI-native platform that deploys AI agents to run insurance operations for insurers, brokers, agencies and MGAs globally — including commission reconciliation, statement and policy extraction, bordereaux processing, payout calculation, producer management, and leakage and profitability intelligence. FinLead AI is backed by Entrepreneur First.",
+  knowsAbout: ["Insurance operations", "Commission reconciliation", "Commission accounting", "Bordereaux processing", "Payout calculation", "Policy extraction", "Producer and distribution management", "Leakage analysis", "Insurance profitability"],
   brand: "FinLead AI",
   funder: { "@type": "Organization", name: "Entrepreneur First" },
 };
