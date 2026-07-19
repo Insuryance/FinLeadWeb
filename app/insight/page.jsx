@@ -8,11 +8,13 @@ function loadMonths() {
   const dir = path.join(process.cwd(), "data", "insight");
   let files = [];
   try { files = fs.readdirSync(dir).filter((f) => f.endsWith(".json")); } catch (e) { return []; }
-  const months = files.map((f) => {
-    const j = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
-    return { period: j.period, label: j.label, source: (j.source || "").replace(/\u2014/g, ","), bySheet: j.sheets };
-  });
-  // newest first
+ const months = files.map((f) => {
+    try {
+      const j = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+      if (!j || !j.period || !j.sheets || !j.sheets["Segmentwise Report"]) return null;
+      return { period: j.period, label: j.label, source: (j.source || "").replace(/\u2014/g, ","), bySheet: j.sheets };
+    } catch (e) { return null; }
+  }).filter(Boolean);  // newest first
   months.sort((a, b) => (a.period < b.period ? 1 : -1));
   return months;
 }
@@ -50,8 +52,8 @@ export default function InsightPage() {
   }
 
   const latest = months[0];
-  const seg = latest.bySheet["Segmentwise Report"];
-  const ranked = [...seg.records].sort((a, b) => (b.current["Grand Total"] || 0) - (a.current["Grand Total"] || 0));
+  const seg = latest.bySheet["Segmentwise Report"] || { records: [] };
+  const ranked = [...(seg.records || [])].sort((a, b) => (b.current["Grand Total"] || 0) - (a.current["Grand Total"] || 0));
   const top = ranked.slice(0, 10);
 
   // JSON-LD Dataset structured data for AI crawlers + Google Dataset Search
