@@ -7,14 +7,14 @@ const SUGGEST_ENDPOINT = "https://formspree.io/f/xkoedvda";
 
 const TICKER = [
   "A FinLead AI agent just collated a full underwriting dataset for an actuary.",
-  "A FinLead AI agent onboarded an offline broker agent in under two minutes.",
-  "A FinLead AI agent helped Life Insurance company flag issues in lapse rates.",
-  "A FinLead AI agent helped strategy team get accurate data on time from sources like Vahaan.",
-  "A FinLead AI agent cleaned datasets from 250 excel files within 3 minutes.",
-  "A FinLead AI agent replaced 55 Full Time Employees for an Insurance company.",
+  "A FinLead AI agent onboarded an offline producer in under two minutes.",
+  "A FinLead AI agent helped a life insurer flag anomalies in lapse rates.",
+  "A FinLead AI agent pulled clean market data from regulatory sources, on time.",
+  "A FinLead AI agent cleaned datasets from 250 Excel files within 3 minutes.",
+  "A FinLead AI agent displaced the work of an entire reconciliation team.",
   "A FinLead AI agent flagged leakages in commission payouts.",
-  "A FinLead AI agent reconciled a broker payout to the nearest rupee, accurately.",
-  "A FinLead AI agent published this month's GIC segment data automatically.",
+  "A FinLead AI agent reconciled a broker payout to the exact cent.",
+  "A FinLead AI agent published this month's market segment data automatically.",
   "A FinLead AI agent matched four thousand commission entries with no human touch.",
   "A FinLead AI agent flagged a payout discrepancy before it went out.",
 ];
