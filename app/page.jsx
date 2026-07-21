@@ -521,7 +521,7 @@ function PartnerModal({ open, onClose }) {
     if (!form.email || !form.company) { setStatus("need"); return; }
     setStatus("sending");
     try {
-      const res = await fetch("hhttps://formspree.io/f/xkoedvda", {
+      const res = await fetch("https://formspree.io/f/xkoedvda", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ type: "partner_inquiry", company: form.company, name: form.name, role: form.role, email: form.email, product: form.product, use_case: form.usecase }),
