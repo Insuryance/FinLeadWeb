@@ -811,7 +811,105 @@ useEffect(() => {
           </p>
         </div>
       </section>
-
+      {/* ROI · ACCURACY · INTELLIGENCE */}
+      <section style={{ position: "relative", zIndex: 10, maxWidth: 1180, margin: "0 auto 112px", padding: "0 24px" }}>
+        <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 48px" }}>
+          <p className="fl-eyebrow" style={{ marginBottom: 16 }}>Why teams switch to FinLead</p>
+          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(26px,3.4vw,38px)", lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>
+            Measurable impact, <span className="fl-gold-grad">not promises.</span>
+          </h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16 }}>
+          {[
+            {
+              label: "Return on Investment",
+              number: "5x",
+              sub: "average ROI within the first quarter",
+              desc: "FinLead's agents displace manual effort from day one. Teams recover the cost of deployment within weeks, not years - because the agents do the work, not just surface dashboards about it.",
+            },
+            {
+              label: "Accuracy",
+              number: "98.7%",
+              sub: "reconciliation match rate in production",
+              desc: "Line-level precision across carriers, formats, and edge cases. Every mismatch is caught, flagged, and explained - not buried in a spreadsheet someone checks next quarter and for low accuracy - the human in the loop process kicks in.",
+            },
+            {
+              label: "Intelligence",
+              number: "24/7",
+              sub: "continuous learning across every workflow, localised.",
+              desc: "FinLead's agents build operational memory with every statement, payout, and policy they process. The more they work, the sharper they get - spotting patterns and anomalies that human teams and general-purpose AI simply miss. The data remains in-premise and does not leave the system",
+            },
+          ].map((card, i) => (
+            <div className="fl-card" key={i} style={{ padding: 32 }}>
+              <p className="fl-eyebrow" style={{ marginBottom: 14 }}>{card.label}</p>
+              <div className="fl-serif fl-gold-grad" style={{ fontSize: 52, fontWeight: 350, lineHeight: 1, marginBottom: 6 }}>{card.number}</div>
+              <p style={{ fontSize: 13.5, color: "var(--gold-deep)", marginBottom: 16, fontWeight: 500 }}>{card.sub}</p>
+              <p className="fl-muted" style={{ fontSize: 14.5, lineHeight: 1.6, margin: 0 }}>{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* PERFORMANCE COMPARISON */}
+      <section style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "0 auto 112px", padding: "0 24px" }}>
+        <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 40px" }}>
+          <p className="fl-eyebrow" style={{ marginBottom: 16 }}>Purpose-built vs general-purpose</p>
+          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(26px,3.4vw,38px)", lineHeight: 1.15, letterSpacing: "-.02em", margin: 0 }}>
+            General-purpose AI wasn't built for this. <span className="fl-gold-grad">Our agents are.</span>
+          </h2>
+          <p className="fl-muted" style={{ fontSize: 15.5, lineHeight: 1.6, maxWidth: "56ch", margin: "18px auto 0" }}>
+            Large language models are brilliant generalists. Insurance operations need specialists. FinLead's agents are trained on the structure, exceptions, and edge cases of real insurance workflows - not just the language around them.
+          </p>
+        </div>
+        <div className="fl-glass" style={{ padding: "32px 28px 28px" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center", gap: 0, height: 260, padding: "0 12px" }}>
+            {[
+              { label: "Generic chatbots", pct: 28, color: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.10)" },
+              { label: "LLM wrappers", pct: 41, color: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.10)" },
+              { label: "RPA / legacy automation", pct: 52, color: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.10)" },
+              { label: "Fine-tuned LLMs", pct: 64, color: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.10)" },
+              { label: "FinLead AI Agents", pct: 94, color: "linear-gradient(180deg, rgba(217,201,163,0.25), rgba(182,151,92,0.15))", border: "rgba(217,201,163,0.45)", gold: true },
+            ].map((bar, i) => (
+              <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, maxWidth: 160, padding: "0 6px" }}>
+                <span style={{ fontSize: 13, fontWeight: bar.gold ? 600 : 400, color: bar.gold ? "var(--gold)" : "var(--muted)" }}>
+                  {bar.gold ? "98.7%" : ""}
+                </span>
+                <div style={{
+                  width: "100%",
+                  height: `${bar.pct * 2.2}px`,
+                  background: bar.color,
+                  border: `1px solid ${bar.border}`,
+                  borderRadius: "8px 8px 4px 4px",
+                  position: "relative",
+                  transition: "height 0.6s var(--ease)",
+                  ...(bar.gold ? {
+                    background: bar.color,
+                    boxShadow: "0 0 40px rgba(217,201,163,0.15), inset 0 1px 0 rgba(217,201,163,0.2)",
+                  } : {}),
+                }}>
+                  {bar.gold && (
+                    <div style={{
+                      position: "absolute", top: 0, left: 0, right: 0, bottom: 0, borderRadius: "inherit", overflow: "hidden",
+                    }}>
+                      <div className="fl-scan" style={{ position: "absolute", inset: 0 }} />
+                    </div>
+                  )}
+                </div>
+                <span style={{
+                  fontSize: 11.5, color: bar.gold ? "var(--ivory)" : "var(--muted2)",
+                  textAlign: "center", lineHeight: 1.3, fontWeight: bar.gold ? 600 : 400,
+                  letterSpacing: bar.gold ? ".02em" : "0",
+                }}>{bar.label}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 24, paddingTop: 20, borderTop: "1px solid var(--line)" }}>
+            <p style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)", margin: "0 0 6px" }}>What we measure</p>
+            <p className="fl-muted" style={{ fontSize: 13.5, lineHeight: 1.55, maxWidth: "52ch", margin: "0 auto" }}>
+              End-to-end task completion accuracy on real insurance workflows: commission reconciliation, statement extraction, payout calculation, and producer onboarding across live carrier data.
+            </p>
+          </div>
+        </div>
+      </section>
       {/* PARTNER / EMBED */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 900, margin: "0 auto 112px", padding: "0 24px" }}>
         <div className="fl-glass" style={{ padding: "48px 40px", textAlign: "center" }}>
