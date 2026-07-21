@@ -84,6 +84,67 @@ function computeIntel(monthsAsc, winSet, name) {
   return { lastActual, lastLabel: monShort(lastPeriod), predicted, projGrowth, targetLabel: monShort(targetPeriod), actualNext, variance };
 }
 
+
+/* ---------- Track Org & Custom Compare helpers (additive) ---------- */
+/* YoY growth on a year-to-date basis, from each month's current vs previous-year columns */
+function yoySeries(monthsAsc, name, key) {
+  const nm = clean(name);
+  return monthsAsc.map((m) => {
+    const rec = m.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === nm);
+    let v = null;
+    if (rec) {
+      const c = rec.current ? rec.current[key] : null;
+      const p = rec.previous ? rec.previous[key] : null;
+      if (c != null && p != null && p !== 0) v = (c - p) / p;
+    }
+    return { period: m.period, label: m.label, value: v };
+  });
+}
+/* Month-on-month growth of de-cumulated monthly premium */
+function momSeries(monthsAsc, name, key) {
+  const mo = monthlySeries(monthsAsc, clean(name), key);
+  return mo.map((p, i) => {
+    const prev = i > 0 ? mo[i - 1].value : null;
+    return { period: p.period, label: p.label, value: p.value != null && prev != null && prev !== 0 ? (p.value - prev) / prev : null };
+  });
+}
+/* Aggregate de-cumulated monthly premium across a set of insurers */
+function groupAggSeries(monthsAsc, names, key) {
+  const per = names.map((n) => monthlySeries(monthsAsc, clean(n), key));
+  return monthsAsc.map((m, i) => {
+    let sum = 0, any = false;
+    per.forEach((s) => { const v = s[i] ? s[i].value : null; if (v != null) { sum += v; any = true; } });
+    return { period: m.period, label: m.label, value: any ? sum : null };
+  });
+}
+/* Premium-weighted YoY growth for an aggregated peer group (sum current vs sum previous) */
+function groupYoySeries(monthsAsc, names, key) {
+  const set = new Set(names.map(clean));
+  return monthsAsc.map((m) => {
+    let c = 0, p = 0, anyC = false, anyP = false;
+    m.bySheet["Segmentwise Report"].records.forEach((r) => {
+      if (!set.has(clean(r.insurer))) return;
+      if (r.current && r.current[key] != null) { c += r.current[key]; anyC = true; }
+      if (r.previous && r.previous[key] != null) { p += r.previous[key]; anyP = true; }
+    });
+    return { period: m.period, label: m.label, value: anyC && anyP && p !== 0 ? (c - p) / p : null };
+  });
+}
+/* MoM growth of the aggregated peer group premium */
+function groupMomSeries(monthsAsc, names, key) {
+  const agg = groupAggSeries(monthsAsc, names, key);
+  return agg.map((pnt, i) => {
+    const prev = i > 0 ? agg[i - 1].value : null;
+    return { period: pnt.period, label: pnt.label, value: pnt.value != null && prev != null && prev !== 0 ? (pnt.value - prev) / prev : null };
+  });
+}
+/* Trailing 3-month average of a series' latest values inside a window */
+function trailingAvg(points, winSet, k) {
+  const vals = points.filter((p) => winSet.has(p.period) && p.value != null).map((p) => p.value);
+  const v = vals.slice(-k);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+}
+
 function Kpi({ label, value, sub, name }) {
   return (
     <div style={{ background: "#0B0B0E", padding: "17px 20px" }}>
@@ -125,6 +186,8 @@ const INFO = {
   compare: { title: "Compare", what: "Puts up to four insurers side by side across the main lines of business.", how: "Tap an insurer chip to add or remove it. Switch Bar Graph for a snapshot, or Line Graph to track them over time." },
   segments: { title: "Segments", what: "Shows which insurers write the most in a single line of business, such as Motor or Health.", how: "Pick a segment from the row of buttons. Bar Graph ranks insurers; Line Graph shows the trend over time." },
   micro: { title: "Micro analysis", what: "Breaks one line of business into its sub-parts, for example Motor into Own Damage versus Third Party, and shows each insurer's split as a stacked bar.", how: "Pick a group (Motor, Marine, Health, Liability). Each bar shows one insurer; the coloured segments are the share of each sub-part for the selected month." },
+  trackorg: { title: "Track Org", what: "A single-insurer deep dive: premium trend, year-on-year and month-on-month growth, and segment-level growth for one insurer, so you can tell broad-based growth from a one-off spike.", how: "Pick the insurer, then switch YoY (year-to-date basis) or MoM (monthly premium basis). The growth trend shows momentum over time; the segment bars show where growth is concentrated for the selected month." },
+  customcompare: { title: "Custom Compare", what: "Benchmarks one insurer against a peer group you define yourself, or a preset such as the top 10 by premium. The peer line is premium-weighted, built from the aggregated premium of the group.", how: "Choose the subject insurer, tap peers to add or remove them (or use Top 10 by premium), then switch metric: Premium compares against the peer average per insurer; YoY and MoM compare growth against the aggregated group." },
   intelligence: { title: "Intelligence", what: "A weighted projection of the next month's premium for each insurer, and how the last estimate compared with what actually happened. It is a directional model, not advice.", how: "Set a Range to choose the window the model learns from. The projection is for the month right after your window. If that month's actual figure exists in the data, you see predicted versus actual; if it is still in the future, you see the projected change instead." },
 };
 
@@ -325,16 +388,18 @@ export default function InsightExplorer({ months }) {
       {/* tabs + chart toggle */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "1px solid var(--line)", flexWrap: "wrap", gap: 12 }}>
         <div className="ix-tabs" style={{ borderBottom: "none" }}>
-          {[["leaderboard", "Leaderboard"], ["compare", "Compare"], ["segments", "Segments"], ["micro", "Micro analysis"], ["intelligence", "Intelligence"]].map(([k, l]) => (
+          {[["leaderboard", "Leaderboard"], ["trackorg", "Track Org"], ["compare", "Compare"], ["customcompare", "Custom Compare"], ["segments", "Segments"], ["micro", "Micro analysis"], ["intelligence", "Intelligence"]].map(([k, l]) => (
             <button key={k} className="ix-tab" data-active={tab === k} onClick={() => setTab(k)}>{l}</button>
           ))}
         </div>
-        {tab !== "micro" && tab !== "intelligence" && <div style={{ paddingBottom: 10 }}><Segmented value={chartType} onChange={setChartType} options={[{ v: "bar", l: "Bar Graph" }, { v: "line", l: "Line Graph" }]} /></div>}
+        {tab !== "micro" && tab !== "intelligence" && tab !== "trackorg" && tab !== "customcompare" && <div style={{ paddingBottom: 10 }}><Segmented value={chartType} onChange={setChartType} options={[{ v: "bar", l: "Bar Graph" }, { v: "line", l: "Line Graph" }]} /></div>}
       </div>
 
       <div style={{ marginTop: 34 }}>
         {tab === "leaderboard" && <Leaderboard rows={rows} ctx={ctx} />}
+        {tab === "trackorg" && <TrackOrg rows={rows} ctx={ctx} baseMonth={baseMonth} />}
         {tab === "compare" && <Compare rows={rows} ctx={ctx} />}
+        {tab === "customcompare" && <CustomCompare rows={rows} ctx={ctx} />}
         {tab === "segments" && <Segments rows={rows} segments={baseMonth.bySheet["Segmentwise Report"].segments} ctx={ctx} />}
         {tab === "micro" && <Micro month={baseMonth} group={group} />}
         {tab === "intelligence" && <Intelligence rows={rows} ctx={ctx} />}
@@ -554,4 +619,201 @@ function Intelligence({ rows, ctx }) {
       </div>);
     })}
   </div>);
+}
+
+/* ---------- 6. Track Org (single insurer deep-dive) ---------- */
+const TRACK_SEGS = [["Motor Total", "Motor"], ["Health", "Health"], ["Fire", "Fire"], ["Marine Total", "Marine"], ["Engineering", "Engineering"], ["Liability", "Liability"], ["P.A.", "P.A."], ["Aviation", "Aviation"], ["All Other Misc (Crop Insurance + Credit Guarantee+All other misc)", "Other Misc"]];
+function TrackOrg({ rows, ctx, baseMonth }) {
+  const names = useMemo(
+    () => [...rows].sort((a, b) => (ctx.getValue(clean(b.insurer), "Grand Total") || 0) - (ctx.getValue(clean(a.insurer), "Grand Total") || 0)).map((r) => r.insurer),
+    [rows, ctx]
+  );
+  const [who, setWho] = useState(names[0] || "");
+  const subject = names.includes(who) ? who : names[0] || "";
+  const [gmode, setGmode] = useState("yoy"); // yoy | mom
+
+  if (!subject) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>No insurers in this group.</p>;
+
+  const rec = baseMonth.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === clean(subject));
+  const premSeries = monthlySeries(ctx.monthsAsc, clean(subject), "Grand Total").filter((p) => ctx.winSet.has(p.period));
+  const growthFull = gmode === "yoy" ? yoySeries(ctx.monthsAsc, subject, "Grand Total") : momSeries(ctx.monthsAsc, subject, "Grand Total");
+  const growthPts = growthFull.filter((p) => ctx.winSet.has(p.period));
+
+  /* momentum: trailing 3-month avg MoM vs the 3 months before that */
+  const momFull = momSeries(ctx.monthsAsc, subject, "Grand Total");
+  const inWin = momFull.filter((p) => ctx.winSet.has(p.period) && p.value != null);
+  const recent = inWin.slice(-3).map((p) => p.value);
+  const prior = inWin.slice(-6, -3).map((p) => p.value);
+  const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
+  const rAvg = avg(recent), pAvg = avg(prior);
+  const momentum = rAvg != null && pAvg != null ? rAvg - pAvg : null;
+
+  /* segment growth for the base month */
+  const segItems = TRACK_SEGS.map(([key, label]) => {
+    let v = null;
+    if (gmode === "yoy") {
+      const c = rec && rec.current ? rec.current[key] : null;
+      const p = rec && rec.previous ? rec.previous[key] : null;
+      if (c != null && p != null && p !== 0) v = (c - p) / p;
+    } else {
+      const s = momSeries(ctx.monthsAsc, subject, key);
+      const pt = s.find((x) => x.period === baseMonth.period);
+      v = pt ? pt.value : null;
+    }
+    const cur = rec && rec.current ? rec.current[key] : null;
+    return { key, label, value: v, cur };
+  }).filter((d) => d.value != null && d.cur != null && d.cur > 0);
+
+  /* segment premium trend: top 4 segments by current value */
+  const topSegs = TRACK_SEGS
+    .map(([key, label]) => ({ key, label, v: rec && rec.current ? rec.current[key] || 0 : 0 }))
+    .filter((s) => s.v > 0).sort((a, b) => b.v - a.v).slice(0, 4);
+  const segSeries = topSegs.map((s, i) => ({
+    name: s.label, color: SERIES[i % 4],
+    points: monthlySeries(ctx.monthsAsc, clean(subject), s.key).filter((p) => ctx.winSet.has(p.period)),
+  }));
+
+  const latestPrem = [...premSeries].reverse().find((p) => p.value != null);
+  const latestGrowth = [...growthPts].reverse().find((p) => p.value != null);
+  const gLabel = gmode === "yoy" ? "YoY (YTD basis)" : "MoM (monthly basis)";
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 26 }}>
+        <div>
+          <div style={IXL}>Insurer</div>
+          <select className="ix-select" value={subject} onChange={(e) => setWho(e.target.value)}>
+            {names.map((n) => <option key={n} value={n}>{shortName(n)}</option>)}
+          </select>
+        </div>
+        <div>
+          <div style={IXL}>Growth basis</div>
+          <Segmented value={gmode} onChange={setGmode} options={[{ v: "yoy", l: "YoY" }, { v: "mom", l: "MoM" }]} />
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(168px,1fr))", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden", marginBottom: 34 }}>
+        <Kpi label="Latest monthly premium" value={latestPrem ? inr(Math.round(latestPrem.value)) : "-"} sub={latestPrem ? monShort(latestPrem.period) : ""} />
+        <Kpi label={"Latest " + (gmode === "yoy" ? "YoY growth" : "MoM growth")} value={latestGrowth ? pct(latestGrowth.value) : "-"} sub={latestGrowth ? monShort(latestGrowth.period) + " \u00B7 " + gLabel : ""} />
+        <Kpi label="Market share" value={rec && rec.current && rec.current["Market %"] != null ? pct(Math.abs(rec.current["Market %"]) > 1 ? rec.current["Market %"] / 100 : rec.current["Market %"]) : "-"} sub={baseMonth.label + " \u00B7 YTD basis"} />
+        <Kpi label="Momentum" value={momentum == null ? "-" : (momentum >= 0 ? "Accelerating" : "Decelerating")} sub={momentum == null ? "needs 6 months of data" : "3-mo avg MoM " + (momentum >= 0 ? "+" : "") + (momentum * 100).toFixed(1) + " pts vs prior 3-mo"} />
+      </div>
+
+      <p className="ix-charth">Monthly premium trend · {shortName(subject)}<InfoButton info={INFO.trackorg} /></p>
+      <MultiLineChart series={[{ name: shortName(subject), color: GOLD, points: premSeries }]} axisMonths={ctx.lineMonths} />
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>Monthly premium derived from year-to-date figures; the financial year resets every April.</p>
+
+      <p className="ix-charth">{gmode === "yoy" ? "Year-on-year growth over time (YTD basis)" : "Month-on-month growth over time (monthly basis)"}</p>
+      <MultiLineChart series={[{ name: shortName(subject), color: gmode === "yoy" ? GREEN : "#94A7C7", points: growthPts }]} axisMonths={ctx.lineMonths} valueFmt={pct} tickFmt={pctTick} />
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>
+        {gmode === "yoy" ? "YoY compares each month's year-to-date premium with the same point last financial year: a sustained-growth read." : "MoM compares each month's premium with the month before: a momentum read, more volatile by nature."}
+      </p>
+
+      <p className="ix-charth">Segment growth · {baseMonth.label} · {gmode === "yoy" ? "YoY" : "MoM"}</p>
+      {segItems.length === 0 ? <p style={{ color: "var(--muted2)", fontSize: 13 }}>Not enough segment history for this basis in {baseMonth.label}.</p> : (
+        <HBarChart
+          items={segItems.map((d) => ({ key: d.key, label: d.label, value: d.value, title: d.label + " \u00B7 " + pct(d.value) + " \u00B7 " + inr(d.cur) + " YTD" }))}
+          valueFmt={pct} tickFmt={pctTick} colorFn={(v) => (v >= 0 ? GREEN : RED)} signed
+        />
+      )}
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>Broad green across segments means growth is broad-based; one tall bar means it is concentrated in a single line of business.</p>
+
+      {segSeries.length > 0 && (<>
+        <p className="ix-charth">Segment premium trend · top {segSeries.length} segments</p>
+        <Legend series={segSeries} />
+        <MultiLineChart series={segSeries} axisMonths={ctx.lineMonths} />
+      </>)}
+    </div>
+  );
+}
+
+/* ---------- 7. Custom Compare (insurer vs custom peer group) ---------- */
+function CustomCompare({ rows, ctx }) {
+  const ranked = useMemo(
+    () => [...rows].sort((a, b) => (ctx.getValue(clean(b.insurer), "Grand Total") || 0) - (ctx.getValue(clean(a.insurer), "Grand Total") || 0)),
+    [rows, ctx]
+  );
+  const names = ranked.map((r) => r.insurer);
+  const [who, setWho] = useState(names[0] || "");
+  const subject = names.includes(who) ? who : names[0] || "";
+  const [peers, setPeers] = useState([]);
+  const [metric, setMetric] = useState("prem"); // prem | yoy | mom
+
+  if (!subject) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>No insurers in this group.</p>;
+
+  const validPeers = peers.filter((p) => names.includes(p) && clean(p) !== clean(subject));
+  const togglePeer = (n) => setPeers((p) => (p.includes(n) ? p.filter((x) => x !== n) : [...p, n]));
+  const presetTop10 = () => setPeers(names.filter((n) => clean(n) !== clean(subject)).slice(0, 10));
+  const clearPeers = () => setPeers([]);
+
+  const subjSeries =
+    metric === "prem" ? monthlySeries(ctx.monthsAsc, clean(subject), "Grand Total")
+    : metric === "yoy" ? yoySeries(ctx.monthsAsc, subject, "Grand Total")
+    : momSeries(ctx.monthsAsc, subject, "Grand Total");
+  const groupSeries =
+    validPeers.length === 0 ? null
+    : metric === "prem" ? groupAggSeries(ctx.monthsAsc, validPeers, "Grand Total").map((p) => ({ ...p, value: p.value == null ? null : p.value / validPeers.length }))
+    : metric === "yoy" ? groupYoySeries(ctx.monthsAsc, validPeers, "Grand Total")
+    : groupMomSeries(ctx.monthsAsc, validPeers, "Grand Total");
+
+  const isPctM = metric !== "prem";
+  const series = [
+    { name: shortName(subject), color: GOLD, points: subjSeries.filter((p) => ctx.winSet.has(p.period)) },
+    ...(groupSeries ? [{ name: "Peer group (" + validPeers.length + ")" + (metric === "prem" ? " \u00B7 avg" : ""), color: "#94A7C7", points: groupSeries.filter((p) => ctx.winSet.has(p.period)) }] : []),
+  ];
+
+  const last = (pts) => { const a = pts.filter((p) => p.value != null); return a.length ? a[a.length - 1] : null; };
+  const sLast = last(series[0].points), gLast = series[1] ? last(series[1].points) : null;
+  const spread = sLast && gLast && sLast.period === gLast.period ? sLast.value - gLast.value : null;
+  const fmt = isPctM ? pct : (v) => inr(Math.round(v));
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 22 }}>
+        <div>
+          <div style={IXL}>Subject insurer</div>
+          <select className="ix-select" value={subject} onChange={(e) => { setWho(e.target.value); setPeers((p) => p.filter((x) => clean(x) !== clean(e.target.value))); }}>
+            {names.map((n) => <option key={n} value={n}>{shortName(n)}</option>)}
+          </select>
+        </div>
+        <div>
+          <div style={IXL}>Metric</div>
+          <Segmented value={metric} onChange={setMetric} options={[{ v: "prem", l: "Premium" }, { v: "yoy", l: "YoY" }, { v: "mom", l: "MoM" }]} />
+        </div>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
+        <div style={{ ...IXL, marginBottom: 0 }}>Peer group</div>
+        <button className="ix-toggle" style={{ marginTop: 0 }} onClick={presetTop10}>Top 10 by premium</button>
+        {validPeers.length > 0 && <button className="ix-toggle" style={{ marginTop: 0 }} onClick={clearPeers}>Clear</button>}
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 9, marginBottom: 26 }}>
+        {names.filter((n) => clean(n) !== clean(subject)).map((n) => {
+          const on = validPeers.includes(n);
+          return <button key={n} className="ix-chip" data-on={on} onClick={() => togglePeer(n)}><span className="ix-dot" style={{ background: on ? "#94A7C7" : undefined }} />{shortName(n)}</button>;
+        })}
+      </div>
+
+      {validPeers.length === 0 ? (
+        <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>Pick at least one peer above, or use Top 10 by premium.<InfoButton info={INFO.customcompare} /></p>
+      ) : (<>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(168px,1fr))", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden", marginBottom: 30 }}>
+          <Kpi label={shortName(subject)} name value={sLast ? fmt(sLast.value) : "-"} sub={sLast ? monShort(sLast.period) : ""} />
+          <Kpi label={"Peer group" + (metric === "prem" ? " (avg / insurer)" : "")} name value={gLast ? fmt(gLast.value) : "-"} sub={gLast ? monShort(gLast.period) + " \u00B7 " + validPeers.length + " insurers" : ""} />
+          <Kpi label="Gap vs peers" name value={spread == null ? "-" : (spread >= 0 ? "+" : "") + (isPctM ? (spread * 100).toFixed(1) + " pts" : inr(Math.round(spread)))} sub={spread == null ? "latest common month unavailable" : spread >= 0 ? "ahead of the group" : "behind the group"} />
+        </div>
+        <p className="ix-charth">
+          {metric === "prem" ? "Monthly premium \u00B7 subject vs peer average" : metric === "yoy" ? "YoY growth (YTD basis) \u00B7 subject vs aggregated peers" : "MoM growth \u00B7 subject vs aggregated peers"}
+          <InfoButton info={INFO.customcompare} />
+        </p>
+        <Legend series={series} />
+        <MultiLineChart series={series} axisMonths={ctx.lineMonths} valueFmt={isPctM ? pct : inr} tickFmt={isPctM ? pctTick : axisFmt} />
+        <p style={{ color: "var(--muted2)", fontSize: 11.5, marginTop: 14, lineHeight: 1.5 }}>
+          {metric === "prem"
+            ? "Peer line is the group's aggregated monthly premium divided by the number of peers, so scales stay comparable."
+            : "Peer growth is premium-weighted: computed on the aggregated premium of the whole group, so large peers count for more."}
+        </p>
+      </>)}
+    </div>
+  );
 }
