@@ -687,8 +687,13 @@ useEffect(() => {
       {/* TRUST STRIP */}
       <section style={{ position: "relative", zIndex: 10, maxWidth: 1000, margin: "0 auto 112px", padding: "0 24px", textAlign: "center" }}>
         <p className="fl-eyebrow" style={{ marginBottom: 28 }}>Built for the realities of global insurers: global tech, powered by intelligent AI</p>
-        <div className="fl-muted fl-serif fl-trust" style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", fontSize: 18, opacity: .55 }}>
-          <span>78,000+ policies processed monthly </span><span className="fl-sep">·</span><span>10+ brokers &amp; more</span><span className="fl-sep">·</span><span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
+        <div className="fl-muted fl-serif fl-trust" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, fontSize: 18, opacity: .55 }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
+            <span>78,000+ policies processed monthly</span><span className="fl-sep">·</span><span>Insurers &amp; brokers across three continents</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
+            <span>Tax &amp; compliance aware</span><span className="fl-sep">·</span><span>Full audit trail, incl. AI audits</span>
+          </div>
         </div>
       </section>
 
