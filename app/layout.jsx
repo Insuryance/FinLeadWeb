@@ -7,7 +7,7 @@ export const metadata = {
     "FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies and MGAs — commission reconciliation, payout calculation, policy extraction, distribution and leakage intelligence. We don't sell seats. We own the outcome.",
   keywords: ["insurance AI agents", "commission reconciliation", "payout automation", "insurance back-office", "MGA", "brokers", "producer management", "bordereaux processing", "commission accounting", "leakage analysis"],
   openGraph: {
-    title: "FinLead AI — The insurance back-office, run by AI agents",
+    title: "FinLead AI: The insurance back-office, run by AI agents",
     description: "AI agents for insurance operations: finance ops, distribution, and profitability intelligence.",
     url: "https://finlead.ai",
     siteName: "FinLead AI",
