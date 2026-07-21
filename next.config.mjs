@@ -1,12 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/",
+          has: [{ type: "host", value: "insightdashboard.finlead.ai" }],
+          destination: "/insight/india",
+        },
+      ],
+    };
+  },
+};
+
 export default nextConfig;
-async rewrites() {
-  return [
-    {
-      source: "/",
-      has: [{ type: "host", value: "insightdashboard.finlead.ai" }],
-      destination: "/insight/india",
-    },
-  ];
-},
