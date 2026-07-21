@@ -291,6 +291,7 @@ const SUITES = [
       ["Commission Reconciliation", "Match statements across carriers, flag tax and rate mismatches, and reconcile to the last dollar - no analyst, no spreadsheet."],
       ["Statement & Policy Extraction", "Turn unstructured carrier PDFs and portals into clean, queryable data: premiums, slabs, clawbacks, effective dates."],
       ["Payout Calculation", "Compute payouts against your rules and cycles, with a defensible, fully auditable trail."],
+      ["Compliance & Unclaimed Data", "Handle unclaimed payments, state-by-state regulatory filings, and vendor payment reconciliation - the compliance-heavy work that buries finance teams but never makes it onto a vendor's roadmap."],
     ],
   },
   {
@@ -307,6 +308,7 @@ const SUITES = [
       ["Leakage Analysis", "Detect leakage across commissions, payouts, and claims before it compounds into lost margin."],
       ["Profitability Guardrails", "Agents that watch margin, not vanity metrics - every payout measured against profit."],
       ["Corrective Insight", "Recommend concrete changes to rates, rules, and controls to recover and protect margin."],
+      ["Underwriting Intelligence", "Gather risk-level signals from public records, documents, imagery, and market data at the point of underwriting - replacing the manual triangulation across dozens of sources and spreadsheets that underwriters rely on today. Structured, compliant, and auditable where intuition alone is not."],
     ],
   },
 ];
