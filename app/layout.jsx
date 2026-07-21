@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   metadataBase: new URL("https://finlead.ai"),
-  title: "FinLead AI — The insurance back-office, run by AI agents",
+  title: "FinLead AI: The insurance back-office, run by AI agents",
   description:
     "FinLead AI deploys AI agents that handle complex tasks for insurers, brokers, agencies and MGAs — commission reconciliation, payout calculation, policy extraction, distribution and leakage intelligence. We don't sell seats. We own the outcome.",
   keywords: ["insurance AI agents", "commission reconciliation", "payout automation", "insurance back-office", "MGA", "brokers", "producer management", "bordereaux processing", "commission accounting", "leakage analysis"],
