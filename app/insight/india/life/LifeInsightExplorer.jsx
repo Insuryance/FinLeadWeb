@@ -44,10 +44,19 @@ const VIEW_INFO = {
     how: "Use these cards as starting points for investigation, then open Leaderboard, Growth, Business Mix or Custom Compare to validate what is driving the signal.",
   },
 };
+const SUBJECT_INFO = {
+  title: "Subject insurer",
+  what: "The life insurer you want to study. It becomes the main benchmark in Custom Compare.",
+  how: "Choose one subject insurer, then select up to four peers. The subject and peer values appear together in the overview and chart.",
+};
 
-const cleanName = (name = "") => name
-  .replace(/LIFE INSURANCE COMPANY|INSURANCE COMPANY|LIFE INSURANCE|LIMITED\.?|CORPORATION OF INDIA/gi, "")
-  .replace(/\s+/g, " ").trim();
+const cleanName = (name = "") => {
+  if (/LIFE INSURANCE CORPORATION OF INDIA/i.test(name)) return "LIC";
+  const cleaned = name
+    .replace(/LIFE INSURANCE COMPANY|INSURANCE COMPANY|LIFE INSURANCE|LIMITED\.?|CORPORATION OF INDIA/gi, "")
+    .replace(/\s+/g, " ").trim();
+  return cleaned || name;
+};
 const money = (value) => value == null ? "—" : `₹${Number(value).toLocaleString("en-IN", { maximumFractionDigits: 1 })} Cr`;
 const number = (value) => value == null ? "—" : Number(value).toLocaleString("en-IN", { maximumFractionDigits: 0 });
 const percent = (value) => value == null || !Number.isFinite(Number(value)) ? "—" : `${Number(value).toFixed(1)}%`;
@@ -196,6 +205,53 @@ function Select({ label, value, onChange, children, wide = false }) {
         {children}
       </select>
     </label>
+  );
+}
+
+function InsurerPicker({ label, names, value, onChange, info }) {
+  const [query, setQuery] = useState("");
+  const visibleNames = names.filter((name) => cleanName(name).toLowerCase().includes(query.trim().toLowerCase()));
+  return (
+    <div style={{ width: "100%" }}>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+        <span style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</span>
+        {info && <InfoButton info={info} />}
+      </div>
+      <input
+        className="fl-input"
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="Search life insurers"
+        aria-label={`Search ${label.toLowerCase()}`}
+        style={{ width: "min(360px, 100%)", minHeight: 40, padding: "9px 12px", fontSize: 12.5, marginBottom: 10 }}
+      />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7, maxHeight: 126, overflowY: "auto", paddingRight: 4 }}>
+        {visibleNames.map((name) => {
+          const active = value === name;
+          return (
+            <button
+              key={name}
+              type="button"
+              aria-pressed={active}
+              onClick={() => onChange(name)}
+              style={{
+                border: `1px solid ${active ? "var(--gold-deep)" : "var(--line)"}`,
+                borderRadius: 999,
+                padding: "7px 10px",
+                background: active ? "rgba(217,201,163,.12)" : "transparent",
+                color: active ? "var(--gold)" : "var(--muted)",
+                font: "inherit",
+                fontSize: 10.5,
+                cursor: "pointer",
+              }}
+            >
+              {cleanName(name)}
+            </button>
+          );
+        })}
+        {!visibleNames.length && <span style={{ color: "var(--muted2)", fontSize: 11.5 }}>No matching insurer.</span>}
+      </div>
+    </div>
   );
 }
 
@@ -398,6 +454,10 @@ export default function LifeInsightExplorer({ months }) {
   const [view, setView] = useState("leaderboard");
   const [chart, setChart] = useState("bar");
   const [growthMode, setGrowthMode] = useState("yoy");
+  const changePeriodMode = (mode) => {
+    setPeriodMode(mode);
+    if (mode === "single") setChart("bar");
+  };
 
   const lineMonths = periodMode === "range"
     ? ordered.filter((month) => month.period >= rangeFrom && month.period <= rangeTo)
@@ -450,7 +510,7 @@ export default function LifeInsightExplorer({ months }) {
       <section style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 18, flexWrap: "wrap", paddingBottom: 22, borderBottom: "1px solid var(--line)" }}>
         <div>
           <div style={{ fontSize: 10, letterSpacing: ".17em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 9 }}>Reporting period</div>
-          <CompactTabs value={periodMode} onChange={setPeriodMode} label="Reporting period mode" options={[["single", "Single month"], ["range", "Range"]]} />
+          <CompactTabs value={periodMode} onChange={changePeriodMode} label="Reporting period mode" options={[["single", "Single month"], ["range", "Range"]]} />
         </div>
         {periodMode === "single" ? (
           <Select label="Reporting month" value={period} onChange={setPeriod} wide>
@@ -484,11 +544,25 @@ export default function LifeInsightExplorer({ months }) {
           ["insights", "Insights"],
         ]} />
         {(view === "leaderboard" || view === "growth" || view === "mix" || view === "compare") && (
-          <CompactTabs value={chart} onChange={setChart} label="Chart type" options={[["bar", "Bar Graph"], ["line", "Line Graph"]]} />
+          <CompactTabs
+            value={chart}
+            onChange={setChart}
+            label="Chart type"
+            options={periodMode === "range" ? [["bar", "Bar Graph"], ["line", "Line Graph"]] : [["bar", "Bar Graph"]]}
+          />
         )}
       </div>
 
       <ViewHelp view={view} />
+
+      {periodMode === "single" && view !== "insights" && (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", padding: "10px 12px", margin: "-10px 0 22px", border: "1px solid var(--line)", borderRadius: 7, background: "rgba(217,201,163,.035)" }}>
+          <span style={{ color: "var(--muted)", fontSize: 11.5 }}>Line Graph is available in Range mode because a trend needs more than one reporting month.</span>
+          <button type="button" onClick={() => changePeriodMode("range")} style={{ border: 0, background: "transparent", color: "var(--gold)", font: "inherit", fontSize: 11.5, cursor: "pointer" }}>
+            Choose a range →
+          </button>
+        </div>
+      )}
 
       {view !== "insights" && (
         <div style={{ display: "flex", gap: 11, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 24 }}>
@@ -575,12 +649,12 @@ function BusinessMix({ chart, records, months, measure, formatter, defaultInsure
           <p className="ix-charth" style={{ margin: 0 }}>{chart === "bar" ? "Business mix · all life insurers" : "Business mix over time"}</p>
           <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "7px 0 0" }}>{chart === "bar" ? "Each bar totals 100% of the insurer's selected YTD business." : "Monthly business-type pattern for the selected insurer."}</p>
         </div>
-        {chart === "line" && (
-          <Select label="Life insurer" value={insurer} onChange={setSelected} wide>
-            {names.map((name) => <option key={name} value={name}>{cleanName(name)}</option>)}
-          </Select>
-        )}
       </div>
+      {chart === "line" && (
+        <div style={{ marginBottom: 22 }}>
+          <InsurerPicker label="Life insurer to monitor" names={names} value={insurer} onChange={setSelected} />
+        </div>
+      )}
       {chart === "bar" ? (
         <>
           <div style={{ display: "flex", gap: 13, flexWrap: "wrap", marginBottom: 17 }}>
@@ -615,6 +689,11 @@ function CustomCompare({ chart, records, allMonths, months, baseIndex, measure, 
   const barRows = selectedNames.map((name) => ({ name, value: valueAt(name, baseMonth, baseIndex) }))
     .sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
   const isGrowth = metric !== "value";
+  const subjectValue = valueAt(subject, baseMonth, baseIndex);
+  const peerValues = validPeers.map((name) => valueAt(name, baseMonth, baseIndex)).filter((value) => value != null);
+  const peerAverage = peerValues.length ? peerValues.reduce((sum, value) => sum + value, 0) / peerValues.length : null;
+  const comparisonGap = subjectValue != null && peerAverage != null ? subjectValue - peerAverage : null;
+  const comparisonFormatter = isGrowth ? percent : formatter;
 
   const togglePeer = (name) => {
     if (name === subject) return;
@@ -623,17 +702,33 @@ function CustomCompare({ chart, records, allMonths, months, baseIndex, measure, 
 
   return (
     <div>
+      <div style={{ marginBottom: 20 }}>
+        <InsurerPicker
+          label="Subject insurer"
+          names={names}
+          value={subject}
+          info={SUBJECT_INFO}
+          onChange={(value) => {
+            setSubjectChoice(value);
+            setPeers((current) => current.filter((name) => name !== value));
+          }}
+        />
+      </div>
+
       <div style={{ display: "flex", alignItems: "flex-end", gap: 14, flexWrap: "wrap", marginBottom: 18 }}>
-        <Select label="Subject insurer" value={subject} onChange={(value) => { setSubjectChoice(value); setPeers((current) => current.filter((name) => name !== value)); }} wide>
-          {names.map((name) => <option key={name} value={name}>{cleanName(name)}</option>)}
-        </Select>
         <div>
           <div style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 7 }}>Metric</div>
           <CompactTabs value={metric} onChange={setMetric} label="Comparison metric" options={[["value", "Premium / volume"], ["yoy", "YoY"], ["mom", "MoM"]]} />
         </div>
       </div>
 
-      <div style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 9 }}>Choose up to four peers</div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 9 }}>
+        <div style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)" }}>Choose up to four peers</div>
+        <div style={{ display: "flex", gap: 10 }}>
+          <button type="button" onClick={() => setPeers(names.filter((name) => name !== subject).slice(0, 3))} style={{ border: 0, background: "transparent", color: "var(--gold)", font: "inherit", fontSize: 10.5, cursor: "pointer" }}>Quick select 3</button>
+          <button type="button" onClick={() => setPeers([])} style={{ border: 0, background: "transparent", color: "var(--muted)", font: "inherit", fontSize: 10.5, cursor: "pointer" }}>Clear</button>
+        </div>
+      </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 22 }}>
         {names.filter((name) => name !== subject).map((name) => {
           const active = validPeers.includes(name);
@@ -652,9 +747,25 @@ function CustomCompare({ chart, records, allMonths, months, baseIndex, measure, 
         })}
       </div>
 
-      {!validPeers.length ? <p style={{ color: "var(--muted2)", fontSize: 12.5 }}>Choose at least one peer.</p> : chart === "bar"
-        ? <BarChart rows={barRows} formatter={isGrowth ? percent : formatter} signed={isGrowth} />
-        : <LineChart months={months} series={lineSeries} formatter={isGrowth ? percent : formatter} axisFormatter={isGrowth ? percent : compactNumber} signed={isGrowth} />}
+      {!validPeers.length ? (
+        <p style={{ color: "var(--muted2)", fontSize: 12.5 }}>Choose at least one peer to create the comparison.</p>
+      ) : (
+        <>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 1, background: "var(--line)", marginBottom: 22 }}>
+            <Kpi label={cleanName(subject)} value={comparisonFormatter(subjectValue)} sub={`${baseMonth.label} · subject`} />
+            <Kpi label="Peer average" value={comparisonFormatter(peerAverage)} sub={`${validPeers.length} selected ${validPeers.length === 1 ? "peer" : "peers"}`} />
+            <Kpi
+              label="Gap vs peers"
+              value={comparisonGap == null ? "—" : isGrowth ? `${comparisonGap >= 0 ? "+" : ""}${comparisonGap.toFixed(1)} pts` : `${comparisonGap >= 0 ? "+" : ""}${comparisonFormatter(comparisonGap)}`}
+              sub={comparisonGap == null ? "Not available" : comparisonGap >= 0 ? "Subject is ahead" : "Subject is behind"}
+            />
+          </div>
+
+          {chart === "bar"
+            ? <BarChart rows={barRows} formatter={isGrowth ? percent : formatter} signed={isGrowth} />
+            : <LineChart months={months} series={lineSeries} formatter={isGrowth ? percent : formatter} axisFormatter={isGrowth ? percent : compactNumber} signed={isGrowth} />}
+        </>
+      )}
     </div>
   );
 }
