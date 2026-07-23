@@ -1,8 +1,6 @@
-"use client";
+ "use client";
 import React, { useState, useEffect, useRef } from "react";
 
-/* Reuses an existing FinLead Formspree inbox so it works immediately.
-   Swap for a dedicated form id any time. */
 const SUGGEST_ENDPOINT = "https://formspree.io/f/xkoedvda";
 
 const TICKER = [
@@ -18,9 +16,9 @@ const TICKER = [
   "A FinLead AI agent matched four thousand commission entries with no human touch.",
   "A FinLead AI agent flagged a payout discrepancy before it went out.",
 ];
-const FIRST_MS = 5000;   // first card appears after 5s
-const ROTATE_MS = 20000; // then a new card every 20s
-const VISIBLE_MS = 7000; // each card stays 7s
+const FIRST_MS = 5000;
+const ROTATE_MS = 20000;
+const VISIBLE_MS = 7000;
 
 export default function InsightChrome() {
   return (
@@ -35,7 +33,7 @@ function SuggestFeature() {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | sending | done | error
+  const [status, setStatus] = useState("idle");
 
   const send = async () => {
     if (!msg.trim()) return;
@@ -110,14 +108,17 @@ function AgentTicker() {
   }, []);
 
   return (
-    <div style={{ position: "fixed", top: 90, right: 14, maxWidth: "min(330px, 86vw)", zIndex: 45, pointerEvents: "none" }}>
+    <div style={{
+      position: "fixed", right: 16, bottom: 18, maxWidth: "min(330px, calc(100vw - 32px))",
+      zIndex: 45, pointerEvents: "none",
+    }}>
       <div style={{
         display: "flex", gap: 11, alignItems: "flex-start", padding: "12px 15px", borderRadius: 13,
-        background: "rgba(13,13,17,.82)", border: "1px solid var(--line)",
-        backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)",
-        boxShadow: "0 18px 50px rgba(0,0,0,.5)",
-        opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(-8px)",
-        transition: "opacity .5s var(--ease), transform .5s var(--ease)",
+        background: "rgba(13,13,17,.9)", border: "1px solid var(--line)",
+        backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
+        boxShadow: "0 14px 38px rgba(0,0,0,.38)",
+        opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(8px)",
+        transition: "opacity .3s ease, transform .3s ease",
       }}>
         <span style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--gold)", marginTop: 5, flex: "none", boxShadow: "0 0 10px rgba(217,201,163,.85)" }} />
         <div>
