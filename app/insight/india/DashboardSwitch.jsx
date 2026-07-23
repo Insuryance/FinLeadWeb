@@ -1,45 +1,14 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const GI_ROUTE = "/insight/india";
 const LIFE_ROUTE = "/insight/india/life";
-const EXIT_MS = 140;
 
 export default function DashboardSwitch({ children }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const recoveryTimer = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const [switching, setSwitching] = useState(false);
   const isLife = pathname.startsWith(LIFE_ROUTE);
-
-  useEffect(() => {
-    router.prefetch(GI_ROUTE);
-    router.prefetch(LIFE_ROUTE);
-  }, [router]);
-
-  useEffect(() => {
-    clearTimeout(recoveryTimer.current);
-    setSwitching(false);
-    const frame = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(frame);
-  }, [pathname]);
-
-  function changeSector(route) {
-    if (switching || route === pathname) return;
-    setSwitching(true);
-    setVisible(false);
-
-    window.setTimeout(() => router.push(route), EXIT_MS);
-
-    // If navigation is ever interrupted, restore the current dashboard.
-    recoveryTimer.current = window.setTimeout(() => {
-      setVisible(true);
-      setSwitching(false);
-    }, 1600);
-  }
 
   return (
     <>
@@ -68,9 +37,8 @@ export default function DashboardSwitch({ children }) {
           </div>
         </div>
 
-        <div
-          role="group"
-          aria-label="Choose insurance sector"
+        <nav
+          aria-label="Insurance sectors"
           style={{
             display: "inline-flex",
             gap: 4,
@@ -80,24 +48,17 @@ export default function DashboardSwitch({ children }) {
             background: "#0B0B0E",
           }}
         >
-          <SectorButton
-            active={!isLife}
-            disabled={switching}
-            onClick={() => changeSector(GI_ROUTE)}
-          >
+          <SectorLink href={GI_ROUTE} active={!isLife}>
             General insurance
-          </SectorButton>
-          <SectorButton
-            active={isLife}
-            disabled={switching}
-            onClick={() => changeSector(LIFE_ROUTE)}
-          >
+          </SectorLink>
+          <SectorLink href={LIFE_ROUTE} active={isLife}>
             Life insurance
-          </SectorButton>
-        </div>
+          </SectorLink>
+        </nav>
 
-        <a
+        <Link
           href="/insight"
+          prefetch
           style={{
             color: "var(--gold)",
             fontSize: 12.5,
@@ -106,46 +67,34 @@ export default function DashboardSwitch({ children }) {
           }}
         >
           Change country →
-        </a>
+        </Link>
       </section>
 
-      <div
-        aria-busy={switching}
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "translateY(0)" : "translateY(3px)",
-          transition: "opacity 160ms ease-out, transform 160ms ease-out",
-          pointerEvents: switching ? "none" : "auto",
-          willChange: switching ? "opacity, transform" : "auto",
-        }}
-      >
-        {children}
-      </div>
+      {/* Always visible. The dashboard no longer depends on an effect or timer. */}
+      <div>{children}</div>
     </>
   );
 }
 
-function SectorButton({ active, disabled, onClick, children }) {
+function SectorLink({ href, active, children }) {
   return (
-    <button
-      type="button"
-      aria-pressed={active}
-      disabled={disabled}
-      onClick={onClick}
+    <Link
+      href={href}
+      prefetch
+      aria-current={active ? "page" : undefined}
       style={{
-        border: 0,
+        display: "inline-block",
         borderRadius: 7,
         padding: "10px 15px",
-        cursor: disabled ? "wait" : "pointer",
         color: active ? "#0B0B0E" : "var(--muted)",
         background: active ? "var(--gold)" : "transparent",
-        font: "inherit",
         fontSize: 12.5,
         fontWeight: active ? 600 : 450,
-        transition: "color 120ms ease, background 120ms ease",
+        textDecoration: "none",
+        transition: "color 100ms ease, background 100ms ease",
       }}
     >
       {children}
-    </button>
+    </Link>
   );
 }
