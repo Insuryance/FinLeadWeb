@@ -623,6 +623,7 @@ function Intelligence({ rows, ctx }) {
 
 /* ---------- 6. Track Org (single insurer deep-dive) ---------- */
 const TRACK_SEGS = [["Motor Total", "Motor"], ["Health", "Health"], ["Fire", "Fire"], ["Marine Total", "Marine"], ["Engineering", "Engineering"], ["Liability", "Liability"], ["P.A.", "P.A."], ["Aviation", "Aviation"], ["All Other Misc (Crop Insurance + Credit Guarantee+All other misc)", "Other Misc"]];
+
 function TrackOrg({ rows, ctx, baseMonth }) {
   const names = useMemo(
     () => [...rows].sort((a, b) => (ctx.getValue(clean(b.insurer), "Grand Total") || 0) - (ctx.getValue(clean(a.insurer), "Grand Total") || 0)).map((r) => r.insurer),
@@ -631,102 +632,180 @@ function TrackOrg({ rows, ctx, baseMonth }) {
   const [who, setWho] = useState(names[0] || "");
   const subject = names.includes(who) ? who : names[0] || "";
   const [gmode, setGmode] = useState("yoy"); // yoy | mom
+  const [segmentChart, setSegmentChart] = useState("bar"); // bar | line
 
   if (!subject) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>No insurers in this group.</p>;
 
+  /*
+    Synchronise Track Org with the period controls at the top:
+    - Range mode uses exactly From -> To.
+    - Single-month mode shows history only up to the selected month.
+  */
+  const trackMonths = ctx.isRange
+    ? ctx.lineMonths
+    : ctx.monthsAsc.filter((month) => month.period <= baseMonth.period);
+  const trackSet = new Set(trackMonths.map((month) => month.period));
+
   const rec = baseMonth.bySheet["Segmentwise Report"].records.find((r) => clean(r.insurer) === clean(subject));
-  const premSeries = monthlySeries(ctx.monthsAsc, clean(subject), "Grand Total").filter((p) => ctx.winSet.has(p.period));
-  const growthFull = gmode === "yoy" ? yoySeries(ctx.monthsAsc, subject, "Grand Total") : momSeries(ctx.monthsAsc, subject, "Grand Total");
-  const growthPts = growthFull.filter((p) => ctx.winSet.has(p.period));
+  const premSeries = monthlySeries(ctx.monthsAsc, clean(subject), "Grand Total").filter((point) => trackSet.has(point.period));
+  const growthFull = gmode === "yoy"
+    ? yoySeries(ctx.monthsAsc, subject, "Grand Total")
+    : momSeries(ctx.monthsAsc, subject, "Grand Total");
+  const growthPts = growthFull.filter((point) => trackSet.has(point.period));
 
   /* momentum: trailing 3-month avg MoM vs the 3 months before that */
   const momFull = momSeries(ctx.monthsAsc, subject, "Grand Total");
-  const inWin = momFull.filter((p) => ctx.winSet.has(p.period) && p.value != null);
-  const recent = inWin.slice(-3).map((p) => p.value);
-  const prior = inWin.slice(-6, -3).map((p) => p.value);
-  const avg = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
-  const rAvg = avg(recent), pAvg = avg(prior);
-  const momentum = rAvg != null && pAvg != null ? rAvg - pAvg : null;
+  const inWin = momFull.filter((point) => trackSet.has(point.period) && point.value != null);
+  const recent = inWin.slice(-3).map((point) => point.value);
+  const prior = inWin.slice(-6, -3).map((point) => point.value);
+  const avg = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
+  const recentAverage = avg(recent);
+  const priorAverage = avg(prior);
+  const momentum = recentAverage != null && priorAverage != null ? recentAverage - priorAverage : null;
 
-  /* segment growth for the base month */
+  /* segment growth snapshot for the selected/base month */
   const segItems = TRACK_SEGS.map(([key, label]) => {
-    let v = null;
+    let value = null;
     if (gmode === "yoy") {
-      const c = rec && rec.current ? rec.current[key] : null;
-      const p = rec && rec.previous ? rec.previous[key] : null;
-      if (c != null && p != null && p !== 0) v = (c - p) / p;
+      const current = rec?.current?.[key];
+      const previous = rec?.previous?.[key];
+      if (current != null && previous != null && previous !== 0) value = (current - previous) / previous;
     } else {
-      const s = momSeries(ctx.monthsAsc, subject, key);
-      const pt = s.find((x) => x.period === baseMonth.period);
-      v = pt ? pt.value : null;
+      const point = momSeries(ctx.monthsAsc, subject, key).find((item) => item.period === baseMonth.period);
+      value = point?.value ?? null;
     }
-    const cur = rec && rec.current ? rec.current[key] : null;
-    return { key, label, value: v, cur };
-  }).filter((d) => d.value != null && d.cur != null && d.cur > 0);
+    const currentPremium = rec?.current?.[key] ?? null;
+    return { key, label, value, cur: currentPremium };
+  }).filter((item) => item.value != null && item.cur != null && item.cur > 0);
 
-  /* segment premium trend: top 4 segments by current value */
+  /* use the top four segments in both premium and growth trend lines */
   const topSegs = TRACK_SEGS
-    .map(([key, label]) => ({ key, label, v: rec && rec.current ? rec.current[key] || 0 : 0 }))
-    .filter((s) => s.v > 0).sort((a, b) => b.v - a.v).slice(0, 4);
-  const segSeries = topSegs.map((s, i) => ({
-    name: s.label, color: SERIES[i % 4],
-    points: monthlySeries(ctx.monthsAsc, clean(subject), s.key).filter((p) => ctx.winSet.has(p.period)),
+    .map(([key, label]) => ({ key, label, value: rec?.current?.[key] || 0 }))
+    .filter((segment) => segment.value > 0)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 4);
+
+  const segmentPremiumSeries = topSegs.map((segment, index) => ({
+    name: segment.label,
+    color: SERIES[index % SERIES.length],
+    points: monthlySeries(ctx.monthsAsc, clean(subject), segment.key).filter((point) => trackSet.has(point.period)),
   }));
 
-  const latestPrem = [...premSeries].reverse().find((p) => p.value != null);
-  const latestGrowth = [...growthPts].reverse().find((p) => p.value != null);
-  const gLabel = gmode === "yoy" ? "YoY (YTD basis)" : "MoM (monthly basis)";
+  const segmentGrowthSeries = topSegs.map((segment, index) => ({
+    name: segment.label,
+    color: SERIES[index % SERIES.length],
+    points: (
+      gmode === "yoy"
+        ? yoySeries(ctx.monthsAsc, subject, segment.key)
+        : momSeries(ctx.monthsAsc, subject, segment.key)
+    ).filter((point) => trackSet.has(point.period)),
+  }));
+
+  const latestPrem = [...premSeries].reverse().find((point) => point.value != null);
+  const latestGrowth = [...growthPts].reverse().find((point) => point.value != null);
+  const growthLabel = gmode === "yoy" ? "YoY (YTD basis)" : "MoM (monthly basis)";
+  const periodLabel = ctx.isRange
+    ? `${monShort(trackMonths[0]?.period || baseMonth.period)} to ${monShort(trackMonths.at(-1)?.period || baseMonth.period)}`
+    : `Through ${baseMonth.label}`;
 
   return (
     <div>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 26 }}>
         <div>
           <div style={IXL}>Insurer</div>
-          <select className="ix-select" value={subject} onChange={(e) => setWho(e.target.value)}>
-            {names.map((n) => <option key={n} value={n}>{shortName(n)}</option>)}
+          <select className="ix-select" value={subject} onChange={(event) => setWho(event.target.value)}>
+            {names.map((name) => <option key={name} value={name}>{shortName(name)}</option>)}
           </select>
         </div>
-        <div>
-          <div style={IXL}>Growth basis</div>
-          <Segmented value={gmode} onChange={setGmode} options={[{ v: "yoy", l: "YoY" }, { v: "mom", l: "MoM" }]} />
+
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
+          <div>
+            <div style={IXL}>Growth basis</div>
+            <Segmented value={gmode} onChange={setGmode} options={[{ v: "yoy", l: "YoY" }, { v: "mom", l: "MoM" }]} />
+          </div>
+          <div>
+            <div style={IXL}>Segment chart</div>
+            <Segmented value={segmentChart} onChange={setSegmentChart} options={[{ v: "bar", l: "Bar Graph" }, { v: "line", l: "Line Graph" }]} />
+          </div>
         </div>
       </div>
+
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "-10px 0 24px" }}>
+        Track Org period · {periodLabel}
+      </p>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(168px,1fr))", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden", marginBottom: 34 }}>
         <Kpi label="Latest monthly premium" value={latestPrem ? inr(Math.round(latestPrem.value)) : "-"} sub={latestPrem ? monShort(latestPrem.period) : ""} />
-        <Kpi label={"Latest " + (gmode === "yoy" ? "YoY growth" : "MoM growth")} value={latestGrowth ? pct(latestGrowth.value) : "-"} sub={latestGrowth ? monShort(latestGrowth.period) + " \u00B7 " + gLabel : ""} />
-        <Kpi label="Market share" value={rec && rec.current && rec.current["Market %"] != null ? pct(Math.abs(rec.current["Market %"]) > 1 ? rec.current["Market %"] / 100 : rec.current["Market %"]) : "-"} sub={baseMonth.label + " \u00B7 YTD basis"} />
-        <Kpi label="Momentum" value={momentum == null ? "-" : (momentum >= 0 ? "Accelerating" : "Decelerating")} sub={momentum == null ? "needs 6 months of data" : "3-mo avg MoM " + (momentum >= 0 ? "+" : "") + (momentum * 100).toFixed(1) + " pts vs prior 3-mo"} />
+        <Kpi label={`Latest ${gmode === "yoy" ? "YoY growth" : "MoM growth"}`} value={latestGrowth ? pct(latestGrowth.value) : "-"} sub={latestGrowth ? `${monShort(latestGrowth.period)} · ${growthLabel}` : ""} />
+        <Kpi label="Market share" value={rec?.current?.["Market %"] != null ? pct(Math.abs(rec.current["Market %"]) > 1 ? rec.current["Market %"] / 100 : rec.current["Market %"]) : "-"} sub={`${baseMonth.label} · YTD basis`} />
+        <Kpi label="Momentum" value={momentum == null ? "-" : momentum >= 0 ? "Accelerating" : "Decelerating"} sub={momentum == null ? "needs 6 months of data" : `3-mo avg MoM ${momentum >= 0 ? "+" : ""}${(momentum * 100).toFixed(1)} pts vs prior 3-mo`} />
       </div>
 
       <p className="ix-charth">Monthly premium trend · {shortName(subject)}<InfoButton info={INFO.trackorg} /></p>
-      <MultiLineChart series={[{ name: shortName(subject), color: GOLD, points: premSeries }]} axisMonths={ctx.lineMonths} />
-      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>Monthly premium derived from year-to-date figures; the financial year resets every April.</p>
-
-      <p className="ix-charth">{gmode === "yoy" ? "Year-on-year growth over time (YTD basis)" : "Month-on-month growth over time (monthly basis)"}</p>
-      <MultiLineChart series={[{ name: shortName(subject), color: gmode === "yoy" ? GREEN : "#94A7C7", points: growthPts }]} axisMonths={ctx.lineMonths} valueFmt={pct} tickFmt={pctTick} />
+      <MultiLineChart series={[{ name: shortName(subject), color: GOLD, points: premSeries }]} axisMonths={trackMonths} />
       <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>
-        {gmode === "yoy" ? "YoY compares each month's year-to-date premium with the same point last financial year: a sustained-growth read." : "MoM compares each month's premium with the month before: a momentum read, more volatile by nature."}
+        Monthly premium derived from year-to-date figures; the financial year resets every April.
       </p>
 
-      <p className="ix-charth">Segment growth · {baseMonth.label} · {gmode === "yoy" ? "YoY" : "MoM"}</p>
-      {segItems.length === 0 ? <p style={{ color: "var(--muted2)", fontSize: 13 }}>Not enough segment history for this basis in {baseMonth.label}.</p> : (
-        <HBarChart
-          items={segItems.map((d) => ({ key: d.key, label: d.label, value: d.value, title: d.label + " \u00B7 " + pct(d.value) + " \u00B7 " + inr(d.cur) + " YTD" }))}
-          valueFmt={pct} tickFmt={pctTick} colorFn={(v) => (v >= 0 ? GREEN : RED)} signed
-        />
-      )}
-      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>Broad green across segments means growth is broad-based; one tall bar means it is concentrated in a single line of business.</p>
+      <p className="ix-charth">{gmode === "yoy" ? "Year-on-year growth over time (YTD basis)" : "Month-on-month growth over time (monthly basis)"}</p>
+      <MultiLineChart
+        series={[{ name: shortName(subject), color: gmode === "yoy" ? GREEN : "#94A7C7", points: growthPts }]}
+        axisMonths={trackMonths}
+        valueFmt={pct}
+        tickFmt={pctTick}
+      />
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>
+        {gmode === "yoy"
+          ? "YoY compares each month's year-to-date premium with the same point last financial year."
+          : "MoM compares each month's premium with the immediately preceding month. The line ends at the selected month."}
+      </p>
 
-      {segSeries.length > 0 && (<>
-        <p className="ix-charth">Segment premium trend · top {segSeries.length} segments</p>
-        <Legend series={segSeries} />
-        <MultiLineChart series={segSeries} axisMonths={ctx.lineMonths} />
-      </>)}
+      <p className="ix-charth">
+        Segment growth · {segmentChart === "bar" ? baseMonth.label : periodLabel} · {gmode === "yoy" ? "YoY" : "MoM"}
+      </p>
+
+      {segmentChart === "bar" ? (
+        segItems.length === 0 ? (
+          <p style={{ color: "var(--muted2)", fontSize: 13 }}>Not enough segment history for this basis in {baseMonth.label}.</p>
+        ) : (
+          <HBarChart
+            items={segItems.map((item) => ({
+              key: item.key,
+              label: item.label,
+              value: item.value,
+              title: `${item.label} · ${pct(item.value)} · ${inr(item.cur)} YTD`,
+            }))}
+            valueFmt={pct}
+            tickFmt={pctTick}
+            colorFn={(value) => value >= 0 ? GREEN : RED}
+            signed
+          />
+        )
+      ) : (
+        segmentGrowthSeries.length === 0 ? (
+          <p style={{ color: "var(--muted2)", fontSize: 13 }}>No segment growth history is available in this period.</p>
+        ) : (
+          <>
+            <Legend series={segmentGrowthSeries} />
+            <MultiLineChart series={segmentGrowthSeries} axisMonths={trackMonths} valueFmt={pct} tickFmt={pctTick} />
+          </>
+        )
+      )}
+
+      <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "14px 0 34px", lineHeight: 1.5 }}>
+        Bar Graph is the selected-month snapshot. Line Graph monitors how the leading segments changed through the selected month or range.
+      </p>
+
+      {segmentPremiumSeries.length > 0 && (
+        <>
+          <p className="ix-charth">Segment premium trend · top {segmentPremiumSeries.length} segments</p>
+          <Legend series={segmentPremiumSeries} />
+          <MultiLineChart series={segmentPremiumSeries} axisMonths={trackMonths} />
+        </>
+      )}
     </div>
   );
 }
-
 /* ---------- 7. Custom Compare (insurer vs custom peer group) ---------- */
 function CustomCompare({ rows, ctx }) {
   const ranked = useMemo(
