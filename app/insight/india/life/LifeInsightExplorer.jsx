@@ -7,6 +7,7 @@ const BLUE = "#94A7C7";
 const GREEN = "#9BC4A0";
 const RED = "#D69A9A";
 const COLORS = [GOLD, BLUE, GREEN, "#C2A3B0", "#C9B07A", "#8FB8C4"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const TYPES = [
   "Total",
   "Individual Single Premium",
@@ -15,16 +16,28 @@ const TYPES = [
   "Group Non Single Premium",
   "Group Yearly Renewable Premium",
 ];
+const MIX_TYPES = TYPES.slice(1);
 
-const short = (name = "") => name
+const cleanName = (name = "") => name
   .replace(/LIFE INSURANCE COMPANY|INSURANCE COMPANY|LIFE INSURANCE|LIMITED\.?|CORPORATION OF INDIA/gi, "")
   .replace(/\s+/g, " ").trim();
-const money = (n) => n == null ? "—" : `₹${Number(n).toLocaleString("en-IN", { maximumFractionDigits: 2 })} Cr`;
-const number = (n) => n == null ? "—" : Number(n).toLocaleString("en-IN", { maximumFractionDigits: 0 });
-const percent = (n) => n == null || !Number.isFinite(Number(n)) ? "—" : `${Number(n).toFixed(1)}%`;
-const actualRecords = (month) => (month?.records || []).filter((r) => r.group === "Private" || r.group === "LIC");
+const money = (value) => value == null ? "—" : `₹${Number(value).toLocaleString("en-IN", { maximumFractionDigits: 1 })} Cr`;
+const number = (value) => value == null ? "—" : Number(value).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+const percent = (value) => value == null || !Number.isFinite(Number(value)) ? "—" : `${Number(value).toFixed(1)}%`;
+const compactNumber = (value) => {
+  const amount = Math.abs(value);
+  if (amount >= 100000) return `${(value / 100000).toFixed(1)}L`;
+  if (amount >= 1000) return `${(value / 1000).toFixed(1)}k`;
+  return Number(value).toFixed(0);
+};
+const actualRecords = (month) => (month?.records || []).filter((record) => record.group === "Private" || record.group === "LIC");
+const findRecord = (month, name) => actualRecords(month).find((record) => record.insurer === name);
 const field = (record, measure, type, key) => record?.[measure]?.[type]?.[key] ?? null;
-const findRecord = (month, name) => actualRecords(month).find((r) => r.insurer === name);
+const shortPeriod = (period) => {
+  const [year, month] = period.split("-");
+  return `${MONTHS[Number(month) - 1]} ’${year.slice(2)}`;
+};
+const typeLabel = (type) => type.replace(" Premium", "").replace("Individual ", "Ind. ").replace("Group ", "Grp. ");
 
 function monthlyGrowth(months, name, measure, type, index) {
   if (index < 1) return null;
@@ -35,104 +48,165 @@ function monthlyGrowth(months, name, measure, type, index) {
     : null;
 }
 
-function Kpi({ label, value, sub }) {
+function CompactTabs({ value, onChange, options, label }) {
   return (
-    <div style={{ background: "#0B0B0E", padding: "17px 20px", minWidth: 0 }}>
-      <div style={{ fontSize: 10, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</div>
-      <div className="fl-serif" style={{ fontSize: 24, color: "var(--ivory)", marginTop: 8, overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
-      <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 6 }}>{sub}</div>
-    </div>
-  );
-}
-
-function Controls({ children }) {
-  return <div style={{ display: "flex", gap: 9, flexWrap: "wrap", alignItems: "center", marginBottom: 24 }}>{children}</div>;
-}
-
-function Tabs({ value, onChange, options }) {
-  return (
-    <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-      {options.map(([key, label]) => (
-        <button key={key} type="button" className={`fl-btn ${value === key ? "fl-btn-shine" : "fl-btn-ghost"}`} onClick={() => onChange(key)}>
-          {label}
+    <div role="group" aria-label={label} style={{ display: "inline-flex", gap: 3, padding: 3, border: "1px solid var(--line)", borderRadius: 8, background: "#0B0B0E", flexWrap: "wrap" }}>
+      {options.map(([key, text]) => (
+        <button
+          key={key}
+          type="button"
+          aria-pressed={value === key}
+          onClick={() => onChange(key)}
+          style={{
+            border: 0,
+            borderRadius: 6,
+            padding: "8px 12px",
+            background: value === key ? "var(--gold)" : "transparent",
+            color: value === key ? "#0B0B0E" : "var(--muted)",
+            font: "inherit",
+            fontSize: 12,
+            fontWeight: value === key ? 600 : 450,
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {text}
         </button>
       ))}
     </div>
   );
 }
 
-function BarChart({ rows, formatter, signed = false }) {
-  const values = rows.map((row) => Math.abs(row.value || 0));
-  const max = Math.max(1, ...values);
+function Select({ label, value, onChange, children, wide = false }) {
   return (
-    <div style={{ display: "grid", gap: 13 }}>
-      {rows.map((row) => (
-        <div key={row.name} style={{ display: "grid", gridTemplateColumns: "minmax(115px,190px) minmax(90px,1fr) 110px", gap: 12, alignItems: "center" }}>
-          <div title={row.name} style={{ color: "var(--ivory)", fontSize: 12.5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{short(row.name)}</div>
-          <div style={{ height: 14, background: "rgba(255,255,255,.045)", borderRadius: 2 }}>
-            <div style={{
-              width: `${Math.abs(row.value || 0) / max * 100}%`,
-              height: "100%",
-              borderRadius: 2,
-              background: signed ? ((row.value || 0) >= 0 ? GREEN : RED) : GOLD,
-            }} />
+    <label style={{ display: "grid", gap: 7 }}>
+      <span style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</span>
+      <select
+        className="fl-input"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        style={{ minWidth: wide ? 200 : 155, minHeight: 42, padding: "10px 34px 10px 12px", fontSize: 13 }}
+      >
+        {children}
+      </select>
+    </label>
+  );
+}
+
+function Kpi({ label, value, sub }) {
+  return (
+    <div style={{ background: "#0B0B0E", padding: "14px 16px", minWidth: 0 }}>
+      <div style={{ fontSize: 9.5, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</div>
+      <div className="fl-serif" style={{ fontSize: 20, color: "var(--ivory)", marginTop: 7, overflow: "hidden", textOverflow: "ellipsis" }}>{value}</div>
+      <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 5 }}>{sub}</div>
+    </div>
+  );
+}
+
+function BarChart({ rows, formatter, signed = false, limit }) {
+  const shown = limit ? rows.slice(0, limit) : rows;
+  const max = Math.max(1, ...shown.map((row) => Math.abs(row.value || 0)));
+  return (
+    <div style={{ display: "grid", gap: 11 }}>
+      {shown.map((row) => (
+        <div key={row.name} style={{ display: "grid", gridTemplateColumns: "minmax(110px,185px) minmax(90px,1fr) 105px", gap: 10, alignItems: "center" }}>
+          <div title={row.name} style={{ color: "var(--ivory)", fontSize: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cleanName(row.name)}</div>
+          <div style={{ height: 12, background: "rgba(255,255,255,.045)", borderRadius: 2 }}>
+            <div style={{ width: `${Math.abs(row.value || 0) / max * 100}%`, height: "100%", borderRadius: 2, background: signed ? ((row.value || 0) >= 0 ? GREEN : RED) : GOLD }} />
           </div>
-          <div style={{ textAlign: "right", fontSize: 12.5, color: signed ? ((row.value || 0) >= 0 ? GREEN : RED) : "var(--ivory)" }}>{formatter(row.value)}</div>
+          <div style={{ textAlign: "right", fontSize: 12, color: signed ? ((row.value || 0) >= 0 ? GREEN : RED) : "var(--ivory)" }}>{formatter(row.value)}</div>
         </div>
       ))}
     </div>
   );
 }
 
-function LineChart({ months, series, formatter, signed = false }) {
-  const W = 820, H = 360, L = 62, R = 18, T = 18, B = 48;
-  const values = series.flatMap((item) => item.values).filter((v) => v != null && Number.isFinite(v));
+function LineChart({ months, series, formatter, axisFormatter = compactNumber, signed = false }) {
+  const W = 820, H = 350, L = 60, R = 18, T = 18, B = 52;
+  const values = series.flatMap((item) => item.values).filter((value) => value != null && Number.isFinite(value));
   const minValue = signed ? Math.min(0, ...values) : 0;
   const maxValue = Math.max(1, ...values);
   const span = maxValue - minValue || 1;
-  const x = (i) => L + (months.length < 2 ? (W - L - R) / 2 : i * (W - L - R) / (months.length - 1));
-  const y = (v) => T + (H - T - B) * (1 - (v - minValue) / span);
+  const x = (index) => L + (months.length < 2 ? (W - L - R) / 2 : index * (W - L - R) / (months.length - 1));
+  const y = (value) => T + (H - T - B) * (1 - (value - minValue) / span);
+  const labelEvery = Math.max(1, Math.ceil(months.length / 9));
+
+  if (!months.length || !values.length) return <p style={{ color: "var(--muted2)", fontSize: 12.5 }}>Not enough data for this line chart.</p>;
 
   return (
     <>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto" }} role="img" aria-label="Life insurance trend chart">
-        {[0, .25, .5, .75, 1].map((p) => {
-          const value = minValue + span * p;
-          return <g key={p}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} role="img" aria-label="Life insurance trend chart">
+        {[0, .25, .5, .75, 1].map((part) => {
+          const value = minValue + span * part;
+          return <g key={part}>
             <line x1={L} x2={W - R} y1={y(value)} y2={y(value)} stroke="rgba(255,255,255,.06)" />
-            <text x={L - 9} y={y(value) + 4} textAnchor="end" fill="#706C64" fontSize="9.5">{formatter(value)}</text>
+            <text x={L - 9} y={y(value) + 4} textAnchor="end" fill="#706C64" fontSize="9.5">{axisFormatter(value)}</text>
           </g>;
         })}
         {signed && minValue < 0 && <line x1={L} x2={W - R} y1={y(0)} y2={y(0)} stroke="rgba(255,255,255,.2)" />}
-        {months.map((month, i) => <text key={month.period} x={x(i)} y={H - 15} textAnchor="middle" fill="#928E84" fontSize="10">{month.period}</text>)}
-        {series.map((item, si) => {
-          const points = item.values.map((v, i) => v == null ? null : `${x(i)},${y(v)}`).filter(Boolean).join(" ");
+        {months.map((month, index) => {
+          const show = index % labelEvery === 0 || index === months.length - 1;
+          return show ? <text key={month.period} x={x(index)} y={H - 18} textAnchor="middle" fill="#928E84" fontSize="10">{shortPeriod(month.period)}</text> : null;
+        })}
+        {series.map((item, seriesIndex) => {
+          const points = item.values.map((value, index) => value == null ? null : `${x(index)},${y(value)}`).filter(Boolean).join(" ");
           return <g key={item.name}>
-            <polyline points={points} fill="none" stroke={COLORS[si % COLORS.length]} strokeWidth="2" />
-            {item.values.map((v, i) => v == null ? null : <circle key={i} cx={x(i)} cy={y(v)} r="3" fill={COLORS[si % COLORS.length]}><title>{`${item.name}, ${months[i].label}: ${formatter(v)}`}</title></circle>)}
+            <polyline points={points} fill="none" stroke={COLORS[seriesIndex % COLORS.length]} strokeWidth="2" />
+            {item.values.map((value, index) => value == null ? null : (
+              <circle key={index} cx={x(index)} cy={y(value)} r="3" fill={COLORS[seriesIndex % COLORS.length]}>
+                <title>{`${item.name}, ${months[index].label}: ${formatter(value)}`}</title>
+              </circle>
+            ))}
           </g>;
         })}
       </svg>
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 6 }}>
-        {series.map((item, i) => <span key={item.name} style={{ fontSize: 11.5, color: COLORS[i % COLORS.length] }}>● {short(item.name)}</span>)}
+      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 7 }}>
+        {series.map((item, index) => <span key={item.name} style={{ fontSize: 11.5, color: COLORS[index % COLORS.length] }}>● {cleanName(item.name)}</span>)}
       </div>
     </>
   );
 }
 
-function InsightCard({ eyebrow, title, body, tone = GOLD }) {
+function MixBars({ records, measure }) {
+  const sorted = [...records].sort((a, b) => (field(b, measure, "Total", "current_upto") || 0) - (field(a, measure, "Total", "current_upto") || 0));
   return (
-    <article style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "18px 18px 20px", background: "rgba(11,11,14,.5)" }}>
-      <div style={{ color: tone, fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase" }}>{eyebrow}</div>
-      <div className="fl-serif" style={{ color: "var(--ivory)", fontSize: 19, marginTop: 9 }}>{title}</div>
-      <p style={{ color: "var(--muted)", fontSize: 12.5, lineHeight: 1.6, margin: "9px 0 0" }}>{body}</p>
+    <div style={{ display: "grid", gap: 13 }}>
+      {sorted.map((record) => {
+        const total = field(record, measure, "Total", "current_upto") || 1;
+        return (
+          <div key={record.insurer} style={{ display: "grid", gridTemplateColumns: "minmax(115px,185px) 1fr", gap: 12, alignItems: "center" }}>
+            <div title={record.insurer} style={{ color: "var(--ivory)", fontSize: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cleanName(record.insurer)}</div>
+            <div style={{ display: "flex", height: 14, overflow: "hidden", borderRadius: 2, background: "rgba(255,255,255,.04)" }}>
+              {MIX_TYPES.map((type, index) => {
+                const value = field(record, measure, type, "current_upto") || 0;
+                const share = Math.max(0, value / total * 100);
+                return <div key={type} style={{ width: `${share}%`, background: COLORS[index] }}><span title={`${typeLabel(type)}: ${percent(share)}`} /></div>;
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function InsightCard({ eyebrow, title, body, color = GOLD }) {
+  return (
+    <article style={{ border: "1px solid var(--line)", borderRadius: 7, padding: "15px 16px", background: "rgba(11,11,14,.5)" }}>
+      <div style={{ color, fontSize: 9, letterSpacing: ".15em", textTransform: "uppercase" }}>{eyebrow}</div>
+      <div className="fl-serif" style={{ color: "var(--ivory)", fontSize: 17, marginTop: 8 }}>{title}</div>
+      <p style={{ color: "var(--muted)", fontSize: 11.5, lineHeight: 1.55, margin: "7px 0 0" }}>{body}</p>
     </article>
   );
 }
 
 export default function LifeInsightExplorer({ months }) {
   const ordered = useMemo(() => [...months].sort((a, b) => a.period.localeCompare(b.period)), [months]);
-  const [period, setPeriod] = useState(ordered.at(-1)?.period || "");
+  const lastPeriod = ordered.at(-1)?.period || "";
+  const [periodMode, setPeriodMode] = useState("single");
+  const [period, setPeriod] = useState(lastPeriod);
+  const [rangeFrom, setRangeFrom] = useState(ordered[Math.max(0, ordered.length - 6)]?.period || lastPeriod);
+  const [rangeTo, setRangeTo] = useState(lastPeriod);
   const [measure, setMeasure] = useState("premium");
   const [type, setType] = useState("Total");
   const [valueMode, setValueMode] = useState("current_upto");
@@ -140,147 +214,260 @@ export default function LifeInsightExplorer({ months }) {
   const [chart, setChart] = useState("bar");
   const [growthMode, setGrowthMode] = useState("yoy");
 
-  const currentIndex = Math.max(0, ordered.findIndex((month) => month.period === period));
-  const current = ordered[currentIndex] || ordered.at(-1);
-  const records = actualRecords(current);
+  const lineMonths = periodMode === "range"
+    ? ordered.filter((month) => month.period >= rangeFrom && month.period <= rangeTo)
+    : ordered.filter((month) => month.period <= period);
+  const basePeriod = periodMode === "range" ? rangeTo : period;
+  const baseIndex = Math.max(0, ordered.findIndex((month) => month.period === basePeriod));
+  const baseMonth = ordered[baseIndex] || ordered.at(-1);
+  const records = actualRecords(baseMonth);
   const formatter = measure === "premium" ? money : number;
-  const total = (current?.records || []).find((r) => r.group === "Grand Total");
-  const privateTotal = (current?.records || []).find((r) => r.group === "Private Total");
-  const lic = records.find((r) => r.group === "LIC");
-
-  const ranked = records.map((record) => ({
-    name: record.insurer,
-    value: field(record, measure, type, valueMode),
-  })).sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
+  const total = (baseMonth?.records || []).find((record) => record.group === "Grand Total");
+  const privateTotal = (baseMonth?.records || []).find((record) => record.group === "Private Total");
+  const lic = records.find((record) => record.group === "LIC");
 
   const premiumLeaders = [...records].sort((a, b) =>
     (field(b, "premium", "Total", "current_upto") || 0) - (field(a, "premium", "Total", "current_upto") || 0)
   ).slice(0, 6).map((record) => record.insurer);
 
+  const ranked = records.map((record) => ({ name: record.insurer, value: field(record, measure, type, valueMode) }))
+    .sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
   const valueSeries = premiumLeaders.map((name) => ({
     name,
-    values: ordered.map((month) => field(findRecord(month, name), measure, type, "current_month")),
+    values: lineMonths.map((month) => field(findRecord(month, name), measure, type, "current_month")),
   }));
-
   const growthRows = records.map((record) => ({
     name: record.insurer,
     value: growthMode === "yoy"
       ? field(record, measure, type, "ytd_variation_pct")
-      : monthlyGrowth(ordered, record.insurer, measure, type, currentIndex),
+      : monthlyGrowth(ordered, record.insurer, measure, type, baseIndex),
   })).sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
-
   const growthSeries = premiumLeaders.map((name) => ({
     name,
-    values: ordered.map((month, index) => growthMode === "yoy"
-      ? field(findRecord(month, name), measure, type, "ytd_variation_pct")
-      : monthlyGrowth(ordered, name, measure, type, index)),
+    values: lineMonths.map((month) => {
+      const index = ordered.findIndex((item) => item.period === month.period);
+      return growthMode === "yoy"
+        ? field(findRecord(month, name), measure, type, "ytd_variation_pct")
+        : monthlyGrowth(ordered, name, measure, type, index);
+    }),
   }));
 
   const industryPremium = field(total, "premium", "Total", "current_upto");
   const privatePremium = field(privateTotal, "premium", "Total", "current_upto");
   const privateShare = industryPremium ? privatePremium / industryPremium * 100 : null;
-  const fastestYoy = [...records].map((record) => ({ name: record.insurer, value: field(record, "premium", "Total", "ytd_variation_pct") }))
+  const fastestYoy = records.map((record) => ({ name: record.insurer, value: field(record, "premium", "Total", "ytd_variation_pct") }))
     .filter((item) => item.value != null).sort((a, b) => b.value - a.value)[0];
-  const fastestMom = [...records].map((record) => ({ name: record.insurer, value: monthlyGrowth(ordered, record.insurer, "premium", "Total", currentIndex) }))
+  const fastestMom = records.map((record) => ({ name: record.insurer, value: monthlyGrowth(ordered, record.insurer, "premium", "Total", baseIndex) }))
     .filter((item) => item.value != null).sort((a, b) => b.value - a.value)[0];
-  const individualPremium = (field(total, "premium", "Individual Single Premium", "current_upto") || 0)
-    + (field(total, "premium", "Individual Non Single Premium", "current_upto") || 0);
-  const individualShare = industryPremium ? individualPremium / industryPremium * 100 : null;
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "space-between", alignItems: "end", marginBottom: 24 }}>
+      <section style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 18, flexWrap: "wrap", paddingBottom: 22, borderBottom: "1px solid var(--line)" }}>
         <div>
-          <div className="ix-label">Reporting month</div>
-          <select className="fl-input" value={period} onChange={(e) => setPeriod(e.target.value)} style={{ padding: "10px 12px" }}>
-            {[...ordered].reverse().map((month) => <option key={month.period} value={month.period}>{month.label}</option>)}
-          </select>
+          <div style={{ fontSize: 10, letterSpacing: ".17em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 9 }}>Reporting period</div>
+          <CompactTabs value={periodMode} onChange={setPeriodMode} label="Reporting period mode" options={[["single", "Single month"], ["range", "Range"]]} />
         </div>
-        <Tabs value={view} onChange={setView} options={[
-          ["leaderboard", "Leaderboard"],
-          ["growth", "YoY & MoM growth"],
-          ["mix", "Business mix"],
-          ["insights", "Insights"],
-        ]} />
-      </div>
+        {periodMode === "single" ? (
+          <Select label="Reporting month" value={period} onChange={setPeriod} wide>
+            {[...ordered].reverse().map((month) => <option key={month.period} value={month.period}>{month.label}</option>)}
+          </Select>
+        ) : (
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <Select label="From" value={rangeFrom} onChange={(value) => { setRangeFrom(value); if (value > rangeTo) setRangeTo(value); }} wide>
+              {ordered.filter((month) => month.period <= rangeTo).map((month) => <option key={month.period} value={month.period}>{month.label}</option>)}
+            </Select>
+            <Select label="To" value={rangeTo} onChange={(value) => { setRangeTo(value); if (value < rangeFrom) setRangeFrom(value); }} wide>
+              {ordered.filter((month) => month.period >= rangeFrom).map((month) => <option key={month.period} value={month.period}>{month.label}</option>)}
+            </Select>
+          </div>
+        )}
+      </section>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(170px,1fr))", gap: 1, background: "var(--line)", marginBottom: 26 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 1, background: "var(--line)", margin: "22px 0" }}>
         <Kpi label="Industry premium" value={money(industryPremium)} sub="Financial year to date" />
         <Kpi label="Industry policies" value={number(field(total, "policies", "Total", "current_upto"))} sub="Financial year to date" />
         <Kpi label="Private share" value={percent(privateShare)} sub="Share of YTD premium" />
         <Kpi label="LIC growth" value={percent(field(lic, "premium", "Total", "ytd_variation_pct"))} sub="YTD premium variation" />
       </div>
 
-      {view !== "insights" && <Controls>
-        <select className="fl-input" value={measure} onChange={(e) => setMeasure(e.target.value)} style={{ padding: "10px 12px" }}>
-          <option value="premium">Premium (₹ Cr)</option>
-          <option value="policies">Policies / schemes</option>
-        </select>
-        <select className="fl-input" value={type} onChange={(e) => setType(e.target.value)} style={{ padding: "10px 12px" }}>
-          {TYPES.map((item) => <option key={item}>{item}</option>)}
-        </select>
-        {view === "leaderboard" && <select className="fl-input" value={valueMode} onChange={(e) => setValueMode(e.target.value)} style={{ padding: "10px 12px" }}>
-          <option value="current_upto">YTD value</option>
-          <option value="current_month">Current month</option>
-        </select>}
-        {view === "growth" && <Tabs value={growthMode} onChange={setGrowthMode} options={[["yoy", "YoY growth"], ["mom", "MoM growth"]]} />}
-        {(view === "leaderboard" || view === "growth") && <Tabs value={chart} onChange={setChart} options={[["bar", "Bar chart"], ["line", "Line chart"]]} />}
-      </Controls>}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", paddingBottom: 12, borderBottom: "1px solid var(--line)", marginBottom: 22 }}>
+        <CompactTabs value={view} onChange={setView} label="Life dashboard view" options={[
+          ["leaderboard", "Leaderboard"],
+          ["growth", "YoY & MoM"],
+          ["mix", "Business mix"],
+          ["compare", "Custom compare"],
+          ["insights", "Insights"],
+        ]} />
+        {(view === "leaderboard" || view === "growth" || view === "mix" || view === "compare") && (
+          <CompactTabs value={chart} onChange={setChart} label="Chart type" options={[["bar", "Bar Graph"], ["line", "Line Graph"]]} />
+        )}
+      </div>
 
-      {view === "leaderboard" && chart === "bar" && <BarChart rows={ranked} formatter={formatter} />}
-      {view === "leaderboard" && chart === "line" && <LineChart months={ordered} series={valueSeries} formatter={formatter} />}
-
-      {view === "growth" && chart === "bar" && (
-        <>
-          {growthMode === "mom" && currentIndex === 0
-            ? <p className="fl-muted">MoM growth needs at least one earlier monthly file.</p>
-            : <BarChart rows={growthRows} formatter={percent} signed />}
-        </>
-      )}
-      {view === "growth" && chart === "line" && <LineChart months={ordered} series={growthSeries} formatter={percent} signed />}
-
-      {view === "mix" && (
-        <>
-          <p className="fl-muted" style={{ fontSize: 12.5, margin: "0 0 18px" }}>
-            Showing every life insurer reported for {current.label}. Each percentage is the insurer's share of selected YTD business.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16 }}>
-            {[...records].sort((a, b) => (field(b, measure, "Total", "current_upto") || 0) - (field(a, measure, "Total", "current_upto") || 0)).map((record) => {
-              const denominator = field(record, measure, "Total", "current_upto") || 1;
-              return <article key={record.insurer} style={{ border: "1px solid var(--line)", borderRadius: 7, padding: 16 }}>
-                <div title={record.insurer} style={{ color: "var(--ivory)", fontSize: 13, marginBottom: 12 }}>{short(record.insurer)}</div>
-                {TYPES.slice(1).map((item, index) => {
-                  const value = field(record, measure, item, "current_upto") || 0;
-                  const share = value / denominator * 100;
-                  return <div key={item} style={{ marginTop: 9 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, color: "var(--muted)" }}>
-                      <span>{item.replace(" Premium", "")}</span><span>{percent(share)}</span>
-                    </div>
-                    <div style={{ height: 5, background: "rgba(255,255,255,.05)", marginTop: 4 }}>
-                      <div style={{ width: `${Math.min(100, Math.max(0, share))}%`, height: "100%", background: COLORS[index] }} />
-                    </div>
-                  </div>;
-                })}
-              </article>;
-            })}
-          </div>
-        </>
-      )}
-
-      {view === "insights" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 14 }}>
-          <InsightCard eyebrow="Market leader" title={short(premiumLeaders[0])} body={`Leads reported YTD new-business premium in ${current.label}.`} />
-          <InsightCard eyebrow="YoY momentum" title={fastestYoy ? `${short(fastestYoy.name)} · ${percent(fastestYoy.value)}` : "Not available"} body="Highest reported YTD premium growth among individual insurers." tone={GREEN} />
-          <InsightCard eyebrow="Monthly momentum" title={fastestMom ? `${short(fastestMom.name)} · ${percent(fastestMom.value)}` : "Needs prior month"} body="Strongest month-on-month change in total new-business premium." tone={fastestMom?.value >= 0 ? GREEN : RED} />
-          <InsightCard eyebrow="Market structure" title={`Private insurers · ${percent(privateShare)}`} body="Combined private-sector share of total industry YTD new-business premium." tone={BLUE} />
-          <InsightCard eyebrow="Business composition" title={`Individual · ${percent(individualShare)}`} body="Individual single and non-single premium as a share of total industry YTD premium." tone="#C2A3B0" />
-          <InsightCard eyebrow="LIC direction" title={percent(field(lic, "premium", "Total", "ytd_variation_pct"))} body="LIC's reported YTD change in total new-business premium." tone={(field(lic, "premium", "Total", "ytd_variation_pct") || 0) >= 0 ? GREEN : RED} />
+      {view !== "insights" && (
+        <div style={{ display: "flex", gap: 11, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 24 }}>
+          <Select label="Measure" value={measure} onChange={setMeasure}>
+            <option value="premium">Premium (₹ Cr)</option>
+            <option value="policies">Policies / schemes</option>
+          </Select>
+          <Select label="Business type" value={type} onChange={setType} wide>
+            {TYPES.map((item) => <option key={item}>{item}</option>)}
+          </Select>
+          {view === "leaderboard" && chart === "bar" && (
+            <Select label="Value basis" value={valueMode} onChange={setValueMode}>
+              <option value="current_upto">YTD value</option>
+              <option value="current_month">Current month</option>
+            </Select>
+          )}
+          {view === "growth" && (
+            <div>
+              <div style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 7 }}>Growth basis</div>
+              <CompactTabs value={growthMode} onChange={setGrowthMode} label="Growth basis" options={[["yoy", "YoY"], ["mom", "MoM"]]} />
+            </div>
+          )}
         </div>
       )}
 
-      <p style={{ color: "var(--muted2)", fontSize: 11.5, lineHeight: 1.6, marginTop: 26 }}>
-        Premium figures are ₹ crore. “Policies” represents policies for individual business and schemes for group business. YoY uses the source's YTD variation percentage. MoM compares reported current-month values with the immediately preceding file.
+      {view === "leaderboard" && chart === "bar" && <BarChart rows={ranked} formatter={formatter} />}
+      {view === "leaderboard" && chart === "line" && <LineChart months={lineMonths} series={valueSeries} formatter={formatter} />}
+      {view === "growth" && chart === "bar" && <BarChart rows={growthRows} formatter={percent} signed />}
+      {view === "growth" && chart === "line" && <LineChart months={lineMonths} series={growthSeries} formatter={percent} axisFormatter={percent} signed />}
+
+      {view === "mix" && (
+        <BusinessMix
+          chart={chart}
+          records={records}
+          months={lineMonths}
+          measure={measure}
+          formatter={formatter}
+          defaultInsurer={premiumLeaders[0]}
+        />
+      )}
+
+      {view === "compare" && (
+        <CustomCompare
+          chart={chart}
+          records={records}
+          allMonths={ordered}
+          months={lineMonths}
+          baseIndex={baseIndex}
+          measure={measure}
+          type={type}
+          formatter={formatter}
+        />
+      )}
+
+      {view === "insights" && (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 12 }}>
+          <InsightCard eyebrow="Market leader" title={cleanName(premiumLeaders[0])} body={`Leads reported YTD new-business premium in ${baseMonth.label}.`} />
+          <InsightCard eyebrow="YoY momentum" title={fastestYoy ? `${cleanName(fastestYoy.name)} · ${percent(fastestYoy.value)}` : "Not available"} body="Highest reported YTD premium growth among individual insurers." color={GREEN} />
+          <InsightCard eyebrow="Monthly momentum" title={fastestMom ? `${cleanName(fastestMom.name)} · ${percent(fastestMom.value)}` : "Needs prior month"} body="Strongest month-on-month change in total new-business premium." color={fastestMom?.value >= 0 ? GREEN : RED} />
+          <InsightCard eyebrow="Market structure" title={`Private insurers · ${percent(privateShare)}`} body="Combined private-sector share of industry YTD new-business premium." color={BLUE} />
+        </div>
+      )}
+
+      <p style={{ color: "var(--muted2)", fontSize: 11, lineHeight: 1.6, marginTop: 25 }}>
+        Premium figures are ₹ crore. YoY uses the source's YTD variation percentage. MoM compares reported current-month values with the immediately preceding monthly file.
       </p>
+    </div>
+  );
+}
+
+function BusinessMix({ chart, records, months, measure, formatter, defaultInsurer }) {
+  const names = records.map((record) => record.insurer);
+  const [selected, setSelected] = useState(defaultInsurer || names[0] || "");
+  const insurer = names.includes(selected) ? selected : names[0];
+  const series = MIX_TYPES.map((type) => ({
+    name: typeLabel(type),
+    values: months.map((month) => field(findRecord(month, insurer), measure, type, "current_month")),
+  }));
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
+        <div>
+          <p className="ix-charth" style={{ margin: 0 }}>{chart === "bar" ? "Business mix · all life insurers" : "Business mix over time"}</p>
+          <p style={{ color: "var(--muted2)", fontSize: 11.5, margin: "7px 0 0" }}>{chart === "bar" ? "Each bar totals 100% of the insurer's selected YTD business." : "Monthly business-type pattern for the selected insurer."}</p>
+        </div>
+        {chart === "line" && (
+          <Select label="Life insurer" value={insurer} onChange={setSelected} wide>
+            {names.map((name) => <option key={name} value={name}>{cleanName(name)}</option>)}
+          </Select>
+        )}
+      </div>
+      {chart === "bar" ? (
+        <>
+          <div style={{ display: "flex", gap: 13, flexWrap: "wrap", marginBottom: 17 }}>
+            {MIX_TYPES.map((type, index) => <span key={type} style={{ color: COLORS[index], fontSize: 10.5 }}>■ {typeLabel(type)}</span>)}
+          </div>
+          <MixBars records={records} measure={measure} />
+        </>
+      ) : <LineChart months={months} series={series} formatter={formatter} />}
+    </div>
+  );
+}
+
+function CustomCompare({ chart, records, allMonths, months, baseIndex, measure, type, formatter }) {
+  const names = records.map((record) => record.insurer);
+  const [subjectChoice, setSubjectChoice] = useState(names[0] || "");
+  const subject = names.includes(subjectChoice) ? subjectChoice : names[0];
+  const [peers, setPeers] = useState(() => names.slice(1, 4));
+  const [metric, setMetric] = useState("value");
+  const validPeers = peers.filter((name) => names.includes(name) && name !== subject).slice(0, 4);
+  const selectedNames = [subject, ...validPeers];
+
+  const valueAt = (name, month, index) => {
+    if (metric === "yoy") return field(findRecord(month, name), measure, type, "ytd_variation_pct");
+    if (metric === "mom") return monthlyGrowth(allMonths, name, measure, type, index);
+    return field(findRecord(month, name), measure, type, "current_month");
+  };
+  const lineSeries = selectedNames.map((name) => ({
+    name,
+    values: months.map((month) => valueAt(name, month, allMonths.findIndex((item) => item.period === month.period))),
+  }));
+  const baseMonth = allMonths[baseIndex];
+  const barRows = selectedNames.map((name) => ({ name, value: valueAt(name, baseMonth, baseIndex) }))
+    .sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
+  const isGrowth = metric !== "value";
+
+  const togglePeer = (name) => {
+    if (name === subject) return;
+    setPeers((current) => current.includes(name) ? current.filter((item) => item !== name) : current.length < 4 ? [...current, name] : current);
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "flex-end", gap: 14, flexWrap: "wrap", marginBottom: 18 }}>
+        <Select label="Subject insurer" value={subject} onChange={(value) => { setSubjectChoice(value); setPeers((current) => current.filter((name) => name !== value)); }} wide>
+          {names.map((name) => <option key={name} value={name}>{cleanName(name)}</option>)}
+        </Select>
+        <div>
+          <div style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 7 }}>Metric</div>
+          <CompactTabs value={metric} onChange={setMetric} label="Comparison metric" options={[["value", "Premium / volume"], ["yoy", "YoY"], ["mom", "MoM"]]} />
+        </div>
+      </div>
+
+      <div style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)", marginBottom: 9 }}>Choose up to four peers</div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 22 }}>
+        {names.filter((name) => name !== subject).map((name) => {
+          const active = validPeers.includes(name);
+          return (
+            <button key={name} type="button" onClick={() => togglePeer(name)} style={{
+              border: `1px solid ${active ? "var(--gold-deep)" : "var(--line)"}`,
+              borderRadius: 999,
+              padding: "7px 10px",
+              background: active ? "rgba(217,201,163,.1)" : "transparent",
+              color: active ? "var(--gold)" : "var(--muted)",
+              font: "inherit",
+              fontSize: 10.5,
+              cursor: "pointer",
+            }}>{cleanName(name)}</button>
+          );
+        })}
+      </div>
+
+      {!validPeers.length ? <p style={{ color: "var(--muted2)", fontSize: 12.5 }}>Choose at least one peer.</p> : chart === "bar"
+        ? <BarChart rows={barRows} formatter={isGrowth ? percent : formatter} signed={isGrowth} />
+        : <LineChart months={months} series={lineSeries} formatter={isGrowth ? percent : formatter} axisFormatter={isGrowth ? percent : compactNumber} signed={isGrowth} />}
     </div>
   );
 }
