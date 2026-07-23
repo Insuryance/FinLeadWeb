@@ -44,7 +44,6 @@ export default function LifeInsightPage() {
   return <div className="fl-root" style={{ position: "relative", zIndex: 1 }}>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <main style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px 96px", position: "relative", zIndex: 10 }}>
-      <a href="/insight" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>← Choose another country</a>
       <DashboardSwitch>
         <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 16 }}>FinLead AI · Life Insights</p>
         <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>India's life insurance market, <span className="fl-gold-grad">by the numbers.</span></h1>
