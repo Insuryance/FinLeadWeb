@@ -17,6 +17,33 @@ const TYPES = [
   "Group Yearly Renewable Premium",
 ];
 const MIX_TYPES = TYPES.slice(1);
+const VIEW_INFO = {
+  leaderboard: {
+    title: "Leaderboard",
+    what: "Ranks life insurers by new-business premium or policy and scheme volumes for the reporting period you selected.",
+    how: "Choose Premium or Policies, select a business type, then use Bar Graph for a selected-month ranking or Line Graph to monitor the leading insurers through your selected month or range.",
+  },
+  growth: {
+    title: "YoY & MoM growth",
+    what: "Shows whether each insurer is expanding or contracting. YoY compares the year-to-date result with the same point last year; MoM compares the current month with the immediately preceding month.",
+    how: "Choose YoY for the longer-term growth direction or MoM for short-term momentum. Use Bar Graph for the reporting-month snapshot and Line Graph to see whether growth is accelerating, slowing or volatile.",
+  },
+  mix: {
+    title: "Business mix",
+    what: "Explains how each insurer's new business is divided between individual single, individual non-single, group single, group non-single and group renewable business.",
+    how: "Use Bar Graph to compare the complete YTD mix across all insurers. Use Line Graph, choose one insurer, and monitor how its monthly product mix changes over the selected period.",
+  },
+  compare: {
+    title: "Custom compare",
+    what: "Benchmarks one subject insurer against up to four life-insurance peers selected by you.",
+    how: "Choose the subject insurer, select peer chips, then choose Premium/Volume, YoY or MoM. Bar Graph compares the reporting month; Line Graph compares movement across the selected period.",
+  },
+  insights: {
+    title: "Insights",
+    what: "Summarises notable signals in the selected reporting month, including the market leader, strongest YoY growth, strongest monthly momentum and private-sector market share.",
+    how: "Use these cards as starting points for investigation, then open Leaderboard, Growth, Business Mix or Custom Compare to validate what is driving the signal.",
+  },
+};
 
 const cleanName = (name = "") => name
   .replace(/LIFE INSURANCE COMPANY|INSURANCE COMPANY|LIFE INSURANCE|LIMITED\.?|CORPORATION OF INDIA/gi, "")
@@ -73,6 +100,85 @@ function CompactTabs({ value, onChange, options, label }) {
           {text}
         </button>
       ))}
+    </div>
+  );
+}
+
+function InfoButton({ info }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span
+      style={{ position: "relative", display: "inline-flex", marginLeft: 8, verticalAlign: "middle" }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-label={`About ${info.title}`}
+        aria-expanded={open}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onClick={() => setOpen(true)}
+        style={{
+          width: 18,
+          height: 18,
+          padding: 0,
+          border: "1px solid var(--gold-deep)",
+          borderRadius: "50%",
+          background: open ? "var(--gold)" : "transparent",
+          color: open ? "#0B0B0E" : "var(--gold)",
+          fontFamily: "Georgia,serif",
+          fontSize: 11,
+          fontStyle: "italic",
+          lineHeight: 1,
+          cursor: "help",
+        }}
+      >
+        i
+      </button>
+
+      {open && (
+        <span
+          role="tooltip"
+          style={{
+            position: "absolute",
+            top: 25,
+            left: 0,
+            zIndex: 40,
+            width: "min(320px, calc(100vw - 64px))",
+            padding: "15px 16px",
+            border: "1px solid var(--line)",
+            borderRadius: 9,
+            background: "rgba(11,11,14,.97)",
+            boxShadow: "0 18px 48px rgba(0,0,0,.48)",
+            backdropFilter: "blur(10px)",
+            color: "var(--ivory)",
+            whiteSpace: "normal",
+          }}
+        >
+          <span style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{info.title}</span>
+          <span style={{ display: "block", color: "var(--muted2)", fontSize: 9.5, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 5 }}>What this shows</span>
+          <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, lineHeight: 1.55 }}>{info.what}</span>
+          <span style={{ display: "block", color: "var(--muted2)", fontSize: 9.5, letterSpacing: ".14em", textTransform: "uppercase", margin: "11px 0 5px" }}>How to use it</span>
+          <span style={{ display: "block", color: "var(--muted)", fontSize: 11.5, lineHeight: 1.55 }}>{info.how}</span>
+        </span>
+      )}
+    </span>
+  );
+}
+
+function ViewHelp({ view }) {
+  const info = VIEW_INFO[view];
+  return (
+    <div style={{ display: "flex", alignItems: "center", margin: "-8px 0 22px", color: "var(--muted)" }}>
+      <span style={{ fontSize: 11.5 }}>
+        {view === "leaderboard" && "Rank insurers and monitor market movement."}
+        {view === "growth" && "Compare longer-term growth with short-term momentum."}
+        {view === "mix" && "Analyse individual and group product composition."}
+        {view === "compare" && "Benchmark one insurer against peers you choose."}
+        {view === "insights" && "Review the most notable signals in the selected month."}
+      </span>
+      <InfoButton info={info} />
     </div>
   );
 }
@@ -381,6 +487,8 @@ export default function LifeInsightExplorer({ months }) {
           <CompactTabs value={chart} onChange={setChart} label="Chart type" options={[["bar", "Bar Graph"], ["line", "Line Graph"]]} />
         )}
       </div>
+
+      <ViewHelp view={view} />
 
       {view !== "insights" && (
         <div style={{ display: "flex", gap: 11, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 24 }}>
