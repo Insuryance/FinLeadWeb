@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
 const GOLD = "#D9C9A3";
 const BLUE = "#94A7C7";
@@ -111,7 +111,7 @@ function BarChart({ rows, formatter, signed = false, limit }) {
       {shown.map((row) => (
         <div key={row.name} style={{ display: "grid", gridTemplateColumns: "minmax(110px,185px) minmax(90px,1fr) 105px", gap: 10, alignItems: "center" }}>
           <div title={row.name} style={{ color: "var(--ivory)", fontSize: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cleanName(row.name)}</div>
-          <div style={{ height: 12, background: "rgba(255,255,255,.045)", borderRadius: 2 }}>
+          <div title={`${cleanName(row.name)}: ${formatter(row.value)}`} style={{ height: 12, background: "rgba(255,255,255,.045)", borderRadius: 2, cursor: "help" }}>
             <div style={{ width: `${Math.abs(row.value || 0) / max * 100}%`, height: "100%", borderRadius: 2, background: signed ? ((row.value || 0) >= 0 ? GREEN : RED) : GOLD }} />
           </div>
           <div style={{ textAlign: "right", fontSize: 12, color: signed ? ((row.value || 0) >= 0 ? GREEN : RED) : "var(--ivory)" }}>{formatter(row.value)}</div>
@@ -123,6 +123,8 @@ function BarChart({ rows, formatter, signed = false, limit }) {
 
 function LineChart({ months, series, formatter, axisFormatter = compactNumber, signed = false }) {
   const W = 820, H = 350, L = 60, R = 18, T = 18, B = 52;
+  const boxRef = useRef(null);
+  const [hoverIndex, setHoverIndex] = useState(null);
   const values = series.flatMap((item) => item.values).filter((value) => value != null && Number.isFinite(value));
   const minValue = signed ? Math.min(0, ...values) : 0;
   const maxValue = Math.max(1, ...values);
@@ -130,11 +132,23 @@ function LineChart({ months, series, formatter, axisFormatter = compactNumber, s
   const x = (index) => L + (months.length < 2 ? (W - L - R) / 2 : index * (W - L - R) / (months.length - 1));
   const y = (value) => T + (H - T - B) * (1 - (value - minValue) / span);
   const labelEvery = Math.max(1, Math.ceil(months.length / 9));
+  const onPointerMove = (event) => {
+    if (!boxRef.current || months.length < 1) return;
+    const rect = boxRef.current.getBoundingClientRect();
+    const svgX = ((event.clientX - rect.left) / rect.width) * W;
+    const rawIndex = months.length < 2 ? 0 : Math.round(((svgX - L) / (W - L - R)) * (months.length - 1));
+    setHoverIndex(Math.max(0, Math.min(months.length - 1, rawIndex)));
+  };
 
   if (!months.length || !values.length) return <p style={{ color: "var(--muted2)", fontSize: 12.5 }}>Not enough data for this line chart.</p>;
 
   return (
-    <>
+    <div
+      ref={boxRef}
+      style={{ position: "relative" }}
+      onPointerMove={onPointerMove}
+      onPointerLeave={() => setHoverIndex(null)}
+    >
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }} role="img" aria-label="Life insurance trend chart">
         {[0, .25, .5, .75, 1].map((part) => {
           const value = minValue + span * part;
@@ -159,11 +173,76 @@ function LineChart({ months, series, formatter, axisFormatter = compactNumber, s
             ))}
           </g>;
         })}
+        {hoverIndex != null && (
+          <g pointerEvents="none">
+            <line
+              x1={x(hoverIndex)}
+              x2={x(hoverIndex)}
+              y1={T}
+              y2={H - B}
+              stroke="rgba(217,201,163,.45)"
+              strokeDasharray="3 4"
+            />
+            {series.map((item, seriesIndex) => {
+              const value = item.values[hoverIndex];
+              return value == null ? null : (
+                <circle
+                  key={item.name}
+                  cx={x(hoverIndex)}
+                  cy={y(value)}
+                  r="5"
+                  fill="#0B0B0E"
+                  stroke={COLORS[seriesIndex % COLORS.length]}
+                  strokeWidth="2.5"
+                />
+              );
+            })}
+          </g>
+        )}
       </svg>
+
+      {hoverIndex != null && (
+        <div style={{
+          position: "absolute",
+          top: 10,
+          right: 12,
+          zIndex: 5,
+          minWidth: 180,
+          maxWidth: 270,
+          padding: "12px 14px",
+          border: "1px solid var(--line)",
+          borderRadius: 8,
+          background: "rgba(11,11,14,.94)",
+          boxShadow: "0 12px 34px rgba(0,0,0,.38)",
+          backdropFilter: "blur(8px)",
+          pointerEvents: "none",
+        }}>
+          <div style={{ color: "var(--gold)", fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 9 }}>
+            {months[hoverIndex].label || shortPeriod(months[hoverIndex].period)}
+          </div>
+          <div style={{ display: "grid", gap: 7 }}>
+            {series.map((item, seriesIndex) => {
+              const value = item.values[hoverIndex];
+              return value == null ? null : (
+                <div key={item.name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 7, minWidth: 0, color: "var(--muted)", fontSize: 11.5 }}>
+                    <span style={{ width: 7, height: 7, borderRadius: "50%", flex: "none", background: COLORS[seriesIndex % COLORS.length] }} />
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cleanName(item.name)}</span>
+                  </span>
+                  <span style={{ color: "var(--ivory)", fontSize: 12, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
+                    {formatter(value)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 7 }}>
         {series.map((item, index) => <span key={item.name} style={{ fontSize: 11.5, color: COLORS[index % COLORS.length] }}>● {cleanName(item.name)}</span>)}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -180,7 +259,7 @@ function MixBars({ records, measure }) {
               {MIX_TYPES.map((type, index) => {
                 const value = field(record, measure, type, "current_upto") || 0;
                 const share = Math.max(0, value / total * 100);
-                return <div key={type} style={{ width: `${share}%`, background: COLORS[index] }}><span title={`${typeLabel(type)}: ${percent(share)}`} /></div>;
+                return <div key={type} title={`${cleanName(record.insurer)} · ${typeLabel(type)}: ${percent(share)}`} style={{ width: `${share}%`, background: COLORS[index], cursor: "help" }} />;
               })}
             </div>
           </div>
