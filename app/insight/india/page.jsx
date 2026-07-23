@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import InsightExplorer from "./InsightExplorer";
 import InsightChrome from "./InsightChrome";
+import DashboardSwitch from "./DashboardSwitch";
 
 /* ---------- load all monthly JSON files at build time ---------- */
 function loadMonths() {
@@ -80,57 +81,59 @@ export default function InsightPage() {
         {/* back link */}
         <a href="/" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>&larr; FinLead AI</a>
 
-        {/* header */}
-        <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 16 }}>FinLead AI · Insights</p>
-        <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
-          India's Insurance Data, <span className="fl-gold-grad">by the numbers.</span>
-        </h1>
+        <DashboardSwitch>
+          {/* header */}
+          <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 16 }}>FinLead AI · Insights</p>
+          <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
+            India's Insurance Data, <span className="fl-gold-grad">by the numbers.</span>
+          </h1>
 
-        {/* compact hook + interactive chrome */}
-        <p className="fl-muted" style={{ fontSize: 17, lineHeight: 1.7, maxWidth: "62ch", marginTop: 22 }}>
-          This page updates itself. Each month a FinLead AI agent visits the GIC Council, downloads the latest segment premium figures for India's general insurers, structures them, and publishes them here for anyone to use.
-        </p>
-        <InsightChrome />
+          {/* compact hook + interactive chrome */}
+          <p className="fl-muted" style={{ fontSize: 17, lineHeight: 1.7, maxWidth: "62ch", marginTop: 22 }}>
+            This page updates itself. Each month a FinLead AI agent visits the GIC Council, downloads the latest segment premium figures for India's general insurers, structures them, and publishes them here for anyone to use.
+          </p>
+          <InsightChrome />
 
-        {/* interactive explorer */}
-        <div className="fl-glass" style={{ padding: "28px 26px", marginTop: 36 }}>
-          <InsightExplorer months={months} />
-        </div>
+          {/* interactive explorer */}
+          <div className="fl-glass" style={{ padding: "28px 26px", marginTop: 36 }}>
+            <InsightExplorer months={months} />
+          </div>
 
-        {/* crawlable HTML table: real numbers for search engines and AI */}
-        <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: 24, marginTop: 56, marginBottom: 18 }}>
-          Top insurers by premium · {latest.label}
-        </h2>
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
-            <thead>
-              <tr style={{ textAlign: "left", color: "var(--muted)", borderBottom: "1px solid var(--line)" }}>
-                <th style={{ padding: "10px 12px" }}>#</th>
-                <th style={{ padding: "10px 12px" }}>Insurer</th>
-                <th style={{ padding: "10px 12px" }}>Group</th>
-                <th style={{ padding: "10px 12px", textAlign: "right" }}>GDPI</th>
-                <th style={{ padding: "10px 12px", textAlign: "right" }}>Growth</th>
-                <th style={{ padding: "10px 12px", textAlign: "right" }}>Market share</th>
-              </tr>
-            </thead>
-            <tbody>
-              {top.map((r, i) => (
-                <tr key={r.insurer} style={{ borderBottom: "1px solid var(--line)", color: "var(--ivory)" }}>
-                  <td style={{ padding: "10px 12px", color: "var(--muted)" }}>{i + 1}</td>
-                  <td style={{ padding: "10px 12px" }}>{r.insurer}</td>
-                  <td style={{ padding: "10px 12px", color: "var(--muted)" }}>{r.group}</td>
-                  <td style={{ padding: "10px 12px", textAlign: "right" }}>{inrCr(r.current["Grand Total"])}</td>
-                  <td style={{ padding: "10px 12px", textAlign: "right", color: (r.current["Growth %"] || 0) >= 0 ? "#6FCF7F" : "#FF7E7E" }}>{pct(r.current["Growth %"])}</td>
-                  <td style={{ padding: "10px 12px", textAlign: "right", color: "var(--muted)" }}>{pct(r.current["Market %"])}</td>
+          {/* crawlable HTML table: real numbers for search engines and AI */}
+          <h2 className="fl-serif" style={{ fontWeight: 350, fontSize: 24, marginTop: 56, marginBottom: 18 }}>
+            Top insurers by premium · {latest.label}
+          </h2>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+              <thead>
+                <tr style={{ textAlign: "left", color: "var(--muted)", borderBottom: "1px solid var(--line)" }}>
+                  <th style={{ padding: "10px 12px" }}>#</th>
+                  <th style={{ padding: "10px 12px" }}>Insurer</th>
+                  <th style={{ padding: "10px 12px" }}>Group</th>
+                  <th style={{ padding: "10px 12px", textAlign: "right" }}>GDPI</th>
+                  <th style={{ padding: "10px 12px", textAlign: "right" }}>Growth</th>
+                  <th style={{ padding: "10px 12px", textAlign: "right" }}>Market share</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {top.map((r, i) => (
+                  <tr key={r.insurer} style={{ borderBottom: "1px solid var(--line)", color: "var(--ivory)" }}>
+                    <td style={{ padding: "10px 12px", color: "var(--muted)" }}>{i + 1}</td>
+                    <td style={{ padding: "10px 12px" }}>{r.insurer}</td>
+                    <td style={{ padding: "10px 12px", color: "var(--muted)" }}>{r.group}</td>
+                    <td style={{ padding: "10px 12px", textAlign: "right" }}>{inrCr(r.current["Grand Total"])}</td>
+                    <td style={{ padding: "10px 12px", textAlign: "right", color: (r.current["Growth %"] || 0) >= 0 ? "#6FCF7F" : "#FF7E7E" }}>{pct(r.current["Growth %"])}</td>
+                    <td style={{ padding: "10px 12px", textAlign: "right", color: "var(--muted)" }}>{pct(r.current["Market %"])}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <p className="fl-muted" style={{ fontSize: 12.5, marginTop: 22, lineHeight: 1.6 }}>
-          Source: GIC Council monthly segment report. Premium figures in ₹ crore (gross direct premium income). Compiled and visualised by FinLead AI. Data is provided for informational purposes.
-        </p>
+          <p className="fl-muted" style={{ fontSize: 12.5, marginTop: 22, lineHeight: 1.6 }}>
+            Source: GIC Council monthly segment report. Premium figures in ₹ crore (gross direct premium income). Compiled and visualised by FinLead AI. Data is provided for informational purposes.
+          </p>
+        </DashboardSwitch>
       </div>
     </div>
   );
