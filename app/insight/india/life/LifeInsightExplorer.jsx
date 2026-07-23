@@ -49,6 +49,11 @@ const SUBJECT_INFO = {
   what: "The life insurer you want to study. It becomes the main benchmark in Custom Compare.",
   how: "Choose one subject insurer, then select up to four peers. The subject and peer values appear together in the overview and chart.",
 };
+const GROWTH_INSURER_INFO = {
+  title: "Insurers to analyse",
+  what: "Controls which life insurers appear in the YoY or MoM growth chart.",
+  how: "Select one insurer for a focused trend or choose several insurers to compare. After that, choose the measure and business type you want to analyse.",
+};
 
 const cleanName = (name = "") => {
   if (/LIFE INSURANCE CORPORATION OF INDIA/i.test(name)) return "LIC";
@@ -255,6 +260,67 @@ function InsurerPicker({ label, names, value, onChange, info }) {
   );
 }
 
+function MultiInsurerPicker({ label, names, values, onChange, recommended, max = 6, info }) {
+  const [query, setQuery] = useState("");
+  const visibleNames = names.filter((name) => cleanName(name).toLowerCase().includes(query.trim().toLowerCase()));
+  const toggle = (name) => {
+    if (values.includes(name)) onChange(values.filter((item) => item !== name));
+    else if (values.length < max) onChange([...values, name]);
+  };
+
+  return (
+    <div style={{ width: "100%" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <span style={{ fontSize: 9.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted2)" }}>{label}</span>
+          {info && <InfoButton info={info} />}
+        </div>
+        <div style={{ display: "flex", gap: 10 }}>
+          <button type="button" onClick={() => onChange(recommended.slice(0, max))} style={{ border: 0, background: "transparent", color: "var(--gold)", font: "inherit", fontSize: 10.5, cursor: "pointer" }}>Top {Math.min(max, recommended.length)}</button>
+          <button type="button" onClick={() => onChange([])} style={{ border: 0, background: "transparent", color: "var(--muted)", font: "inherit", fontSize: 10.5, cursor: "pointer" }}>Clear</button>
+        </div>
+      </div>
+      <input
+        className="fl-input"
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="Search life insurers"
+        aria-label={`Search ${label.toLowerCase()}`}
+        style={{ width: "min(360px, 100%)", minHeight: 40, padding: "9px 12px", fontSize: 12.5, marginBottom: 10 }}
+      />
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 7, maxHeight: 126, overflowY: "auto", paddingRight: 4 }}>
+        {visibleNames.map((name) => {
+          const active = values.includes(name);
+          const unavailable = !active && values.length >= max;
+          return (
+            <button
+              key={name}
+              type="button"
+              aria-pressed={active}
+              disabled={unavailable}
+              onClick={() => toggle(name)}
+              style={{
+                border: `1px solid ${active ? "var(--gold-deep)" : "var(--line)"}`,
+                borderRadius: 999,
+                padding: "7px 10px",
+                background: active ? "rgba(217,201,163,.12)" : "transparent",
+                color: active ? "var(--gold)" : "var(--muted)",
+                opacity: unavailable ? .42 : 1,
+                font: "inherit",
+                fontSize: 10.5,
+                cursor: unavailable ? "not-allowed" : "pointer",
+              }}
+            >
+              {cleanName(name)}
+            </button>
+          );
+        })}
+      </div>
+      <div style={{ color: "var(--muted2)", fontSize: 10.5, marginTop: 8 }}>{values.length} of {max} insurers selected</div>
+    </div>
+  );
+}
+
 function Kpi({ label, value, sub }) {
   return (
     <div style={{ background: "#0B0B0E", padding: "14px 16px", minWidth: 0 }}>
@@ -454,6 +520,7 @@ export default function LifeInsightExplorer({ months }) {
   const [view, setView] = useState("leaderboard");
   const [chart, setChart] = useState("bar");
   const [growthMode, setGrowthMode] = useState("yoy");
+  const [growthInsurerSelection, setGrowthInsurerSelection] = useState(null);
   const changePeriodMode = (mode) => {
     setPeriodMode(mode);
     if (mode === "single") setChart("bar");
@@ -474,6 +541,9 @@ export default function LifeInsightExplorer({ months }) {
   const premiumLeaders = [...records].sort((a, b) =>
     (field(b, "premium", "Total", "current_upto") || 0) - (field(a, "premium", "Total", "current_upto") || 0)
   ).slice(0, 6).map((record) => record.insurer);
+  const insurerNames = records.map((record) => record.insurer);
+  const activeGrowthInsurers = (growthInsurerSelection === null ? premiumLeaders : growthInsurerSelection)
+    .filter((name) => insurerNames.includes(name));
 
   const ranked = records.map((record) => ({ name: record.insurer, value: field(record, measure, type, valueMode) }))
     .sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
@@ -481,13 +551,13 @@ export default function LifeInsightExplorer({ months }) {
     name,
     values: lineMonths.map((month) => field(findRecord(month, name), measure, type, "current_month")),
   }));
-  const growthRows = records.map((record) => ({
+  const growthRows = records.filter((record) => activeGrowthInsurers.includes(record.insurer)).map((record) => ({
     name: record.insurer,
     value: growthMode === "yoy"
       ? field(record, measure, type, "ytd_variation_pct")
       : monthlyGrowth(ordered, record.insurer, measure, type, baseIndex),
   })).sort((a, b) => (b.value ?? -Infinity) - (a.value ?? -Infinity));
-  const growthSeries = premiumLeaders.map((name) => ({
+  const growthSeries = activeGrowthInsurers.map((name) => ({
     name,
     values: lineMonths.map((month) => {
       const index = ordered.findIndex((item) => item.period === month.period);
@@ -565,13 +635,31 @@ export default function LifeInsightExplorer({ months }) {
       )}
 
       {view !== "insights" && (
+        <>
+        {view === "growth" && (
+          <div style={{ marginBottom: 22 }}>
+            <MultiInsurerPicker
+              label="Insurers to analyse"
+              names={insurerNames}
+              values={activeGrowthInsurers}
+              onChange={setGrowthInsurerSelection}
+              recommended={premiumLeaders}
+              info={GROWTH_INSURER_INFO}
+            />
+          </div>
+        )}
         <div style={{ display: "flex", gap: 11, flexWrap: "wrap", alignItems: "flex-end", marginBottom: 24 }}>
           <Select label="Measure" value={measure} onChange={setMeasure}>
             <option value="premium">Premium (₹ Cr)</option>
             <option value="policies">Policies / schemes</option>
           </Select>
           <Select label="Business type" value={type} onChange={setType} wide>
-            {TYPES.map((item) => <option key={item}>{item}</option>)}
+            <option value="Total">Total business</option>
+            <option value="Individual Single Premium">Individual single</option>
+            <option value="Individual Non Single Premium">Individual non-single / regular</option>
+            <option value="Group Single Premium">Group single</option>
+            <option value="Group Non Single Premium">Group non-single</option>
+            <option value="Group Yearly Renewable Premium">Group yearly renewable</option>
           </Select>
           {view === "leaderboard" && chart === "bar" && (
             <Select label="Value basis" value={valueMode} onChange={setValueMode}>
@@ -586,12 +674,14 @@ export default function LifeInsightExplorer({ months }) {
             </div>
           )}
         </div>
+        </>
       )}
 
       {view === "leaderboard" && chart === "bar" && <BarChart rows={ranked} formatter={formatter} />}
       {view === "leaderboard" && chart === "line" && <LineChart months={lineMonths} series={valueSeries} formatter={formatter} />}
-      {view === "growth" && chart === "bar" && <BarChart rows={growthRows} formatter={percent} signed />}
-      {view === "growth" && chart === "line" && <LineChart months={lineMonths} series={growthSeries} formatter={percent} axisFormatter={percent} signed />}
+      {view === "growth" && activeGrowthInsurers.length === 0 && <p style={{ color: "var(--muted2)", fontSize: 12.5 }}>Choose at least one life insurer above.</p>}
+      {view === "growth" && activeGrowthInsurers.length > 0 && chart === "bar" && <BarChart rows={growthRows} formatter={percent} signed />}
+      {view === "growth" && activeGrowthInsurers.length > 0 && chart === "line" && <LineChart months={lineMonths} series={growthSeries} formatter={percent} axisFormatter={percent} signed />}
 
       {view === "mix" && (
         <BusinessMix
