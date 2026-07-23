@@ -623,6 +623,7 @@ function Intelligence({ rows, ctx }) {
 
 /* ---------- 6. Track Org (single insurer deep-dive) ---------- */
 const TRACK_SEGS = [["Motor Total", "Motor"], ["Health", "Health"], ["Fire", "Fire"], ["Marine Total", "Marine"], ["Engineering", "Engineering"], ["Liability", "Liability"], ["P.A.", "P.A."], ["Aviation", "Aviation"], ["All Other Misc (Crop Insurance + Credit Guarantee+All other misc)", "Other Misc"]];
+const TRACK_COLORS = [...SERIES6, "#E1A77C", "#78B7A4", "#B5A3D1"];
 
 function TrackOrg({ rows, ctx, baseMonth }) {
   const names = useMemo(
@@ -633,6 +634,7 @@ function TrackOrg({ rows, ctx, baseMonth }) {
   const subject = names.includes(who) ? who : names[0] || "";
   const [gmode, setGmode] = useState("yoy"); // yoy | mom
   const [segmentChart, setSegmentChart] = useState("bar"); // bar | line
+  const [selectedSegmentKeys, setSelectedSegmentKeys] = useState(null);
 
   if (!subject) return <p style={{ color: "var(--muted2)", fontSize: 13.5 }}>No insurers in this group.</p>;
 
@@ -678,22 +680,33 @@ function TrackOrg({ rows, ctx, baseMonth }) {
     return { key, label, value, cur: currentPremium };
   }).filter((item) => item.value != null && item.cur != null && item.cur > 0);
 
-  /* use the top four segments in both premium and growth trend lines */
-  const topSegs = TRACK_SEGS
-    .map(([key, label]) => ({ key, label, value: rec?.current?.[key] || 0 }))
-    .filter((segment) => segment.value > 0)
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 4);
+  /* Every available segment can now be selected or deselected. */
+  const availableSegments = TRACK_SEGS
+    .map(([key, label], index) => ({ key, label, value: rec?.current?.[key] || 0, color: TRACK_COLORS[index % TRACK_COLORS.length] }))
+    .filter((segment) => {
+      if (segment.value > 0) return true;
+      return monthlySeries(ctx.monthsAsc, clean(subject), segment.key)
+        .some((point) => trackSet.has(point.period) && point.value != null && point.value !== 0);
+    })
+    .sort((a, b) => b.value - a.value);
 
-  const segmentPremiumSeries = topSegs.map((segment, index) => ({
+  /* On first load, retain the clean top-four view. The user can select all. */
+  const defaultSegmentKeys = availableSegments.slice(0, 4).map((segment) => segment.key);
+  const activeSegmentKeys = selectedSegmentKeys === null
+    ? defaultSegmentKeys
+    : selectedSegmentKeys.filter((key) => availableSegments.some((segment) => segment.key === key));
+  const selectedSegments = availableSegments.filter((segment) => activeSegmentKeys.includes(segment.key));
+  const selectedSegItems = segItems.filter((item) => activeSegmentKeys.includes(item.key));
+
+  const segmentPremiumSeries = selectedSegments.map((segment) => ({
     name: segment.label,
-    color: SERIES[index % SERIES.length],
+    color: segment.color,
     points: monthlySeries(ctx.monthsAsc, clean(subject), segment.key).filter((point) => trackSet.has(point.period)),
   }));
 
-  const segmentGrowthSeries = topSegs.map((segment, index) => ({
+  const segmentGrowthSeries = selectedSegments.map((segment) => ({
     name: segment.label,
-    color: SERIES[index % SERIES.length],
+    color: segment.color,
     points: (
       gmode === "yoy"
         ? yoySeries(ctx.monthsAsc, subject, segment.key)
@@ -707,6 +720,12 @@ function TrackOrg({ rows, ctx, baseMonth }) {
   const periodLabel = ctx.isRange
     ? `${monShort(trackMonths[0]?.period || baseMonth.period)} to ${monShort(trackMonths.at(-1)?.period || baseMonth.period)}`
     : `Through ${baseMonth.label}`;
+  const toggleSegment = (key) => {
+    setSelectedSegmentKeys((current) => {
+      const active = current === null ? defaultSegmentKeys : current;
+      return active.includes(key) ? active.filter((item) => item !== key) : [...active, key];
+    });
+  };
 
   return (
     <div>
@@ -760,16 +779,67 @@ function TrackOrg({ rows, ctx, baseMonth }) {
           : "MoM compares each month's premium with the immediately preceding month. The line ends at the selected month."}
       </p>
 
+      <div style={{ marginBottom: 26 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 11 }}>
+          <div>
+            <div style={IXL}>Segments to monitor</div>
+            <div style={{ color: "var(--muted2)", fontSize: 11.5 }}>
+              Choose one product for a focused view, or select several to compare.
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button className="ix-toggle" style={{ marginTop: 0 }} onClick={() => setSelectedSegmentKeys(availableSegments.map((segment) => segment.key))}>
+              Select all
+            </button>
+            <button className="ix-toggle" style={{ marginTop: 0 }} onClick={() => setSelectedSegmentKeys([])}>
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {availableSegments.map((segment) => {
+            const active = activeSegmentKeys.includes(segment.key);
+            return (
+              <button
+                key={segment.key}
+                type="button"
+                aria-pressed={active}
+                onClick={() => toggleSegment(segment.key)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 7,
+                  border: `1px solid ${active ? segment.color : "var(--line)"}`,
+                  borderRadius: 999,
+                  padding: "7px 11px",
+                  background: active ? "rgba(255,255,255,.045)" : "transparent",
+                  color: active ? "var(--ivory)" : "var(--muted2)",
+                  font: "inherit",
+                  fontSize: 11.5,
+                  cursor: "pointer",
+                }}
+              >
+                <span style={{ width: 7, height: 7, borderRadius: "50%", background: active ? segment.color : "var(--muted2)" }} />
+                {segment.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <p className="ix-charth">
         Segment growth · {segmentChart === "bar" ? baseMonth.label : periodLabel} · {gmode === "yoy" ? "YoY" : "MoM"}
       </p>
 
       {segmentChart === "bar" ? (
-        segItems.length === 0 ? (
-          <p style={{ color: "var(--muted2)", fontSize: 13 }}>Not enough segment history for this basis in {baseMonth.label}.</p>
+        selectedSegItems.length === 0 ? (
+          <p style={{ color: "var(--muted2)", fontSize: 13 }}>
+            {activeSegmentKeys.length === 0 ? "Choose at least one segment above." : `Not enough segment history for this basis in ${baseMonth.label}.`}
+          </p>
         ) : (
           <HBarChart
-            items={segItems.map((item) => ({
+            items={selectedSegItems.map((item) => ({
               key: item.key,
               label: item.label,
               value: item.value,
@@ -783,7 +853,9 @@ function TrackOrg({ rows, ctx, baseMonth }) {
         )
       ) : (
         segmentGrowthSeries.length === 0 ? (
-          <p style={{ color: "var(--muted2)", fontSize: 13 }}>No segment growth history is available in this period.</p>
+          <p style={{ color: "var(--muted2)", fontSize: 13 }}>
+            {activeSegmentKeys.length === 0 ? "Choose at least one segment above." : "No segment growth history is available in this period."}
+          </p>
         ) : (
           <>
             <Legend series={segmentGrowthSeries} />
@@ -798,7 +870,7 @@ function TrackOrg({ rows, ctx, baseMonth }) {
 
       {segmentPremiumSeries.length > 0 && (
         <>
-          <p className="ix-charth">Segment premium trend · top {segmentPremiumSeries.length} segments</p>
+          <p className="ix-charth">Segment premium trend · {segmentPremiumSeries.length} selected {segmentPremiumSeries.length === 1 ? "segment" : "segments"}</p>
           <Legend series={segmentPremiumSeries} />
           <MultiLineChart series={segmentPremiumSeries} axisMonths={trackMonths} />
         </>
