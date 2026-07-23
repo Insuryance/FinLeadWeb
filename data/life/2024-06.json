@@ -1,0 +1,2550 @@
+{
+  "period": "2024-06",
+  "label": "June-2024",
+  "source": "Life Insurance Council, Detailed New Business Performance of Life Insurers",
+  "generatedAt": "2026-07-10T07:37:04.993551+00:00",
+  "metrics": [
+    "Individual Single Premium",
+    "Individual Non Single Premium",
+    "Group Single Premium",
+    "Group Non Single Premium",
+    "Group Yearly Renewable Premium",
+    "Total"
+  ],
+  "records": [
+    {
+      "insurer": "ACKO LIFE INSURANCE COMPANY LIMITED",
+      "sno": 1,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 0.2,
+          "current_upto": 0.64,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 4.92,
+          "current_upto": 17.49,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 5.12,
+          "current_upto": 18.13,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 100.0,
+          "current_upto": 306.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 6.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 100.0,
+          "current_upto": 312.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        }
+      }
+    },
+    {
+      "insurer": "ADITYA BIRLA SUN LIFE INSURANCE COMPANY LIMITED",
+      "sno": 2,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 61.33,
+          "current_upto": 180.3,
+          "previous_month": 26.65,
+          "previous_upto": 66.35,
+          "ytd_variation_pct": 171.74
+        },
+        "Individual Non Single Premium": {
+          "current_month": 275.86,
+          "current_upto": 625.91,
+          "previous_month": 228.23,
+          "previous_upto": 533.49,
+          "ytd_variation_pct": 17.32
+        },
+        "Group Single Premium": {
+          "current_month": 950.93,
+          "current_upto": 1448.6,
+          "previous_month": 509.44,
+          "previous_upto": 988.73,
+          "ytd_variation_pct": 46.51
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.79,
+          "current_upto": 2.37,
+          "previous_month": 0.33,
+          "previous_upto": 1.38,
+          "ytd_variation_pct": 71.6
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 22.63,
+          "current_upto": 47.13,
+          "previous_month": 7.82,
+          "previous_upto": 71.5,
+          "ytd_variation_pct": -34.08
+        },
+        "Total": {
+          "current_month": 1311.56,
+          "current_upto": 2304.31,
+          "previous_month": 772.47,
+          "previous_upto": 1661.46,
+          "ytd_variation_pct": 38.69
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 661.0,
+          "current_upto": 1888.0,
+          "previous_month": 557.0,
+          "previous_upto": 1455.0,
+          "ytd_variation_pct": 29.76
+        },
+        "Individual Non Single Premium": {
+          "current_month": 34063.0,
+          "current_upto": 67860.0,
+          "previous_month": 20903.0,
+          "previous_upto": 53751.0,
+          "ytd_variation_pct": 26.25
+        },
+        "Group Single Premium": {
+          "current_month": 16.0,
+          "current_upto": 40.0,
+          "previous_month": 6.0,
+          "previous_upto": 16.0,
+          "ytd_variation_pct": 150.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 25.0,
+          "current_upto": 62.0,
+          "previous_month": 18.0,
+          "previous_upto": 77.0,
+          "ytd_variation_pct": -19.48
+        },
+        "Total": {
+          "current_month": 34765.0,
+          "current_upto": 69850.0,
+          "previous_month": 21484.0,
+          "previous_upto": 55299.0,
+          "ytd_variation_pct": 26.31
+        }
+      }
+    },
+    {
+      "insurer": "AGEAS FEDERAL LIFE INSURANCE COMPANY LIMITED",
+      "sno": 3,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 26.0,
+          "current_upto": 64.18,
+          "previous_month": 11.64,
+          "previous_upto": 27.07,
+          "ytd_variation_pct": 137.09
+        },
+        "Individual Non Single Premium": {
+          "current_month": 66.14,
+          "current_upto": 136.93,
+          "previous_month": 42.84,
+          "previous_upto": 86.93,
+          "ytd_variation_pct": 57.52
+        },
+        "Group Single Premium": {
+          "current_month": 25.71,
+          "current_upto": 71.6,
+          "previous_month": 21.72,
+          "previous_upto": 52.23,
+          "ytd_variation_pct": 37.09
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.08,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 117.85,
+          "current_upto": 272.78,
+          "previous_month": 76.19,
+          "previous_upto": 166.23,
+          "ytd_variation_pct": 64.1
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 512.0,
+          "current_upto": 1253.0,
+          "previous_month": 245.0,
+          "previous_upto": 668.0,
+          "ytd_variation_pct": 87.57
+        },
+        "Individual Non Single Premium": {
+          "current_month": 5182.0,
+          "current_upto": 11549.0,
+          "previous_month": 4039.0,
+          "previous_upto": 8833.0,
+          "ytd_variation_pct": 30.75
+        },
+        "Group Single Premium": {
+          "current_month": 1.0,
+          "current_upto": 4.0,
+          "previous_month": 1.0,
+          "previous_upto": 4.0,
+          "ytd_variation_pct": 0.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 4.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 5695.0,
+          "current_upto": 12810.0,
+          "previous_month": 4285.0,
+          "previous_upto": 9505.0,
+          "ytd_variation_pct": 34.77
+        }
+      }
+    },
+    {
+      "insurer": "AVIVA LIFE INSURANCE COMPANY LIMITED",
+      "sno": 4,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 1.2,
+          "current_upto": 4.68,
+          "previous_month": 1.65,
+          "previous_upto": 5.06,
+          "ytd_variation_pct": -7.55
+        },
+        "Individual Non Single Premium": {
+          "current_month": 13.17,
+          "current_upto": 31.13,
+          "previous_month": 19.69,
+          "previous_upto": 44.9,
+          "ytd_variation_pct": -30.68
+        },
+        "Group Single Premium": {
+          "current_month": 1.14,
+          "current_upto": 2.14,
+          "previous_month": 1.72,
+          "previous_upto": 11.54,
+          "ytd_variation_pct": -81.42
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.07,
+          "current_upto": 0.21,
+          "previous_month": 0.1,
+          "previous_upto": 0.29,
+          "ytd_variation_pct": -28.18
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 10.9,
+          "current_upto": 36.48,
+          "previous_month": 4.88,
+          "previous_upto": 26.48,
+          "ytd_variation_pct": 37.74
+        },
+        "Total": {
+          "current_month": 26.47,
+          "current_upto": 74.64,
+          "previous_month": 28.03,
+          "previous_upto": 88.28,
+          "ytd_variation_pct": -15.45
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 27.0,
+          "current_upto": 105.0,
+          "previous_month": 24.0,
+          "previous_upto": 102.0,
+          "ytd_variation_pct": 2.94
+        },
+        "Individual Non Single Premium": {
+          "current_month": 1168.0,
+          "current_upto": 2964.0,
+          "previous_month": 2878.0,
+          "previous_upto": 6259.0,
+          "ytd_variation_pct": -52.64
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 2.0,
+          "ytd_variation_pct": -100.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 20.0,
+          "current_upto": 70.0,
+          "previous_month": 20.0,
+          "previous_upto": 58.0,
+          "ytd_variation_pct": 20.69
+        },
+        "Total": {
+          "current_month": 1215.0,
+          "current_upto": 3139.0,
+          "previous_month": 2922.0,
+          "previous_upto": 6421.0,
+          "ytd_variation_pct": -51.11
+        }
+      }
+    },
+    {
+      "insurer": "AXIS MAX LIFE INSURANCE LIMITED",
+      "sno": 5,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 227.86,
+          "current_upto": 506.43,
+          "previous_month": 183.88,
+          "previous_upto": 418.69,
+          "ytd_variation_pct": 20.95
+        },
+        "Individual Non Single Premium": {
+          "current_month": 537.79,
+          "current_upto": 1209.84,
+          "previous_month": 440.37,
+          "previous_upto": 950.37,
+          "ytd_variation_pct": 27.3
+        },
+        "Group Single Premium": {
+          "current_month": 117.34,
+          "current_upto": 321.38,
+          "previous_month": 318.02,
+          "previous_upto": 446.49,
+          "ytd_variation_pct": -28.02
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 10.98,
+          "current_upto": 35.82,
+          "previous_month": 5.58,
+          "previous_upto": 37.9,
+          "ytd_variation_pct": -5.51
+        },
+        "Total": {
+          "current_month": 893.97,
+          "current_upto": 2073.46,
+          "previous_month": 947.85,
+          "previous_upto": 1853.46,
+          "ytd_variation_pct": 11.87
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 1257.0,
+          "current_upto": 3431.0,
+          "previous_month": 976.0,
+          "previous_upto": 2292.0,
+          "ytd_variation_pct": 49.69
+        },
+        "Individual Non Single Premium": {
+          "current_month": 58807.0,
+          "current_upto": 148841.0,
+          "previous_month": 50294.0,
+          "previous_upto": 117031.0,
+          "ytd_variation_pct": 27.18
+        },
+        "Group Single Premium": {
+          "current_month": 16.0,
+          "current_upto": 22.0,
+          "previous_month": 1.0,
+          "previous_upto": 2.0,
+          "ytd_variation_pct": 1000.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 36.0,
+          "current_upto": 113.0,
+          "previous_month": 28.0,
+          "previous_upto": 101.0,
+          "ytd_variation_pct": 11.88
+        },
+        "Total": {
+          "current_month": 60116.0,
+          "current_upto": 152407.0,
+          "previous_month": 51299.0,
+          "previous_upto": 119426.0,
+          "ytd_variation_pct": 27.62
+        }
+      }
+    },
+    {
+      "insurer": "BAJAJ LIFE INSURANCE LIMITED",
+      "sno": 6,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 77.82,
+          "current_upto": 167.52,
+          "previous_month": 57.14,
+          "previous_upto": 129.04,
+          "ytd_variation_pct": 29.81
+        },
+        "Individual Non Single Premium": {
+          "current_month": 536.37,
+          "current_upto": 1275.83,
+          "previous_month": 396.76,
+          "previous_upto": 1012.8,
+          "ytd_variation_pct": 25.97
+        },
+        "Group Single Premium": {
+          "current_month": 415.11,
+          "current_upto": 843.95,
+          "previous_month": 371.2,
+          "previous_upto": 708.79,
+          "ytd_variation_pct": 19.07
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 53.15,
+          "current_upto": 252.64,
+          "previous_month": 62.21,
+          "previous_upto": 305.95,
+          "ytd_variation_pct": -17.43
+        },
+        "Total": {
+          "current_month": 1082.45,
+          "current_upto": 2539.93,
+          "previous_month": 887.31,
+          "previous_upto": 2156.58,
+          "ytd_variation_pct": 17.78
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 693.0,
+          "current_upto": 1874.0,
+          "previous_month": 627.0,
+          "previous_upto": 1658.0,
+          "ytd_variation_pct": 13.03
+        },
+        "Individual Non Single Premium": {
+          "current_month": 66753.0,
+          "current_upto": 153562.0,
+          "previous_month": 57613.0,
+          "previous_upto": 142012.0,
+          "ytd_variation_pct": 8.13
+        },
+        "Group Single Premium": {
+          "current_month": 15.0,
+          "current_upto": 27.0,
+          "previous_month": 9.0,
+          "previous_upto": 21.0,
+          "ytd_variation_pct": 28.57
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 40.0,
+          "current_upto": 132.0,
+          "previous_month": 54.0,
+          "previous_upto": 219.0,
+          "ytd_variation_pct": -39.73
+        },
+        "Total": {
+          "current_month": 67501.0,
+          "current_upto": 155595.0,
+          "previous_month": 58303.0,
+          "previous_upto": 143910.0,
+          "ytd_variation_pct": 8.12
+        }
+      }
+    },
+    {
+      "insurer": "BANDHAN LIFE INSURANCE LIMITED (FORMERLY AEGON LIFE INSURANCE COMPANY LIMITED)",
+      "sno": 7,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.03,
+          "current_upto": 0.1,
+          "previous_month": 0.0,
+          "previous_upto": 0.01,
+          "ytd_variation_pct": 845.38
+        },
+        "Individual Non Single Premium": {
+          "current_month": 1.56,
+          "current_upto": 4.42,
+          "previous_month": 0.45,
+          "previous_upto": 1.01,
+          "ytd_variation_pct": 339.83
+        },
+        "Group Single Premium": {
+          "current_month": 7.37,
+          "current_upto": 28.48,
+          "previous_month": 5.58,
+          "previous_upto": 11.64,
+          "ytd_variation_pct": 144.6
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.35,
+          "current_upto": 0.91,
+          "previous_month": 0.04,
+          "previous_upto": 0.27,
+          "ytd_variation_pct": 241.85
+        },
+        "Total": {
+          "current_month": 9.3,
+          "current_upto": 33.91,
+          "previous_month": 6.07,
+          "previous_upto": 12.92,
+          "ytd_variation_pct": 162.35
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 3.0,
+          "current_upto": 11.0,
+          "previous_month": 1.0,
+          "previous_upto": 200.0,
+          "ytd_variation_pct": -94.5
+        },
+        "Individual Non Single Premium": {
+          "current_month": 1189.0,
+          "current_upto": 3260.0,
+          "previous_month": 1347.0,
+          "previous_upto": 3251.0,
+          "ytd_variation_pct": 0.28
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 3.0,
+          "previous_month": 3.0,
+          "previous_upto": 11.0,
+          "ytd_variation_pct": -72.73
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 2.0,
+          "previous_month": 3.0,
+          "previous_upto": 6.0,
+          "ytd_variation_pct": -66.67
+        },
+        "Total": {
+          "current_month": 1192.0,
+          "current_upto": 3276.0,
+          "previous_month": 1354.0,
+          "previous_upto": 3468.0,
+          "ytd_variation_pct": -5.54
+        }
+      }
+    },
+    {
+      "insurer": "BHARTI AXA LIFE INSURANCE COMPANY LIMITED",
+      "sno": 8,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 1.45,
+          "current_upto": 3.44,
+          "previous_month": -0.14,
+          "previous_upto": 4.42,
+          "ytd_variation_pct": -22.02
+        },
+        "Individual Non Single Premium": {
+          "current_month": 49.38,
+          "current_upto": 109.38,
+          "previous_month": 48.07,
+          "previous_upto": 115.97,
+          "ytd_variation_pct": -5.68
+        },
+        "Group Single Premium": {
+          "current_month": 4.81,
+          "current_upto": 11.37,
+          "previous_month": 15.69,
+          "previous_upto": 46.79,
+          "ytd_variation_pct": -75.71
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": -1.24,
+          "previous_upto": 0.64,
+          "ytd_variation_pct": -100.0
+        },
+        "Total": {
+          "current_month": 55.64,
+          "current_upto": 124.19,
+          "previous_month": 62.37,
+          "previous_upto": 167.81,
+          "ytd_variation_pct": -25.99
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 57.0,
+          "current_upto": 119.0,
+          "previous_month": 38.0,
+          "previous_upto": 164.0,
+          "ytd_variation_pct": -27.44
+        },
+        "Individual Non Single Premium": {
+          "current_month": 6645.0,
+          "current_upto": 15077.0,
+          "previous_month": 7433.0,
+          "previous_upto": 20221.0,
+          "ytd_variation_pct": -25.44
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 6702.0,
+          "current_upto": 15196.0,
+          "previous_month": 7471.0,
+          "previous_upto": 20385.0,
+          "ytd_variation_pct": -25.45
+        }
+      }
+    },
+    {
+      "insurer": "CANARA HSBC LIFE INSURANCE COMPANY LIMITED",
+      "sno": 9,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 4.86,
+          "current_upto": 12.53,
+          "previous_month": 8.83,
+          "previous_upto": 31.72,
+          "ytd_variation_pct": -60.49
+        },
+        "Individual Non Single Premium": {
+          "current_month": 137.69,
+          "current_upto": 347.51,
+          "previous_month": 100.02,
+          "previous_upto": 198.6,
+          "ytd_variation_pct": 74.98
+        },
+        "Group Single Premium": {
+          "current_month": 33.5,
+          "current_upto": 73.38,
+          "previous_month": 26.86,
+          "previous_upto": 175.26,
+          "ytd_variation_pct": -58.13
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.06,
+          "current_upto": 0.12,
+          "previous_month": 0.07,
+          "previous_upto": 0.14,
+          "ytd_variation_pct": -9.4
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 277.53,
+          "current_upto": 282.34,
+          "previous_month": 203.84,
+          "previous_upto": 205.36,
+          "ytd_variation_pct": 37.49
+        },
+        "Total": {
+          "current_month": 453.65,
+          "current_upto": 715.89,
+          "previous_month": 339.63,
+          "previous_upto": 611.07,
+          "ytd_variation_pct": 17.15
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 56.0,
+          "current_upto": 145.0,
+          "previous_month": 58.0,
+          "previous_upto": 175.0,
+          "ytd_variation_pct": -17.14
+        },
+        "Individual Non Single Premium": {
+          "current_month": 13055.0,
+          "current_upto": 47876.0,
+          "previous_month": 13672.0,
+          "previous_upto": 26454.0,
+          "ytd_variation_pct": 80.98
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 1.0,
+          "ytd_variation_pct": -100.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 3.0,
+          "current_upto": 4.0,
+          "previous_month": 6.0,
+          "previous_upto": 7.0,
+          "ytd_variation_pct": -42.86
+        },
+        "Total": {
+          "current_month": 13114.0,
+          "current_upto": 48025.0,
+          "previous_month": 13736.0,
+          "previous_upto": 26637.0,
+          "ytd_variation_pct": 80.29
+        }
+      }
+    },
+    {
+      "insurer": "CREDITACCESS LIFE INSURANCE COMPANY LIMITED",
+      "sno": 10,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 9.15,
+          "current_upto": 21.24,
+          "previous_month": 1.9,
+          "previous_upto": 1.9,
+          "ytd_variation_pct": 1018.61
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.1,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 9.16,
+          "current_upto": 21.34,
+          "previous_month": 1.9,
+          "previous_upto": 1.9,
+          "ytd_variation_pct": 1023.68
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 22.0,
+          "current_upto": 43.0,
+          "previous_month": 4.0,
+          "previous_upto": 5.0,
+          "ytd_variation_pct": 760.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 6.0,
+          "current_upto": 13.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 28.0,
+          "current_upto": 56.0,
+          "previous_month": 4.0,
+          "previous_upto": 5.0,
+          "ytd_variation_pct": 1020.0
+        }
+      }
+    },
+    {
+      "insurer": "EDELWEISS LIFE INSURANCE COMPANY LIMITED",
+      "sno": 11,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 1.58,
+          "current_upto": 3.83,
+          "previous_month": 0.98,
+          "previous_upto": 1.64,
+          "ytd_variation_pct": 133.96
+        },
+        "Individual Non Single Premium": {
+          "current_month": 33.51,
+          "current_upto": 79.09,
+          "previous_month": 30.31,
+          "previous_upto": 64.31,
+          "ytd_variation_pct": 22.98
+        },
+        "Group Single Premium": {
+          "current_month": 1.38,
+          "current_upto": 2.82,
+          "previous_month": 2.22,
+          "previous_upto": 4.06,
+          "ytd_variation_pct": -30.63
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.02,
+          "current_upto": 0.1,
+          "previous_month": 0.14,
+          "previous_upto": 0.3,
+          "ytd_variation_pct": -67.03
+        },
+        "Total": {
+          "current_month": 36.48,
+          "current_upto": 85.84,
+          "previous_month": 33.66,
+          "previous_upto": 70.31,
+          "ytd_variation_pct": 22.09
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 16.0,
+          "current_upto": 41.0,
+          "previous_month": 11.0,
+          "previous_upto": 31.0,
+          "ytd_variation_pct": 32.26
+        },
+        "Individual Non Single Premium": {
+          "current_month": 3546.0,
+          "current_upto": 8528.0,
+          "previous_month": 3889.0,
+          "previous_upto": 8883.0,
+          "ytd_variation_pct": -4.0
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 3562.0,
+          "current_upto": 8569.0,
+          "previous_month": 3900.0,
+          "previous_upto": 8914.0,
+          "ytd_variation_pct": -3.87
+        }
+      }
+    },
+    {
+      "insurer": "GENERALI CENTRAL LIFE INSURANCE COMPANY LIMITED",
+      "sno": 13,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.75,
+          "current_upto": 2.4,
+          "previous_month": 0.2,
+          "previous_upto": 1.24,
+          "ytd_variation_pct": 92.79
+        },
+        "Individual Non Single Premium": {
+          "current_month": 20.65,
+          "current_upto": 43.25,
+          "previous_month": 18.53,
+          "previous_upto": 40.2,
+          "ytd_variation_pct": 7.58
+        },
+        "Group Single Premium": {
+          "current_month": 0.65,
+          "current_upto": 1.27,
+          "previous_month": 0.61,
+          "previous_upto": 1.78,
+          "ytd_variation_pct": -29.07
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 21.63,
+          "current_upto": 41.18,
+          "previous_month": 7.9,
+          "previous_upto": 31.33,
+          "ytd_variation_pct": 31.45
+        },
+        "Total": {
+          "current_month": 43.68,
+          "current_upto": 88.09,
+          "previous_month": 27.24,
+          "previous_upto": 74.55,
+          "ytd_variation_pct": 18.15
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 18.0,
+          "current_upto": 56.0,
+          "previous_month": 7.0,
+          "previous_upto": 36.0,
+          "ytd_variation_pct": 55.56
+        },
+        "Individual Non Single Premium": {
+          "current_month": 2469.0,
+          "current_upto": 5484.0,
+          "previous_month": 2740.0,
+          "previous_upto": 6045.0,
+          "ytd_variation_pct": -9.28
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 3.0,
+          "current_upto": 7.0,
+          "previous_month": 3.0,
+          "previous_upto": 9.0,
+          "ytd_variation_pct": -22.22
+        },
+        "Total": {
+          "current_month": 2490.0,
+          "current_upto": 5547.0,
+          "previous_month": 2750.0,
+          "previous_upto": 6090.0,
+          "ytd_variation_pct": -8.92
+        }
+      }
+    },
+    {
+      "insurer": "GODIGIT LIFE INSURANCE LIMITED",
+      "sno": 14,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 0.08,
+          "current_upto": 0.14,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 51.64,
+          "current_upto": 134.93,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": -7.83,
+          "current_upto": 1.25,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 47.02,
+          "current_upto": 114.39,
+          "previous_month": 0.02,
+          "previous_upto": 0.02,
+          "ytd_variation_pct": 565112.67
+        },
+        "Total": {
+          "current_month": 90.91,
+          "current_upto": 250.71,
+          "previous_month": 0.02,
+          "previous_upto": 0.02,
+          "ytd_variation_pct": 1238656.89
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 20.0,
+          "current_upto": 26.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 12.0,
+          "current_upto": 28.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": -2.0,
+          "current_upto": 8.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 77.0,
+          "current_upto": 266.0,
+          "previous_month": 1.0,
+          "previous_upto": 1.0,
+          "ytd_variation_pct": 26500.0
+        },
+        "Total": {
+          "current_month": 107.0,
+          "current_upto": 328.0,
+          "previous_month": 1.0,
+          "previous_upto": 1.0,
+          "ytd_variation_pct": 32700.0
+        }
+      }
+    },
+    {
+      "insurer": "HDFC LIFE INSURANCE COMPANY LIMITED",
+      "sno": 15,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 367.5,
+          "current_upto": 880.67,
+          "previous_month": 325.75,
+          "previous_upto": 771.3,
+          "ytd_variation_pct": 14.18
+        },
+        "Individual Non Single Premium": {
+          "current_month": 999.13,
+          "current_upto": 2364.52,
+          "previous_month": 741.36,
+          "previous_upto": 1821.05,
+          "ytd_variation_pct": 29.84
+        },
+        "Group Single Premium": {
+          "current_month": 1301.34,
+          "current_upto": 3224.57,
+          "previous_month": 1391.44,
+          "previous_upto": 3284.81,
+          "ytd_variation_pct": -1.83
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 26.32,
+          "current_upto": 70.57,
+          "previous_month": 29.08,
+          "previous_upto": 112.94,
+          "ytd_variation_pct": -37.51
+        },
+        "Total": {
+          "current_month": 2694.29,
+          "current_upto": 6540.34,
+          "previous_month": 2487.63,
+          "previous_upto": 5990.1,
+          "ytd_variation_pct": 9.19
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 4364.0,
+          "current_upto": 10579.0,
+          "previous_month": 4189.0,
+          "previous_upto": 9499.0,
+          "ytd_variation_pct": 11.37
+        },
+        "Individual Non Single Premium": {
+          "current_month": 93024.0,
+          "current_upto": 242555.0,
+          "previous_month": 79210.0,
+          "previous_upto": 197356.0,
+          "ytd_variation_pct": 22.9
+        },
+        "Group Single Premium": {
+          "current_month": 49.0,
+          "current_upto": 77.0,
+          "previous_month": 24.0,
+          "previous_upto": 66.0,
+          "ytd_variation_pct": 16.67
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 33.0,
+          "current_upto": 86.0,
+          "previous_month": 18.0,
+          "previous_upto": 68.0,
+          "ytd_variation_pct": 26.47
+        },
+        "Total": {
+          "current_month": 97470.0,
+          "current_upto": 253297.0,
+          "previous_month": 83441.0,
+          "previous_upto": 206989.0,
+          "ytd_variation_pct": 22.37
+        }
+      }
+    },
+    {
+      "insurer": "ICICI PRUDENTIAL LIFE INSURANCE COMPANY LIMITED",
+      "sno": 16,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 138.93,
+          "current_upto": 361.28,
+          "previous_month": 160.2,
+          "previous_upto": 388.7,
+          "ytd_variation_pct": -7.05
+        },
+        "Individual Non Single Premium": {
+          "current_month": 601.47,
+          "current_upto": 1522.12,
+          "previous_month": 465.51,
+          "previous_upto": 1021.81,
+          "ytd_variation_pct": 48.96
+        },
+        "Group Single Premium": {
+          "current_month": 502.63,
+          "current_upto": 1285.63,
+          "previous_month": 390.62,
+          "previous_upto": 985.36,
+          "ytd_variation_pct": 30.47
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": -100.0
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 267.87,
+          "current_upto": 599.53,
+          "previous_month": 307.82,
+          "previous_upto": 655.37,
+          "ytd_variation_pct": -8.52
+        },
+        "Total": {
+          "current_month": 1510.9,
+          "current_upto": 3768.55,
+          "previous_month": 1324.16,
+          "previous_upto": 3051.23,
+          "ytd_variation_pct": 23.51
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 3817.0,
+          "current_upto": 8304.0,
+          "previous_month": 1964.0,
+          "previous_upto": 5564.0,
+          "ytd_variation_pct": 49.25
+        },
+        "Individual Non Single Premium": {
+          "current_month": 43885.0,
+          "current_upto": 123817.0,
+          "previous_month": 44656.0,
+          "previous_upto": 109094.0,
+          "ytd_variation_pct": 13.5
+        },
+        "Group Single Premium": {
+          "current_month": 36.0,
+          "current_upto": 72.0,
+          "previous_month": 13.0,
+          "previous_upto": 42.0,
+          "ytd_variation_pct": 71.43
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 152.0,
+          "current_upto": 500.0,
+          "previous_month": 184.0,
+          "previous_upto": 591.0,
+          "ytd_variation_pct": -15.4
+        },
+        "Total": {
+          "current_month": 47890.0,
+          "current_upto": 132693.0,
+          "previous_month": 46817.0,
+          "previous_upto": 115291.0,
+          "ytd_variation_pct": 15.09
+        }
+      }
+    },
+    {
+      "insurer": "INDIAFIRST LIFE INSURANCE COMPANY LIMITED",
+      "sno": 17,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 9.23,
+          "current_upto": 25.73,
+          "previous_month": 5.21,
+          "previous_upto": 15.73,
+          "ytd_variation_pct": 63.5
+        },
+        "Individual Non Single Premium": {
+          "current_month": 65.37,
+          "current_upto": 167.17,
+          "previous_month": 106.04,
+          "previous_upto": 283.82,
+          "ytd_variation_pct": -41.1
+        },
+        "Group Single Premium": {
+          "current_month": 343.48,
+          "current_upto": 492.77,
+          "previous_month": 333.1,
+          "previous_upto": 436.34,
+          "ytd_variation_pct": 12.93
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.1,
+          "previous_month": 0.02,
+          "previous_upto": 0.06,
+          "ytd_variation_pct": 76.49
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 418.08,
+          "current_upto": 685.76,
+          "previous_month": 444.37,
+          "previous_upto": 735.95,
+          "ytd_variation_pct": -6.82
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 186.0,
+          "current_upto": 461.0,
+          "previous_month": 160.0,
+          "previous_upto": 486.0,
+          "ytd_variation_pct": -5.14
+        },
+        "Individual Non Single Premium": {
+          "current_month": 10535.0,
+          "current_upto": 27055.0,
+          "previous_month": 21739.0,
+          "previous_upto": 55527.0,
+          "ytd_variation_pct": -51.28
+        },
+        "Group Single Premium": {
+          "current_month": 22.0,
+          "current_upto": 49.0,
+          "previous_month": 18.0,
+          "previous_upto": 43.0,
+          "ytd_variation_pct": 13.95
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 1.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 10743.0,
+          "current_upto": 27566.0,
+          "previous_month": 21917.0,
+          "previous_upto": 56056.0,
+          "ytd_variation_pct": -50.82
+        }
+      }
+    },
+    {
+      "insurer": "INDUSIND NIPPON LIFE INSURANCE COMPANY LIMITED",
+      "sno": 18,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 2.87,
+          "current_upto": 9.68,
+          "previous_month": 2.17,
+          "previous_upto": 9.13,
+          "ytd_variation_pct": 5.94
+        },
+        "Individual Non Single Premium": {
+          "current_month": 89.94,
+          "current_upto": 232.25,
+          "previous_month": 82.0,
+          "previous_upto": 249.23,
+          "ytd_variation_pct": -6.81
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 8.45,
+          "current_upto": 17.12,
+          "previous_month": 2.72,
+          "previous_upto": 5.27,
+          "ytd_variation_pct": 225.1
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.3,
+          "current_upto": 0.93,
+          "previous_month": 0.45,
+          "previous_upto": 2.86,
+          "ytd_variation_pct": -67.56
+        },
+        "Total": {
+          "current_month": 101.56,
+          "current_upto": 259.97,
+          "previous_month": 87.33,
+          "previous_upto": 266.49,
+          "ytd_variation_pct": -2.44
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 102.0,
+          "current_upto": 261.0,
+          "previous_month": 73.0,
+          "previous_upto": 254.0,
+          "ytd_variation_pct": 2.76
+        },
+        "Individual Non Single Premium": {
+          "current_month": 15846.0,
+          "current_upto": 37403.0,
+          "previous_month": 14065.0,
+          "previous_upto": 39722.0,
+          "ytd_variation_pct": -5.84
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 7.0,
+          "current_upto": 14.0,
+          "previous_month": 4.0,
+          "previous_upto": 10.0,
+          "ytd_variation_pct": 40.0
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 10.0,
+          "previous_month": 1.0,
+          "previous_upto": 14.0,
+          "ytd_variation_pct": -28.57
+        },
+        "Total": {
+          "current_month": 15955.0,
+          "current_upto": 37688.0,
+          "previous_month": 14143.0,
+          "previous_upto": 40000.0,
+          "ytd_variation_pct": -5.78
+        }
+      }
+    },
+    {
+      "insurer": "KOTAK MAHINDRA LIFE INSURANCE COMPANY LIMITED",
+      "sno": 19,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 117.68,
+          "current_upto": 277.81,
+          "previous_month": 81.26,
+          "previous_upto": 191.23,
+          "ytd_variation_pct": 45.28
+        },
+        "Individual Non Single Premium": {
+          "current_month": 151.44,
+          "current_upto": 340.14,
+          "previous_month": 138.28,
+          "previous_upto": 305.82,
+          "ytd_variation_pct": 11.22
+        },
+        "Group Single Premium": {
+          "current_month": 192.87,
+          "current_upto": 568.52,
+          "previous_month": 207.36,
+          "previous_upto": 645.27,
+          "ytd_variation_pct": -11.89
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.01,
+          "current_upto": 0.03,
+          "previous_month": 0.23,
+          "previous_upto": 0.44,
+          "ytd_variation_pct": -92.71
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 190.5,
+          "current_upto": 338.83,
+          "previous_month": 83.76,
+          "previous_upto": 282.18,
+          "ytd_variation_pct": 20.08
+        },
+        "Total": {
+          "current_month": 652.49,
+          "current_upto": 1525.35,
+          "previous_month": 510.88,
+          "previous_upto": 1424.94,
+          "ytd_variation_pct": 7.05
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 1322.0,
+          "current_upto": 7400.0,
+          "previous_month": 1836.0,
+          "previous_upto": 6889.0,
+          "ytd_variation_pct": 7.42
+        },
+        "Individual Non Single Premium": {
+          "current_month": 18571.0,
+          "current_upto": 38181.0,
+          "previous_month": 20920.0,
+          "previous_upto": 42214.0,
+          "ytd_variation_pct": -9.55
+        },
+        "Group Single Premium": {
+          "current_month": 5.0,
+          "current_upto": 15.0,
+          "previous_month": 10.0,
+          "previous_upto": 29.0,
+          "ytd_variation_pct": -48.28
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 2.0,
+          "previous_month": 1.0,
+          "previous_upto": 3.0,
+          "ytd_variation_pct": -33.33
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 62.0,
+          "current_upto": 169.0,
+          "previous_month": 51.0,
+          "previous_upto": 146.0,
+          "ytd_variation_pct": 15.75
+        },
+        "Total": {
+          "current_month": 19960.0,
+          "current_upto": 45767.0,
+          "previous_month": 22818.0,
+          "previous_upto": 49281.0,
+          "ytd_variation_pct": -7.13
+        }
+      }
+    },
+    {
+      "insurer": "PNB METLIFE LIFE INSURANCE COMPANY LIMITED",
+      "sno": 20,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 6.81,
+          "current_upto": 17.37,
+          "previous_month": 8.49,
+          "previous_upto": 19.49,
+          "ytd_variation_pct": -10.85
+        },
+        "Individual Non Single Premium": {
+          "current_month": 150.87,
+          "current_upto": 391.97,
+          "previous_month": 157.42,
+          "previous_upto": 386.67,
+          "ytd_variation_pct": 1.37
+        },
+        "Group Single Premium": {
+          "current_month": 113.81,
+          "current_upto": 388.43,
+          "previous_month": 63.78,
+          "previous_upto": 201.54,
+          "ytd_variation_pct": 92.73
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.02,
+          "current_upto": 0.06,
+          "previous_month": 0.02,
+          "previous_upto": 0.04,
+          "ytd_variation_pct": 61.78
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 5.18,
+          "current_upto": 18.06,
+          "previous_month": 3.42,
+          "previous_upto": 11.43,
+          "ytd_variation_pct": 58.06
+        },
+        "Total": {
+          "current_month": 276.7,
+          "current_upto": 815.89,
+          "previous_month": 233.12,
+          "previous_upto": 619.16,
+          "ytd_variation_pct": 31.77
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 125.0,
+          "current_upto": 322.0,
+          "previous_month": 119.0,
+          "previous_upto": 312.0,
+          "ytd_variation_pct": 3.21
+        },
+        "Individual Non Single Premium": {
+          "current_month": 22846.0,
+          "current_upto": 59008.0,
+          "previous_month": 23970.0,
+          "previous_upto": 57913.0,
+          "ytd_variation_pct": 1.89
+        },
+        "Group Single Premium": {
+          "current_month": 7.0,
+          "current_upto": 35.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 3.0,
+          "previous_upto": 14.0,
+          "ytd_variation_pct": -100.0
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 2.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 22978.0,
+          "current_upto": 59367.0,
+          "previous_month": 24092.0,
+          "previous_upto": 58239.0,
+          "ytd_variation_pct": 1.94
+        }
+      }
+    },
+    {
+      "insurer": "PRAMERICA LIFE INSURANCE LIMITED.",
+      "sno": 21,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.22,
+          "current_upto": 0.76,
+          "previous_month": 0.0,
+          "previous_upto": 0.11,
+          "ytd_variation_pct": 574.58
+        },
+        "Individual Non Single Premium": {
+          "current_month": 18.95,
+          "current_upto": 50.79,
+          "previous_month": 11.89,
+          "previous_upto": 33.57,
+          "ytd_variation_pct": 51.28
+        },
+        "Group Single Premium": {
+          "current_month": 59.39,
+          "current_upto": 181.99,
+          "previous_month": 0.0,
+          "previous_upto": 110.08,
+          "ytd_variation_pct": 65.32
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 14.09,
+          "current_upto": 28.3,
+          "previous_month": 67.23,
+          "previous_upto": 77.22,
+          "ytd_variation_pct": -63.35
+        },
+        "Total": {
+          "current_month": 92.65,
+          "current_upto": 261.84,
+          "previous_month": 79.12,
+          "previous_upto": 220.99,
+          "ytd_variation_pct": 18.49
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 8.0,
+          "current_upto": 22.0,
+          "previous_month": 5.0,
+          "previous_upto": 9.0,
+          "ytd_variation_pct": 144.44
+        },
+        "Individual Non Single Premium": {
+          "current_month": 4233.0,
+          "current_upto": 9521.0,
+          "previous_month": 2921.0,
+          "previous_upto": 6530.0,
+          "ytd_variation_pct": 45.8
+        },
+        "Group Single Premium": {
+          "current_month": 6.0,
+          "current_upto": 19.0,
+          "previous_month": 0.0,
+          "previous_upto": 4.0,
+          "ytd_variation_pct": 375.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 15.0,
+          "current_upto": 51.0,
+          "previous_month": 37.0,
+          "previous_upto": 87.0,
+          "ytd_variation_pct": -41.38
+        },
+        "Total": {
+          "current_month": 4262.0,
+          "current_upto": 9613.0,
+          "previous_month": 2963.0,
+          "previous_upto": 6630.0,
+          "ytd_variation_pct": 44.99
+        }
+      }
+    },
+    {
+      "insurer": "SAHARA INDIA LIFE INSURANCE COMPANY LIMITED",
+      "sno": 22,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Individual Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Total": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        }
+      }
+    },
+    {
+      "insurer": "SBI LIFE INSURANCE COMPANY LIMITED",
+      "sno": 23,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 604.94,
+          "current_upto": 1695.87,
+          "previous_month": 579.33,
+          "previous_upto": 1547.09,
+          "ytd_variation_pct": 9.62
+        },
+        "Individual Non Single Premium": {
+          "current_month": 1207.15,
+          "current_upto": 3052.24,
+          "previous_month": 1013.44,
+          "previous_upto": 2510.81,
+          "ytd_variation_pct": 21.56
+        },
+        "Group Single Premium": {
+          "current_month": 1123.12,
+          "current_upto": 2191.1,
+          "previous_month": 780.67,
+          "previous_upto": 2022.6,
+          "ytd_variation_pct": 8.33
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.39,
+          "current_upto": 2.09,
+          "previous_month": 2.2,
+          "previous_upto": 7.91,
+          "ytd_variation_pct": -73.61
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 54.36,
+          "current_upto": 91.41,
+          "previous_month": 79.07,
+          "previous_upto": 117.31,
+          "ytd_variation_pct": -22.08
+        },
+        "Total": {
+          "current_month": 2989.95,
+          "current_upto": 7032.69,
+          "previous_month": 2454.71,
+          "previous_upto": 6205.71,
+          "ytd_variation_pct": 13.33
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 8150.0,
+          "current_upto": 22568.0,
+          "previous_month": 7435.0,
+          "previous_upto": 19127.0,
+          "ytd_variation_pct": 17.99
+        },
+        "Individual Non Single Premium": {
+          "current_month": 148657.0,
+          "current_upto": 403104.0,
+          "previous_month": 153968.0,
+          "previous_upto": 399605.0,
+          "ytd_variation_pct": 0.88
+        },
+        "Group Single Premium": {
+          "current_month": 41.0,
+          "current_upto": 73.0,
+          "previous_month": 27.0,
+          "previous_upto": 55.0,
+          "ytd_variation_pct": 32.73
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 11.0,
+          "current_upto": 36.0,
+          "previous_month": 35.0,
+          "previous_upto": 68.0,
+          "ytd_variation_pct": -47.06
+        },
+        "Total": {
+          "current_month": 156859.0,
+          "current_upto": 425781.0,
+          "previous_month": 161465.0,
+          "previous_upto": 418855.0,
+          "ytd_variation_pct": 1.65
+        }
+      }
+    },
+    {
+      "insurer": "SHRIRAM LIFE INSURANCE COMPANY LIMITED",
+      "sno": 24,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 5.58,
+          "current_upto": 14.81,
+          "previous_month": 3.81,
+          "previous_upto": 11.25,
+          "ytd_variation_pct": 31.69
+        },
+        "Individual Non Single Premium": {
+          "current_month": 92.84,
+          "current_upto": 192.77,
+          "previous_month": 64.55,
+          "previous_upto": 130.0,
+          "ytd_variation_pct": 48.28
+        },
+        "Group Single Premium": {
+          "current_month": 43.82,
+          "current_upto": 130.87,
+          "previous_month": 41.98,
+          "previous_upto": 113.13,
+          "ytd_variation_pct": 15.68
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 3.5,
+          "current_upto": 68.48,
+          "previous_month": 37.52,
+          "previous_upto": 241.15,
+          "ytd_variation_pct": -71.6
+        },
+        "Total": {
+          "current_month": 145.74,
+          "current_upto": 406.93,
+          "previous_month": 147.86,
+          "previous_upto": 495.53,
+          "ytd_variation_pct": -17.88
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 673.0,
+          "current_upto": 1934.0,
+          "previous_month": 1164.0,
+          "previous_upto": 2545.0,
+          "ytd_variation_pct": -24.01
+        },
+        "Individual Non Single Premium": {
+          "current_month": 51829.0,
+          "current_upto": 125931.0,
+          "previous_month": 25887.0,
+          "previous_upto": 53948.0,
+          "ytd_variation_pct": 133.43
+        },
+        "Group Single Premium": {
+          "current_month": 3.0,
+          "current_upto": 10.0,
+          "previous_month": 3.0,
+          "previous_upto": 8.0,
+          "ytd_variation_pct": 25.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 6.0,
+          "current_upto": 18.0,
+          "previous_month": 4.0,
+          "previous_upto": 16.0,
+          "ytd_variation_pct": 12.5
+        },
+        "Total": {
+          "current_month": 52511.0,
+          "current_upto": 127893.0,
+          "previous_month": 27058.0,
+          "previous_upto": 56517.0,
+          "ytd_variation_pct": 126.29
+        }
+      }
+    },
+    {
+      "insurer": "STAR UNION DAI-ICHI LIFE INSURANCE COMPANY LIMITED",
+      "sno": 25,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 13.04,
+          "current_upto": 26.82,
+          "previous_month": 7.15,
+          "previous_upto": 14.59,
+          "ytd_variation_pct": 83.76
+        },
+        "Individual Non Single Premium": {
+          "current_month": 116.23,
+          "current_upto": 257.13,
+          "previous_month": 99.73,
+          "previous_upto": 215.54,
+          "ytd_variation_pct": 19.29
+        },
+        "Group Single Premium": {
+          "current_month": 203.73,
+          "current_upto": 277.8,
+          "previous_month": 283.2,
+          "previous_upto": 393.42,
+          "ytd_variation_pct": -29.39
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": -100.0
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 4.97,
+          "current_upto": 15.06,
+          "previous_month": 4.27,
+          "previous_upto": 51.21,
+          "ytd_variation_pct": -70.59
+        },
+        "Total": {
+          "current_month": 337.97,
+          "current_upto": 576.81,
+          "previous_month": 394.34,
+          "previous_upto": 674.77,
+          "ytd_variation_pct": -14.52
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 444.0,
+          "current_upto": 886.0,
+          "previous_month": 224.0,
+          "previous_upto": 493.0,
+          "ytd_variation_pct": 79.72
+        },
+        "Individual Non Single Premium": {
+          "current_month": 13686.0,
+          "current_upto": 32813.0,
+          "previous_month": 14345.0,
+          "previous_upto": 30585.0,
+          "ytd_variation_pct": 7.28
+        },
+        "Group Single Premium": {
+          "current_month": 3.0,
+          "current_upto": 4.0,
+          "previous_month": 2.0,
+          "previous_upto": 6.0,
+          "ytd_variation_pct": -33.33
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 1.0,
+          "current_upto": 17.0,
+          "previous_month": 8.0,
+          "previous_upto": 14.0,
+          "ytd_variation_pct": 21.43
+        },
+        "Total": {
+          "current_month": 14134.0,
+          "current_upto": 33720.0,
+          "previous_month": 14579.0,
+          "previous_upto": 31098.0,
+          "ytd_variation_pct": 8.43
+        }
+      }
+    },
+    {
+      "insurer": "TATA AIA LIFE INSURANCE COMPANY LIMITED",
+      "sno": 26,
+      "group": "Private",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 69.29,
+          "current_upto": 186.87,
+          "previous_month": 94.09,
+          "previous_upto": 265.29,
+          "ytd_variation_pct": -29.56
+        },
+        "Individual Non Single Premium": {
+          "current_month": 593.75,
+          "current_upto": 1476.96,
+          "previous_month": 499.28,
+          "previous_upto": 1195.64,
+          "ytd_variation_pct": 23.53
+        },
+        "Group Single Premium": {
+          "current_month": 30.3,
+          "current_upto": 70.09,
+          "previous_month": 21.33,
+          "previous_upto": 58.63,
+          "ytd_variation_pct": 19.54
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.27,
+          "current_upto": 0.76,
+          "previous_month": 0.48,
+          "previous_upto": 1.12,
+          "ytd_variation_pct": -31.73
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 16.62,
+          "current_upto": 73.77,
+          "previous_month": 29.49,
+          "previous_upto": 97.52,
+          "ytd_variation_pct": -24.36
+        },
+        "Total": {
+          "current_month": 710.23,
+          "current_upto": 1808.45,
+          "previous_month": 644.67,
+          "previous_upto": 1618.21,
+          "ytd_variation_pct": 11.76
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 1829.0,
+          "current_upto": 4026.0,
+          "previous_month": 786.0,
+          "previous_upto": 2201.0,
+          "ytd_variation_pct": 82.92
+        },
+        "Individual Non Single Premium": {
+          "current_month": 73364.0,
+          "current_upto": 163566.0,
+          "previous_month": 50800.0,
+          "previous_upto": 134027.0,
+          "ytd_variation_pct": 22.04
+        },
+        "Group Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 2.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Non Single Premium": {
+          "current_month": 0.0,
+          "current_upto": 0.0,
+          "previous_month": 0.0,
+          "previous_upto": 0.0,
+          "ytd_variation_pct": null
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 40.0,
+          "current_upto": 110.0,
+          "previous_month": 43.0,
+          "previous_upto": 125.0,
+          "ytd_variation_pct": -12.0
+        },
+        "Total": {
+          "current_month": 75233.0,
+          "current_upto": 167704.0,
+          "previous_month": 51629.0,
+          "previous_upto": 136353.0,
+          "ytd_variation_pct": 22.99
+        }
+      }
+    },
+    {
+      "insurer": "PRIVATE TOTAL",
+      "sno": null,
+      "group": "Private Total",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 1738.98,
+          "current_upto": 4443.06,
+          "previous_month": 1558.3,
+          "previous_upto": 3919.16,
+          "ytd_variation_pct": 13.37
+        },
+        "Individual Non Single Premium": {
+          "current_month": 5759.54,
+          "current_upto": 13912.1,
+          "previous_month": 4704.77,
+          "previous_upto": 11202.55,
+          "ytd_variation_pct": 24.19
+        },
+        "Group Single Premium": {
+          "current_month": 5538.14,
+          "current_upto": 11790.4,
+          "previous_month": 4788.42,
+          "previous_upto": 10700.39,
+          "ytd_variation_pct": 10.19
+        },
+        "Group Non Single Premium": {
+          "current_month": 2.23,
+          "current_upto": 24.12,
+          "previous_month": 6.16,
+          "previous_upto": 16.63,
+          "ytd_variation_pct": 45.03
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 1027.93,
+          "current_upto": 2116.11,
+          "previous_month": 933.3,
+          "previous_upto": 2328.94,
+          "ytd_variation_pct": -9.14
+        },
+        "Total": {
+          "current_month": 14066.82,
+          "current_upto": 32285.8,
+          "previous_month": 11990.94,
+          "previous_upto": 28167.66,
+          "ytd_variation_pct": 14.62
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 24320.0,
+          "current_upto": 65686.0,
+          "previous_month": 20499.0,
+          "previous_upto": 54160.0,
+          "ytd_variation_pct": 21.28
+        },
+        "Individual Non Single Premium": {
+          "current_month": 689473.0,
+          "current_upto": 1728287.0,
+          "previous_month": 617289.0,
+          "previous_upto": 1519261.0,
+          "ytd_variation_pct": 13.76
+        },
+        "Group Single Premium": {
+          "current_month": 254.0,
+          "current_upto": 529.0,
+          "previous_month": 121.0,
+          "previous_upto": 315.0,
+          "ytd_variation_pct": 67.94
+        },
+        "Group Non Single Premium": {
+          "current_month": 5.0,
+          "current_upto": 25.0,
+          "previous_month": 8.0,
+          "previous_upto": 27.0,
+          "ytd_variation_pct": -7.41
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 530.0,
+          "current_upto": 1672.0,
+          "previous_month": 514.0,
+          "previous_upto": 1607.0,
+          "ytd_variation_pct": 4.04
+        },
+        "Total": {
+          "current_month": 714582.0,
+          "current_upto": 1796199.0,
+          "previous_month": 638431.0,
+          "previous_upto": 1575370.0,
+          "ytd_variation_pct": 14.02
+        }
+      }
+    },
+    {
+      "insurer": "LIFE INSURANCE CORPORATION OF INDIA",
+      "sno": 27,
+      "group": "LIC",
+      "premium": {
+        "Individual Single Premium": {
+          "current_month": 2084.67,
+          "current_upto": 5306.65,
+          "previous_month": 2051.11,
+          "previous_upto": 4568.25,
+          "ytd_variation_pct": 16.16
+        },
+        "Individual Non Single Premium": {
+          "current_month": 2551.07,
+          "current_upto": 6562.69,
+          "previous_month": 2243.51,
+          "previous_upto": 5870.93,
+          "ytd_variation_pct": 11.78
+        },
+        "Group Single Premium": {
+          "current_month": 23172.89,
+          "current_upto": 44671.86,
+          "previous_month": 20510.91,
+          "previous_upto": 33465.56,
+          "ytd_variation_pct": 33.49
+        },
+        "Group Non Single Premium": {
+          "current_month": 508.55,
+          "current_upto": 720.17,
+          "previous_month": 119.67,
+          "previous_upto": 836.26,
+          "ytd_variation_pct": -13.88
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 49.69,
+          "current_upto": 179.52,
+          "previous_month": 45.63,
+          "previous_upto": 96.2,
+          "ytd_variation_pct": 86.62
+        },
+        "Total": {
+          "current_month": 28366.87,
+          "current_upto": 57440.9,
+          "previous_month": 24970.82,
+          "previous_upto": 44837.2,
+          "ytd_variation_pct": 28.11
+        }
+      },
+      "policies": {
+        "Individual Single Premium": {
+          "current_month": 80317.0,
+          "current_upto": 196416.0,
+          "previous_month": 76734.0,
+          "previous_upto": 171663.0,
+          "ytd_variation_pct": 14.42
+        },
+        "Individual Non Single Premium": {
+          "current_month": 1381556.0,
+          "current_upto": 3369103.0,
+          "previous_month": 1225046.0,
+          "previous_upto": 3044638.0,
+          "ytd_variation_pct": 10.66
+        },
+        "Group Single Premium": {
+          "current_month": 54.0,
+          "current_upto": 144.0,
+          "previous_month": 26.0,
+          "previous_upto": 64.0,
+          "ytd_variation_pct": 125.0
+        },
+        "Group Non Single Premium": {
+          "current_month": 329.0,
+          "current_upto": 941.0,
+          "previous_month": 339.0,
+          "previous_upto": 953.0,
+          "ytd_variation_pct": -1.26
+        },
+        "Group Yearly Renewable Premium": {
+          "current_month": 2444.0,
+          "current_upto": 5446.0,
+          "previous_month": 2953.0,
+          "previous_upto": 5239.0,
+          "ytd_variation_pct": 3.95
+        },
+        "Total": {
+          "current_month": 1464700.0,
+          "current_upto": 3572050.0,
+          "previous_month": 1305098.0,
+          "previous_upto": 3222557.0,
+          "ytd_variation_pct": 10.85
+        }
+      }
+    },
+    {
+      "insurer": "GRAND TOTAL",
+      "sno": null,
+      "group": "Grand Total",
+      "premium": {
+        "Total": {
+          "current_month": 42433.69,
+          "current_upto": 89726.7,
+          "previous_month": 36961.76,
+          "previous_upto": 73004.87,
+          "ytd_variation_pct": 22.91
+        }
+      },
+      "policies": {
+        "Total": {
+          "current_month": 2179282.0,
+          "current_upto": 5368249.0,
+          "previous_month": 1943529.0,
+          "previous_upto": 4797927.0,
+          "ytd_variation_pct": 11.89
+        }
+      }
+    }
+  ]
+}
