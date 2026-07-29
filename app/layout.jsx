@@ -12,8 +12,9 @@ export const metadata = {
     url: "https://finlead.ai",
     siteName: "FinLead AI",
     type: "website",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "FinLead Briefing — Intelligence for insurance operations" }],
   },
-  twitter: { card: "summary_large_image", title: "FinLead AI", description: "The insurance back-office, run by AI agents." },
+  twitter: { card: "summary_large_image", title: "FinLead AI", description: "The insurance back-office, run by AI agents.", images: ["/og.png"] },
   alternates: { canonical: "https://finlead.ai" },
 };
 

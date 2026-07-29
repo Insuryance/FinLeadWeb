@@ -30,12 +30,15 @@ function useTypewriter(items, { typing = 55, pausing = 1600, deleting = 28 } = {
 function DecodeText({ text, className, style, delay = 200, speed = 0.5 }) {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*<>/_";
   const scramble = (t) => t.split("").map((c) => (c === " " ? " " : chars[Math.floor(Math.random() * chars.length)])).join("");
-  const [out, setOut] = useState(() => scramble(text));
+  // Keep the server and first client render identical. The scramble begins only
+  // after hydration, otherwise Math.random() produces different HTML on each side.
+  const [out, setOut] = useState(text);
   const done = useRef(false);
   useEffect(() => {
     if (done.current) return;
     let iteration = 0;
     let id;
+    setOut(scramble(text));
     const t = setTimeout(() => {
       id = setInterval(() => {
         setOut(text.split("").map((c, i) => {
@@ -633,7 +636,7 @@ useEffect(() => {
             <span className="fl-serif" style={{ fontSize: 22, letterSpacing: "-.02em" }}>FinLead<span className="fl-ital">.ai</span></span>
           </a>
           <div className="fl-dock">
-            <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a><a href="/insight">Insight</a>
+            <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a><a href="/insight">Insight</a><a href="/blog">Briefing</a>
           </div>
           <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine" style={{ padding: "10px 20px", fontSize: 14 }}>Book a demo</button>
         </nav>
@@ -943,15 +946,20 @@ useEffect(() => {
 
       {/* FOOTER */}
       <footer style={{ position: "relative", zIndex: 10, borderTop: "1px solid var(--line)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 20 }}>
           <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Logo />
             <span className="fl-serif" style={{ fontSize: 20 }}>FinLead<span className="fl-ital">.ai</span></span>
           </a>
-          <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
             <span className="fl-muted" style={{ fontSize: 13 }}>Backed by</span>
-            <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 18, width: "auto", display: "block", opacity: .85 }} />
-          </a>
+            <a href="https://www.joinef.com/about/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center" }}>
+              <img src="/EFLogo.png" alt="Entrepreneur First" style={{ height: 36, width: "auto", display: "block", opacity: .92 }} />
+            </a>
+            <a href="https://www.transposeplatform.vc" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center" }}>
+              <img src="/TI_logo.png" alt="Transpose Platform" style={{ height: 36, width: "auto", display: "block", opacity: .92 }} />
+            </a>
+          </div>
           <p className="fl-muted" style={{ fontSize: 14, margin: 0 }}>© 2026 FinLead AI</p>
         </div>
      </footer>
