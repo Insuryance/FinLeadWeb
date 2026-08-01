@@ -1,4 +1,5 @@
 import "./globals.css";
+import AnalyticsScripts from "./tracking/AnalyticsScripts";
 
 export const metadata = {
   metadataBase: new URL("https://finlead.ai"),
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+        <AnalyticsScripts />
         {children}
       </body>
     </html>
