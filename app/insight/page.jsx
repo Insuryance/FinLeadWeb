@@ -1,3 +1,5 @@
+import SiteHeader from "../components/SiteHeader";
+
 export const metadata = {
   title: "Insurance Market Insights: India & US | FinLead AI",
   description: "Monthly insurance market data, compiled and published automatically by FinLead AI agents. India general insurance segment data live; US market data coming soon.",
@@ -7,8 +9,8 @@ export const metadata = {
 export default function InsightChooser() {
   return (
     <div className="fl-root" style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "88px 24px 96px", position: "relative", zIndex: 10 }}>
-        <a href="/" style={{ color: "var(--muted)", fontSize: 13 }}>&larr; FinLead AI</a>
+      <SiteHeader current="insight" />
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "128px 24px 96px", position: "relative", zIndex: 10 }}>
         <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 16 }}>FinLead AI · Insights</p>
         <h1 className="fl-serif" style={{ fontWeight: 350, fontSize: "clamp(30px,5vw,52px)", lineHeight: 1.1, letterSpacing: "-.02em", margin: 0 }}>
           Insurance markets, <span className="fl-gold-grad">by the numbers.</span>

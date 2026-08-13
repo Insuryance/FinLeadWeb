@@ -3,6 +3,7 @@ import path from "path";
 import InsightExplorer from "./InsightExplorer";
 import InsightChrome from "./InsightChrome";
 import DashboardSwitch from "./DashboardSwitch";
+import SiteHeader from "../../components/SiteHeader";
 
 /* ---------- load all monthly JSON files at build time ---------- */
 function loadMonths() {
@@ -75,9 +76,10 @@ export default function InsightPage() {
 
   return (
     <div className="fl-root" style={{ position: "relative", zIndex: 1 }}>
+      <SiteHeader current="insight" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px 96px", position: "relative", zIndex: 10 }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "128px 24px 96px", position: "relative", zIndex: 10 }}>
         <DashboardSwitch>
           {/* header */}
           <p className="fl-eyebrow" style={{ marginTop: 28, marginBottom: 16 }}>FinLead AI · Insights</p>

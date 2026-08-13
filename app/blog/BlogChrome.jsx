@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SiteHeader from "../components/SiteHeader";
 
 export function BlogLogo() {
   return (
@@ -12,18 +13,7 @@ export function BlogLogo() {
 export function BlogHeader() {
   return (
     <header className="bl-header">
-      <div className="bl-nav">
-        <BlogLogo />
-        <div className="fl-dock" aria-label="Primary navigation">
-          <Link href="/#product">Product</Link>
-          <Link href="/#agents">Agents</Link>
-          <Link href="/#assistant">Assistant</Link>
-          <Link href="/#why">Why FinLead</Link>
-          <Link href="/insight">Insight</Link>
-          <Link href="/blog" aria-current="page">Briefing</Link>
-        </div>
-        <a className="fl-btn fl-btn-shine bl-header-cta" href="mailto:surya@finleadai.com?subject=Book%20a%20demo">Book a demo</a>
-      </div>
+      <SiteHeader current="briefing" />
     </header>
   );
 }

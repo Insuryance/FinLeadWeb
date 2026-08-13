@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { ArrowUpRight, Send, Sparkles, Check, Landmark, Users, ShieldCheck } from "lucide-react";
+import SiteHeader from "./components/SiteHeader";
 
 /* ---------- Logo mark ---------- */
 function Logo() {
@@ -628,19 +629,7 @@ useEffect(() => {
       <div className="fl-grain" />
       <div className="fl-aurora" />
 
-      {/* NAV — translucent dock */}
-      <div className="fl-navwrap" style={{ position: "fixed", top: 14, left: 0, right: 0, zIndex: 50 }}>
-        <nav style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px", height: 74, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Logo />
-            <span className="fl-serif" style={{ fontSize: 22, letterSpacing: "-.02em" }}>FinLead<span className="fl-ital">.ai</span></span>
-          </a>
-          <div className="fl-dock">
-            <a href="#product">Product</a><a href="#agents">Agents</a><a href="#assistant">Assistant</a><a href="#why">Why FinLead</a><a href="/insight">Insight</a><a href="/blog">Briefing</a><a href="/mli">MLI</a>
-          </div>
-          <button onClick={() => setDemoOpen(true)} className="fl-btn fl-btn-shine" style={{ padding: "10px 20px", fontSize: 14 }}>Book a demo</button>
-        </nav>
-      </div>
+      <SiteHeader ctaOnClick={() => setDemoOpen(true)} />
 
       {/* HERO */}
       <header id="top" style={{ position: "relative", zIndex: 10, maxWidth: 1200, margin: "0 auto", padding: "120px 24px 48px", textAlign: "center" }}>
