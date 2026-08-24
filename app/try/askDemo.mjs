@@ -16,15 +16,14 @@ const COMPONENT_LABELS = {
 };
 
 /**
- * Sheets to lead with, everywhere.
+ * Sheets to lead with come from the sample definition (`sample.leadSheets`), not from here.
  *
- * The workbook has 21 tabs and the rule list is capped at 250 of 4,705 rows, so whichever sheets
- * happen to be extracted first are the only ones a viewer ever sees — that was ROI, a sheet whose
- * rates are the leanest in the book. Leading with these three means the table, the charts and the
- * chat questions all talk about the same sheets, so a viewer can follow one thread across all of
- * them instead of meeting a different region in each panel.
+ * The rule list is windowed, so whichever sheets the pipeline happened to extract first are the only
+ * ones a viewer sees. Which sheets are worth opening on is a judgement about a particular workbook,
+ * so it lives with that workbook's catalogue entry — a second card names its own, and a card that
+ * names none keeps the run's own order.
  */
-export const LEAD_SHEETS = ["TN", "WB", "Bihar"];
+const NO_LEAD_SHEETS = [];
 
 /** The worksheet tab a rule came from, or null when its table cannot be resolved. */
 export function sheetOfRule(rule, tables) {
@@ -33,26 +32,26 @@ export function sheetOfRule(rule, tables) {
   return tablesByIndex(tables).get(tableIndex)?.region ?? null;
 }
 
-function leadRank(sheetName) {
-  const index = LEAD_SHEETS.indexOf(sheetName);
-  return index === -1 ? LEAD_SHEETS.length : index;
+function leadRank(sheetName, leadSheets = NO_LEAD_SHEETS) {
+  const index = leadSheets.indexOf(sheetName);
+  return index === -1 ? leadSheets.length : index;
 }
 
 /**
  * Rules reordered so the lead sheets come first, preserving the pipeline's order within each sheet.
  * Display only — the analysis and reconciliation still see the run's own ordering.
  */
-export function orderRulesForDisplay(rules, tables) {
+export function orderRulesForDisplay(rules, tables, leadSheets = NO_LEAD_SHEETS) {
   return rules
-    .map((rule, index) => ({ rule, index, rank: leadRank(sheetOfRule(rule, tables)) }))
+    .map((rule, index) => ({ rule, index, rank: leadRank(sheetOfRule(rule, tables), leadSheets) }))
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
     .map((entry) => entry.rule);
 }
 
 /** Tables reordered on the same rule, so the inventory agrees with the rule list. */
-export function orderTablesForDisplay(tables) {
+export function orderTablesForDisplay(tables, leadSheets = NO_LEAD_SHEETS) {
   return [...(tables ?? [])]
-    .map((table, index) => ({ table, index, rank: leadRank(table?.region) }))
+    .map((table, index) => ({ table, index, rank: leadRank(table?.region, leadSheets) }))
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
     .map((entry) => entry.table);
 }
@@ -133,10 +132,15 @@ export function locateRule(rule, tables, sheets) {
     headers,
     // The row's leading text cells are what a person reads to recognise the row — "Kerala /
     // ERNAKULAM" locates it far better than "row 4" does.
+    //
+    // Scans for the first two non-numeric cells rather than taking cells[0..1]: on a private-car sheet
+    // the label columns are not always first, and slicing blindly produced an EMPTY label, which then
+    // rendered as "Where does the  payout come from?".
     rowLabel: (row.cells ?? [])
-      .slice(0, 2)
+      .slice(0, Math.max(2, (chosen?.index ?? 2)))
       .map((cell) => String(cell).trim())
-      .filter(Boolean)
+      .filter((text) => text && !/^[\d.,%]+$/.test(text))
+      .slice(0, 2)
       .join(" / "),
     columnIndex: chosen ? chosen.index : null,
     columnLetter: chosen ? columnLetter(chosen.index) : null,
@@ -209,7 +213,7 @@ function pick(entry) {
  * columns are not in the same order. Returns null unless the two sheets genuinely share at least three
  * columns — a comparison over one band is noise dressed as a finding.
  */
-function buildBenchmark(rules, tables, sheets) {
+function buildBenchmark(rules, tables, sheets, leadSheets = NO_LEAD_SHEETS) {
   const perSheet = new Map();
   for (const rule of rules) {
     const at = locateRule(rule, tables, sheets);
@@ -226,7 +230,7 @@ function buildBenchmark(rules, tables, sheets) {
   // Prefer the lead sheets so the chart names the regions the rest of the page is already showing.
   // Falls back to the two sheets with the most resolved columns when a lead sheet has none.
   const ranked = [...perSheet.entries()].sort(
-    (a, b) => leadRank(a[0]) - leadRank(b[0]) || b[1].size - a[1].size,
+    (a, b) => leadRank(a[0], leadSheets) - leadRank(b[0], leadSheets) || b[1].size - a[1].size,
   );
   if (ranked.length < 2) return null;
 
@@ -288,13 +292,26 @@ function buildBenchmark(rules, tables, sheets) {
   };
 }
 
-export function demoQuestions({ rules = [], tables = [], sheets = [], verification, footnotes = [] }) {
+export function demoQuestions({
+  rules = [],
+  tables = [],
+  sheets = [],
+  verification,
+  leadSheets = NO_LEAD_SHEETS,
+}) {
   const questions = [];
 
   // 1. Provenance. The whole point: an extracted number traced back to a cell a person can open.
-  const traceable = orderRulesForDisplay(rules, tables)
+  const traceable = orderRulesForDisplay(rules, tables, leadSheets)
     .map((rule) => ({ rule, at: locateRule(rule, tables, sheets) }))
-    .filter(({ at, rule }) => at?.exact && Number.isFinite(Number(rule.fixedPay)));
+    .filter(
+      ({ at, rule }) =>
+        at?.exact &&
+        Number.isFinite(Number(rule.fixedPay)) &&
+        // Without a row label the question reads "Where does the  payout come from?". Prefer a rule
+        // whose row a person can actually recognise.
+        Boolean(at.rowLabel),
+    );
   if (traceable.length > 0) {
     const { rule, at } = traceable[0];
     questions.push({
@@ -407,9 +424,9 @@ export function demoQuestions({ rules = [], tables = [], sheets = [], verificati
     }));
     // Lead sheets first, then the rest by size, so the chart opens on the sheets the table shows.
     const ordered = [
-      ...LEAD_SHEETS.map((name) => tallies.find((entry) => entry.sheet === name)).filter(Boolean),
+      ...leadSheets.map((name) => tallies.find((entry) => entry.sheet === name)).filter(Boolean),
       ...tallies
-        .filter((entry) => !LEAD_SHEETS.includes(entry.sheet))
+        .filter((entry) => !leadSheets.includes(entry.sheet))
         .sort((a, b) => b.count - a.count),
     ].slice(0, 7);
 
@@ -439,7 +456,7 @@ export function demoQuestions({ rules = [], tables = [], sheets = [], verificati
   }
 
   // 5. Two regions set against each other on the bands they share, as a grouped bar with deltas.
-  const benchmark = buildBenchmark(rules, tables, sheets);
+  const benchmark = buildBenchmark(rules, tables, sheets, leadSheets);
   if (benchmark) questions.push(benchmark);
 
   // 6. What the rules actually key on. Answers "is this a real model of the book, or a flat list?"
