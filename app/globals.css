@@ -259,3 +259,320 @@ html{scroll-behavior:smooth}
 .bl-footer-backed{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}.bl-footer-backed span{font-size:13px;letter-spacing:.04em}.bl-footer-backed a{display:inline-flex;align-items:center}.bl-footer-backed img{height:38px;width:auto;display:block;opacity:.92}
 @media(max-width:760px){.bl-nav{height:70px}.bl-header-cta{font-size:11px;padding:9px 16px}.bl-hero{padding-top:92px}.bl-featured{grid-template-columns:1fr auto;gap:20px}.bl-featured-number{display:none}.bl-library-head{align-items:start;flex-direction:column}.bl-search{width:100%}.bl-grid{grid-template-columns:1fr}.bl-card{min-height:370px}.bl-article>header{padding:56px 0 48px}.bl-article-meta{align-items:flex-start;flex-direction:column}.bl-article-layout{grid-template-columns:1fr;padding-top:50px}.bl-article-tags{position:static;flex-direction:row;flex-wrap:wrap;gap:8px}.bl-article-tags span{width:100%}.bl-faq{padding-bottom:56px}.bl-footer{gap:28px}.bl-footer-backed{justify-content:flex-start}.bl-next{align-items:end}.bl-next h2{font-size:28px}}
 @media(max-width:460px){.bl-hero h1{font-size:46px}.bl-featured h2{font-size:38px}.bl-featured{padding-top:48px;padding-bottom:48px}.bl-featured>svg{width:24px}.bl-library{padding-top:72px}.bl-card{padding:26px}.bl-article{padding-top:45px}.bl-article>header h1{font-size:46px}.bl-share button{font-size:11px}.bl-prose{font-size:17px}.bl-prose h2{font-size:33px}.bl-prose .bl-article-lead{font-size:24px}}
+
+/* ============================================================
+   Grid extraction trial (/try) — gt-*
+   Uses the site tokens only; no new palette.
+   ============================================================ */
+.gt-root{min-height:100vh}
+/* .fl-site-header is position:fixed at top:14px over an 84px navshell, so content must clear
+   ~116px. Matches the existing convention: .bl-hero uses 116px, /mli uses 120px. */
+.gt-main{max-width:1120px;margin:0 auto;padding:120px 24px 96px}
+.gt-hero{margin-bottom:40px}
+.gt-h1{font-size:clamp(30px,4.4vw,52px);line-height:1.06;letter-spacing:-.03em;margin:12px 0 16px}
+.gt-lede{max-width:62ch;font-size:16px;line-height:1.6}
+.gt-h2{font-size:17px;margin:0;letter-spacing:-.01em}
+.gt-hint{margin-left:auto;font-size:13px}
+
+.gt-step{border-top:1px solid var(--line);padding:28px 0}
+.gt-step-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+.gt-step-num{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+  font-size:12px;font-weight:700;color:var(--gold);background:var(--gold-soft);
+  border:1px solid rgba(217,201,163,.28)}
+
+.gt-samples{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.gt-sample{text-align:left;cursor:pointer;padding:18px;font:inherit;color:var(--ivory);
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  transition:border-color .25s var(--ease),transform .25s var(--ease)}
+.gt-sample:hover{border-color:rgba(217,201,163,.34);transform:translateY(-2px)}
+.gt-sample.is-active{border-color:var(--gold);background:linear-gradient(180deg,var(--gold-soft),transparent)}
+.gt-sample-title{margin:0 0 6px;font-size:15px;letter-spacing:-.01em}
+.gt-sample-meta{margin:0 0 8px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.gt-sample-desc{margin:0 0 12px;font-size:13px;line-height:1.5}
+.gt-chip{font-size:11.5px}
+
+.gt-tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:14px}
+.gt-tab{border:0;background:none;font:inherit;font-size:13.5px;color:var(--muted);cursor:pointer;
+  padding:9px 14px;border-bottom:2px solid transparent;transition:color .2s var(--ease)}
+.gt-tab:hover{color:var(--ivory)}
+.gt-tab.is-active{color:var(--gold);border-bottom-color:var(--gold)}
+
+.gt-scroll{max-height:340px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--ink2)}
+.gt-table{width:100%;border-collapse:collapse;font-size:13px}
+.gt-table th{position:sticky;top:0;background:var(--surface);text-align:left;padding:9px 12px;
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--line);white-space:nowrap}
+.gt-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.gt-table tr:last-child td{border-bottom:0}
+.gt-cond{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted)}
+
+/* ---- spreadsheet view: A..n column headers, real worksheet row numbers, visible gridlines ---- */
+.gt-sheet-wrap{max-height:420px}
+.gt-sheet{width:auto;min-width:100%;border-collapse:separate;border-spacing:0;
+  font-size:12.5px;font-variant-numeric:tabular-nums}
+.gt-sheet th,.gt-sheet td{border-right:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07)}
+.gt-sheet-corner,.gt-sheet-colhead{position:sticky;top:0;z-index:3;background:#1b1b20;
+  color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.06em;text-align:center;
+  padding:6px 10px;min-width:96px}
+.gt-sheet-corner{left:0;z-index:4;min-width:46px;width:46px}
+.gt-sheet-rowhead{position:sticky;left:0;z-index:2;background:#1b1b20;color:var(--muted);
+  font-weight:500;font-size:11px;text-align:right;padding:5px 8px;min-width:46px;width:46px}
+.gt-sheet-cell{padding:5px 10px;max-width:230px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;color:var(--ivory)}
+.gt-sheet-cell.is-num{text-align:right;color:var(--gold)}
+.gt-sheet tbody tr:hover .gt-sheet-cell{background:rgba(255,255,255,.03)}
+
+/* ---- grid view: the extracted rules pivoted back into a matrix ----
+   Deliberately inherits .gt-sheet so the reconstruction sits in the same visual frame as the
+   source spreadsheet above it — the whole point is to compare the two cell for cell. Overrides
+   here only widen the headers, which hold field values ("0 to 2.3") rather than column letters. */
+.gt-axes{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:0 0 14px}
+.gt-axis{display:flex;gap:8px;align-items:center;font-size:12px}
+.gt-select{font:inherit;font-size:12.5px;color:var(--ivory);background:var(--ink2);
+  border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.gt-select:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.gt-pivot-corner{left:0;z-index:4;min-width:150px;width:auto;text-align:left;
+  text-transform:uppercase}
+.gt-pivot-colhead{max-width:190px;white-space:normal;line-height:1.3;vertical-align:bottom}
+.gt-pivot-rowhead{min-width:150px;width:auto;text-align:left;white-space:normal;
+  color:var(--ivory);font-size:12px}
+.gt-pivot-cell{white-space:normal;text-align:right;max-width:190px}
+.gt-pivot-entry{display:flex;gap:6px;align-items:baseline;justify-content:flex-end;flex-wrap:wrap}
+.gt-pivot-entry + .gt-pivot-entry{margin-top:4px;padding-top:4px;
+  border-top:1px dashed rgba(255,255,255,.09)}
+.gt-pivot-payout{color:var(--gold);font-weight:600}
+.gt-pivot-tag{font-size:10px;letter-spacing:.05em;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:1px 6px}
+.gt-pivot-qual{font-size:10.5px;color:var(--muted)}
+.gt-pivot-empty{color:rgba(255,255,255,.18)}
+
+/* ---- run health: what the extraction says about its own quality ---- */
+.gt-health{display:flex;flex-direction:column;gap:6px;margin:0 0 16px}
+.gt-health-line{font-size:12.5px;line-height:1.5;margin:0}
+.gt-rule-name{white-space:normal;max-width:230px;color:var(--ivory)}
+.gt-nowrap{white-space:nowrap}
+
+/* ---- progress track: presented for a viewer judging the product ----
+   Every figure is read from the pipeline log; the motion here only interpolates between real
+   values. The count and the segmented bar are the two things that read as work happening. */
+.gt-track{margin-top:20px;max-width:620px;padding:20px 22px;border-radius:14px;
+  border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.028),transparent)}
+.gt-track.is-complete{border-color:rgba(217,201,163,.26)}
+
+.gt-track-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  margin-bottom:14px}
+.gt-track-count{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gt-count-value{font-family:var(--serif,Georgia),serif;font-size:38px;line-height:1;
+  color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.gt-count-label{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase}
+.gt-track-pct{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+  padding-bottom:3px}
+
+.gt-track-bar{height:4px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;
+  position:relative}
+.gt-track-fill{display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,rgba(217,201,163,.55),var(--gold));
+  transition:width .6s cubic-bezier(.22,.61,.36,1)}
+.gt-track:not(.is-complete) .gt-track-bar::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:translateX(-100%);animation:gt-sweep 1.9s ease-in-out infinite}
+@keyframes gt-sweep{to{transform:translateX(100%)}}
+
+.gt-steps{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.gt-step-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;
+  color:rgba(255,255,255,.28);transition:color .35s var(--ease)}
+.gt-step-row.is-done{color:var(--ivory)}
+.gt-step-row.is-active{color:var(--gold)}
+.gt-step-icon{flex:0 0 auto;width:16px;height:16px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);position:relative;top:2px;
+  display:inline-flex;align-items:center;justify-content:center;transition:all .3s var(--ease)}
+.gt-step-icon.is-done{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+.gt-step-icon.is-active{border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(217,201,163,.10)}
+.gt-step-icon.is-active::after{content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--gold);animation:gt-pulse 1.15s ease-in-out infinite}
+@keyframes gt-pulse{0%,100%{opacity:.28;transform:scale(.65)}50%{opacity:1;transform:scale(1)}}
+.gt-step-label{flex:0 1 auto}
+.gt-step-detail{font-size:11.5px;font-variant-numeric:tabular-nums}
+.gt-step-time{font-size:11px;font-variant-numeric:tabular-nums;margin-left:auto;
+  padding:1px 7px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+
+/* One segment per section of the workbook, lighting up as each one completes. */
+.gt-segbar{flex:1 0 100%;display:flex;gap:2px;margin:8px 0 0 26px}
+.gt-seg{flex:1 1 0;height:6px;border-radius:2px;background:rgba(255,255,255,.07);
+  transition:background .4s var(--ease)}
+.gt-seg.is-on{background:var(--gold)}
+.gt-seg.is-next{background:rgba(217,201,163,.45);animation:gt-pulse 1.15s ease-in-out infinite}
+
+.gt-track-raw{margin-top:18px}
+.gt-track-raw summary{font-size:11px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+
+@media (prefers-reduced-motion:reduce){
+  .gt-track-fill,.gt-seg{transition:none}
+  .gt-step-icon.is-active::after,.gt-seg.is-next{animation:none;opacity:1}
+  .gt-track:not(.is-complete) .gt-track-bar::after{animation:none;display:none}
+}
+
+/* Three mapping states, distinguished by weight rather than hue: this palette has no green
+   or red anywhere, so introducing them would read as off-brand. Filled gold = confident
+   match, outlined gold = inferred, faint = no match. */
+.gt-tone{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;
+  letter-spacing:.04em;white-space:nowrap}
+.gt-tone-ok{color:var(--ink);background:var(--gold);border:1px solid var(--gold)}
+.gt-tone-warn{color:var(--gold);background:var(--gold-soft);border:1px solid rgba(217,201,163,.34)}
+.gt-tone-new{color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line)}
+
+/* ---- ask panel: a guided conversation over the extracted book ---- */
+.gt-ask{margin-top:30px;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005))}
+.gt-ask-head{display:flex;align-items:center;gap:10px;padding:14px 20px;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
+.gt-ask-mark{width:8px;height:8px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 3px rgba(217,201,163,.16)}
+.gt-ask-title{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
+.gt-ask-tag{margin-left:auto;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+
+.gt-ask-log{padding:20px 20px 4px;display:flex;flex-direction:column;gap:18px}
+.gt-ask-pair{display:flex;flex-direction:column;gap:14px}
+.gt-ask-bot{display:flex;gap:12px;align-items:flex-start}
+.gt-ask-avatar{flex:none;width:28px;height:28px;border-radius:50%;margin-top:1px;display:grid;
+  place-items:center;background:rgba(217,201,163,.12);border:1px solid rgba(217,201,163,.34)}
+.gt-ask-avatar span{width:9px;height:9px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+.gt-ask-bubble{flex:1;min-width:0;font-size:14px;line-height:1.66;color:var(--ink-soft)}
+.gt-ask-bubble p{margin:0 0 9px}
+.gt-ask-bubble p:last-child{margin-bottom:0}
+.gt-ask-bubble em{font-style:normal;color:var(--ivory);background:rgba(217,201,163,.1);
+  padding:0 4px;border-radius:3px}
+.gt-ask-open{color:var(--muted)}
+.gt-ask-user{display:flex;justify-content:flex-end}
+.gt-ask-user span{max-width:78%;background:var(--gold-soft);border:1px solid rgba(217,201,163,.26);
+  color:var(--ivory);border-radius:16px 16px 5px 16px;padding:10px 15px;font-size:13.5px;line-height:1.5}
+.gt-ask-note{font-size:12.5px;line-height:1.6;margin-top:11px;padding-left:11px;
+  border-left:2px solid rgba(217,201,163,.24)}
+
+/* the spreadsheet excerpt: the provenance claim lands harder when it looks like a spreadsheet */
+.gt-sheetlet{margin:12px 0 2px;border:1px solid var(--line);border-radius:8px;
+  display:block;max-width:100%;overflow-x:auto}
+.gt-sheetlet table{border-collapse:collapse;font-size:12.5px}
+.gt-sheetlet th,.gt-sheetlet td{padding:6px 12px;text-align:left;white-space:nowrap;
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.gt-sheetlet th:last-child,.gt-sheetlet td:last-child{border-right:0}
+.gt-sheetlet tbody tr:last-child td{border-bottom:0}
+.gt-sheetlet thead th{background:rgba(255,255,255,.04);color:var(--muted);font-weight:600;
+  font-size:10.5px;letter-spacing:.08em;text-align:center}
+.gt-sheetlet thead th.is-hit{color:var(--gold)}
+.gt-sheetlet-gutter{background:rgba(255,255,255,.04);color:var(--muted);text-align:center;
+  font-size:10.5px;font-variant-numeric:tabular-nums;min-width:34px}
+.gt-sheetlet-headrow td{color:var(--muted);font-size:11.5px;background:rgba(255,255,255,.015)}
+.gt-sheetlet-hit{background:var(--gold);color:var(--ink);font-weight:700}
+.gt-sheetlet-gap{color:var(--line);margin-right:6px}
+
+/* two components on different bases, side by side rather than a bullet list */
+.gt-ask-split{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 2px}
+.gt-ask-part{border:1px solid var(--line);border-radius:9px;padding:9px 14px;
+  background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:1px}
+.gt-ask-part-value{color:var(--gold);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+.gt-ask-part-of{font-size:11.5px}
+
+/* ranked lists: aligned columns, no table borders */
+.gt-ask-rows,.gt-ask-rank{list-style:none;margin:10px 0 0;padding:0;display:flex;
+  flex-direction:column;gap:1px}
+.gt-ask-rows li{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;
+  padding:7px 9px;border-radius:7px;font-size:13px}
+.gt-ask-rows li:nth-child(odd){background:rgba(255,255,255,.022)}
+.gt-ask-rank li{display:grid;grid-template-columns:116px 1fr 56px;align-items:center;gap:11px;
+  padding:5px 0;font-size:12.5px}
+.gt-ask-rank li.is-dim{opacity:.55}
+.gt-ask-rate{color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
+.gt-ask-rank .gt-ask-rate{text-align:right}
+.gt-ask-where{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gt-ask-ref,.gt-ask-count{font-size:11.5px;text-align:right;white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.gt-ask-bar{height:6px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.gt-ask-bar i{display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,rgba(217,201,163,.45),var(--gold))}
+
+/* chips: short labels so five tile evenly instead of wrapping raggedly */
+.gt-ask-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;
+  padding:18px 20px 4px}
+.gt-chip{border:1px solid rgba(217,201,163,.28);background:rgba(217,201,163,.06);color:var(--ink-soft);
+  border-radius:10px;padding:11px 15px;font-size:13px;text-align:left;cursor:pointer;
+  transition:background .18s,border-color .18s,color .18s}
+.gt-chip:hover:not(:disabled){background:var(--gold-soft);border-color:rgba(217,201,163,.55);color:var(--ivory)}
+.gt-chip:disabled{opacity:.4;cursor:default}
+
+/* charts: the product renders these with Recharts in chat; the marketing site draws them as SVG
+   rather than shipping a chart library to every page. Same data contract, lighter renderer. */
+.gt-chart-title{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ivory);margin:12px 0 8px}
+.gt-chart{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.018)}
+.gt-chart-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;font-size:11px;color:var(--muted)}
+.gt-chart-legend span{display:inline-flex;align-items:center;gap:5px}
+.gt-chart-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+.gt-chart-pairs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.gt-chart-pairs li{display:grid;grid-template-columns:1fr 150px 46px;align-items:center;gap:10px;font-size:12px}
+.gt-chart-band{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gt-chart-pair{display:flex;flex-direction:column;gap:3px}
+.gt-chart-track{position:relative;height:11px;background:rgba(255,255,255,.05);border-radius:3px}
+.gt-chart-track i{display:block;height:100%;border-radius:3px;min-width:2px}
+.gt-chart-track b{position:absolute;right:5px;top:-1px;font-size:9px;font-weight:600;
+  color:var(--ink-soft);font-variant-numeric:tabular-nums;line-height:13px}
+.gt-chart-delta{text-align:right;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.gt-chart-delta.is-down{color:#e0a878}
+.gt-chart-delta.is-up{color:#9ec3a0}
+.gt-chart-delta.is-flat{color:var(--muted2)}
+
+/* an inert composer, styled as one and labelled honestly rather than looking broken */
+.gt-ask-composer{display:flex;align-items:center;gap:12px;margin:16px 20px 20px;
+  border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:rgba(255,255,255,.02)}
+.gt-ask-composer-text{flex:1;color:var(--muted);font-size:13px}
+.gt-ask-send{flex:none;width:26px;height:26px;border-radius:7px;background:rgba(217,201,163,.14);
+  border:1px solid rgba(217,201,163,.26);position:relative}
+.gt-ask-send::after{content:"";position:absolute;inset:0;margin:auto;width:0;height:0;
+  border-left:7px solid rgba(217,201,163,.75);border-top:5px solid transparent;
+  border-bottom:5px solid transparent;transform:translateX(1px)}
+
+.gt-ask-dots{display:inline-flex;gap:5px;padding:6px 0}
+.gt-ask-dots i{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.35;
+  animation:gt-dot 1.05s infinite ease-in-out}
+.gt-ask-dots i:nth-child(2){animation-delay:.16s}
+.gt-ask-dots i:nth-child(3){animation-delay:.32s}
+@keyframes gt-dot{0%,80%,100%{opacity:.28;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+
+@media (prefers-reduced-motion:reduce){
+  .gt-ask-dots i{animation:none;opacity:.6}
+  .gt-chip{transition:none}
+}
+@media (max-width:640px){
+  .gt-ask-log{padding:16px 14px 4px}
+  .gt-ask-chips{grid-template-columns:1fr;padding:14px}
+  .gt-ask-composer{margin:12px 14px 14px}
+  .gt-ask-rank li{grid-template-columns:88px 1fr 46px}
+  .gt-ask-user span{max-width:90%}
+}
+.gt-legend{margin-right:16px;white-space:nowrap}
+
+.gt-note{font-size:13px;line-height:1.55;margin:14px 0 0;max-width:70ch}
+.gt-foot{font-size:12px;margin:8px 0 0;font-variant-numeric:tabular-nums}
+.gt-link{border:0;background:none;padding:0;font:inherit;color:var(--gold);cursor:pointer;
+  text-decoration:underline;text-underline-offset:2px}
+
+.gt-feed{margin-top:16px;max-height:220px;overflow:auto;padding:12px 14px;border-radius:12px;
+  background:var(--ink2);border:1px solid var(--line);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.7}
+.gt-feed-ts{color:var(--muted2)}
+
+.gt-timings{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.gt-timings strong{color:var(--ivory);font-variant-numeric:tabular-nums}
+
+/* Notices stay in-palette: a gold-deep rule plus ivory text, rather than an off-brand red. */
+.gt-alert{margin:14px 0;padding:12px 14px 12px 16px;border-radius:0 12px 12px 0;font-size:13px;
+  color:var(--ivory);background:rgba(255,255,255,.035);border-left:2px solid var(--gold-deep)}
+.gt-cta{margin-top:24px}
+
+@media (max-width:680px){
+  .gt-main{padding:104px 18px 72px}
+  .gt-samples{grid-template-columns:1fr}
+}

@@ -43,6 +43,7 @@ export default function SiteHeader({
       { key: "assistant", label: "Assistant", href: isHome ? "#assistant" : "/#assistant" },
       { key: "why", label: "Why FinLead", href: isHome ? "#why" : "/#why" },
       { key: "insight", label: "Insight", href: "/insight" },
+      { key: "try", label: "Try it", href: "/try" },
       { key: "briefing", label: "Briefing", href: "/blog" },
       { key: "mli", label: "MLI", href: "/mli" },
     ],
