@@ -357,3 +357,13 @@ html{scroll-behavior:smooth}
 .cq-pager button:focus-visible{outline:2px solid var(--cq-accent);outline-offset:2px}
 .cq-pager button:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:520px){.cq-pager{flex-direction:column-reverse;align-items:stretch}.cq-pager>div{justify-content:space-between}.cq-pager>span{text-align:center}}
+
+/* Playground index */
+.pg-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.pg-index a{display:block;padding:24px;background:var(--cq-white);border:1px solid var(--cq-line);border-radius:12px;box-shadow:rgba(16,42,67,.03) 0 1px 2px,rgba(16,42,67,.06) 0 1px 4px;transition:border-color .15s ease,box-shadow .15s ease}
+.pg-index a:hover{border-color:var(--cq-accent);box-shadow:rgba(16,42,67,.04) 0 4px 12px,rgba(16,42,67,.08) 0 8px 24px}
+.pg-index a:focus-visible{outline:2px solid var(--cq-accent);outline-offset:2px}
+.pg-index h2{font-size:16px;line-height:1.375;font-weight:600;color:var(--cq-ink);margin:0}
+.pg-index p{font-size:14px;line-height:1.5;color:var(--cq-body);margin:8px 0 0}
+.pg-index span{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:var(--cq-accent);font-size:14px;font-weight:500}
+@media(max-width:760px){.pg-index{grid-template-columns:1fr}}

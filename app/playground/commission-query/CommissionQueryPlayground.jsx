@@ -28,10 +28,10 @@ const CATALOG = {
       { insurer: "ROYAL SUNDARAM", fuels: ["Petrol"], cc: [0, 1200], business: ["New", "Renewal"], od: 27.75, tp: 5.5, cells: { fuel: "Petrol", cc: "Up to 1,200 CC", business: "New / Renewal", cond: "Nil-dep eligible" } },
       { insurer: "RELIANCE GENERAL", fuels: ["Diesel", "CNG"], cc: ANY_CC, business: ["Renewal"], od: 26.25, tp: 4, cells: { fuel: "Diesel / CNG", cc: "All capacities", business: "Renewal", cond: "No break-in cases" } },
       { insurer: "SBI GENERAL", fuels: FUEL_TYPES, cc: [0, 1500], business: ["New"], od: 25.5, tp: 3.5, cells: { fuel: "All fuel types", cc: "Up to 1,500 CC", business: "New", cond: "Standard grid" } },
-      { insurer: "KOTAK GENERAL", fuels: ["Petrol", "Hybrid"], cc: [1001, 1500], business: ["New"], od: 24.75, tp: 4, cells: { fuel: "Petrol / Hybrid", cc: "1,001-1,500 CC", business: "New", cond: "Metro RTOs only" } },
+      { insurer: "KOTAK GENERAL", fuels: ["Petrol", "Hybrid"], cc: [1001, 1500], business: ["New"], rtoStates: ["MH", "DL", "KA", "TN", "TS", "GJ"], od: 24.75, tp: 4, cells: { fuel: "Petrol / Hybrid", cc: "1,001-1,500 CC", business: "New", cond: "Metro RTOs only" } },
       { insurer: "FUTURE GENERALI", fuels: ["Petrol", "Diesel"], cc: [0, 1000], business: ["Renewal"], od: 24, tp: 3, cells: { fuel: "Petrol / Diesel", cc: "Up to 1,000 CC", business: "Renewal", cond: "Zero-dep add-on excluded" } },
       { insurer: "LIBERTY GENERAL", fuels: ["Diesel"], cc: [1501, 99999], business: ["RollOver"], od: 23.5, tp: 3.5, cells: { fuel: "Diesel", cc: "Above 1,500 CC", business: "RollOver", cond: "Requires prior claim history" } },
-      { insurer: "UNIVERSAL SOMPO", fuels: ["CNG"], cc: [0, 1200], business: ["New"], od: 22.75, tp: 4, cells: { fuel: "CNG", cc: "Up to 1,200 CC", business: "New", cond: "CNG kit endorsement required" } },
+      { insurer: "UNIVERSAL SOMPO", fuels: ["CNG"], cc: [0, 1200], business: ["New"], rtoStates: ["MH", "GJ", "DL", "UP", "HR"], od: 22.75, tp: 4, cells: { fuel: "CNG", cc: "Up to 1,200 CC", business: "New", cond: "CNG kit endorsement required" } },
       { insurer: "SHRIRAM GENERAL", fuels: ["Petrol"], cc: [0, 1000], business: ["Renewal"], od: 21.5, tp: 3, cells: { fuel: "Petrol", cc: "Up to 1,000 CC", business: "Renewal", cond: "Standard grid" } },
       { insurer: "MAGMA HDI", fuels: ["Electric", "Hybrid"], cc: ANY_CC, business: ["New", "Renewal"], od: 20.75, tp: 5, cells: { fuel: "Electric / Hybrid", cc: "All capacities", business: "New / Renewal", cond: "EV and strong hybrid" } },
     ],
@@ -43,7 +43,7 @@ const CATALOG = {
       { insurer: "TATA AIG", sub: "Scooter", cc: [0, 125], business: ["New"], od: 33.25, tp: 5, cells: { sub: "Scooter", cc: "Up to 125 CC", business: "New", cond: "Standard grid" } },
       { insurer: "ICICI LOMBARD", sub: "Bike", cc: [151, 350], business: ["New", "RollOver"], od: 32, tp: 4.5, cells: { sub: "Bike", cc: "151-350 CC", business: "New / RollOver", cond: "Excludes superbikes" } },
       { insurer: "GO DIGIT", sub: "Scooter", cc: ANY_CC, business: ["Renewal"], od: 31.5, tp: 6, cells: { sub: "Scooter", cc: "All capacities", business: "Renewal", cond: "Electric scooters included" } },
-      { insurer: "BAJAJ ALLIANZ", sub: "Bike", cc: [351, 99999], business: ["New"], od: 29.75, tp: 4, cells: { sub: "Bike", cc: "Above 350 CC", business: "New", cond: "Inspection above 500 CC" } },
+      { insurer: "BAJAJ ALLIANZ", sub: "Bike", cc: [351, 99999], business: ["New"], rtoStates: ["MH", "KA", "DL", "TN"], od: 29.75, tp: 4, cells: { sub: "Bike", cc: "Above 350 CC", business: "New", cond: "Inspection above 500 CC" } },
       { insurer: "RELIANCE GENERAL", sub: "Others", cc: ANY_CC, business: ["Renewal"], od: 28, tp: 4, cells: { sub: "Others", cc: "All capacities", business: "Renewal", cond: "Standard grid" } },
       { insurer: "SBI GENERAL", sub: "Bike", cc: [0, 150], business: ["Renewal"], od: 27.5, tp: 3.5, cells: { sub: "Bike", cc: "Up to 150 CC", business: "Renewal", cond: "No break-in cases" } },
       { insurer: "ROYAL SUNDARAM", sub: "Scooter", cc: [0, 125], business: ["New", "Renewal"], od: 26.25, tp: 4, cells: { sub: "Scooter", cc: "Up to 125 CC", business: "New / Renewal", cond: "Nil-dep eligible" } },
@@ -54,7 +54,7 @@ const CATALOG = {
     rows: [
       { insurer: "HDFC ERGO", sub: "3W", weight: [0, 1], vage: [0, 5], fuels: ["CNG", "Diesel"], od: 24, tp: 4, cells: { sub: "3W", gvw: "Up to 1 T", vage: "0-5 years", fuel: "CNG / Diesel", cond: "Goods-carrying 3W" } },
       { insurer: "MAGMA HDI", sub: "3W", weight: [0, 1], vage: [0, 7], fuels: ["Electric"], od: 23.5, tp: 4.5, cells: { sub: "3W", gvw: "Up to 1 T", vage: "0-7 years", fuel: "Electric", cond: "Electric goods 3W" } },
-      { insurer: "TATA AIG", sub: "Truck", weight: [12.001, 99], vage: [0, 5], od: 21, tp: 3.5, cells: { sub: "Truck", gvw: "Above 12 T", vage: "0-5 years", cond: "Public carrier permits" } },
+      { insurer: "TATA AIG", sub: "Truck", weight: [12.001, 99], vage: [0, 5], rtoStates: ["MH", "GJ", "RJ", "TN", "KA"], od: 21, tp: 3.5, cells: { sub: "Truck", gvw: "Above 12 T", vage: "0-5 years", cond: "Public carrier permits" } },
       { insurer: "GO DIGIT", sub: "Truck", weight: [2.5, 7.5], vage: [0, 7], od: 20.25, tp: 3, cells: { sub: "Truck", gvw: "2.5-7.5 T", vage: "0-7 years", cond: "Standard grid" } },
       { insurer: "ICICI LOMBARD", sub: "Tipper", weight: [7.5, 12], vage: [0, 7], od: 19.5, tp: 3, cells: { sub: "Tipper", gvw: "7.5-12 T", vage: "0-7 years", cond: "Mining use excluded" } },
       { insurer: "FUTURE GENERALI", sub: "Truck", weight: [0, 2.5], vage: [0, 10], od: 18.5, tp: 3, cells: { sub: "Truck", gvw: "Up to 2.5 T", vage: "0-10 years", cond: "Standard grid" } },
@@ -70,7 +70,7 @@ const CATALOG = {
       { insurer: "MAGMA HDI", sub: "3W", seats: [3, 4], fuels: ["Electric"], od: 24.25, tp: 4.5, cells: { sub: "3W", seats: "3-4 seats", fuel: "Electric", cond: "Electric passenger 3W" } },
       { insurer: "TATA AIG", sub: "Taxi", seats: [4, 6], nilDep: true, od: 22, tp: 3.5, cells: { sub: "Taxi", seats: "4-6 seats", nilDep: "Yes", cond: "App-based fleets" } },
       { insurer: "GO DIGIT", sub: "Taxi", seats: [4, 6], nilDep: true, od: 21.5, tp: 3.5, cells: { sub: "Taxi", seats: "4-6 seats", nilDep: "Yes", cond: "Standard grid" } },
-      { insurer: "KOTAK GENERAL", sub: "Taxi", seats: [4, 7], nilDep: true, od: 20.25, tp: 3, cells: { sub: "Taxi", seats: "4-7 seats", nilDep: "Yes", cond: "Metro RTOs only" } },
+      { insurer: "KOTAK GENERAL", sub: "Taxi", seats: [4, 7], nilDep: true, rtoStates: ["MH", "DL", "KA", "TN", "TS"], od: 20.25, tp: 3, cells: { sub: "Taxi", seats: "4-7 seats", nilDep: "Yes", cond: "Metro RTOs only" } },
       { insurer: "ICICI LOMBARD", sub: "School Bus", seats: [20, 40], nilDep: false, od: 18.75, tp: 3, cells: { sub: "School Bus", seats: "20-40 seats", nilDep: "No", cond: "School use endorsement" } },
       { insurer: "BAJAJ ALLIANZ", sub: "Staff Bus", seats: [20, 50], nilDep: false, od: 17.5, tp: 2.5, cells: { sub: "Staff Bus", seats: "20-50 seats", nilDep: "No", cond: "Corporate contracts only" } },
       { insurer: "RELIANCE GENERAL", sub: "Route Bus", seats: [30, 60], nilDep: false, od: 16, tp: 2.5, cells: { sub: "Route Bus", seats: "30-60 seats", nilDep: "No", cond: "Fixed route permits only" } },
@@ -103,6 +103,40 @@ const CATALOG = {
     ],
   },
 };
+
+/**
+ * Every insurer also publishes an unrestricted base grid: no fuel, capacity, weight, seating, age or
+ * territory restriction, so it survives any filter combination. That is what keeps the results panel
+ * populated for an unusual RTO code or an odd mix of differentiators — the targeted grids above drop
+ * out, the base grids stay.
+ */
+const BASE_GRID_CELLS = {
+  pc: { fuel: "All fuel types", cc: "All capacities", business: "All business types", cond: "Base grid, applies to every RTO cluster" },
+  "2w": { sub: "All subcategories", cc: "All capacities", business: "All business types", cond: "Base grid, applies to every RTO cluster" },
+  gcv: { sub: "All subcategories", gvw: "All weights", vage: "All vehicle ages", fuel: "All fuel types", cond: "Base grid, applies to every RTO cluster" },
+  pcv: { sub: "All subcategories", seats: "All seating", fuel: "All fuel types", nilDep: "Either", cond: "Base grid, applies to every RTO cluster" },
+  misD: { sub: "All subcategories", business: "All business types", cond: "Base grid, applies to every RTO cluster" },
+  health: { plan: "All plans", si: "All bands", ageBand: "All ages", policy: "All policy types", cond: "Base grid, applies to every territory" },
+};
+
+const BASE_GRID_PAYOUT = { pc: [18, 3], "2w": [19, 3.5], gcv: [13, 2], pcv: [13.5, 2], misD: [13, 2], health: [18] };
+
+const withBaseGrids = (key, rows) => {
+  const insurers = [...new Set(rows.map((row) => row.insurer))];
+  const [od, tp] = BASE_GRID_PAYOUT[key];
+  return [
+    ...rows,
+    ...insurers.map((insurer, index) => {
+      const stepped = Number((od - index * 0.2).toFixed(2));
+      const cells = { ...BASE_GRID_CELLS[key] };
+      return key === "health" ? { insurer, payout: stepped, cells } : { insurer, od: stepped, tp, cells };
+    }),
+  ];
+};
+
+Object.entries(CATALOG).forEach(([key, entry]) => {
+  entry.rows = withBaseGrids(key, entry.rows);
+});
 
 const CATEGORY_SUBCATEGORIES = {
   "2w": ["Bike", "Scooter", "Others"],
@@ -189,6 +223,8 @@ export default function CommissionQueryPlayground() {
 
   const health = filters.insuranceLine !== "Motor";
   const rtoValid = /^[A-Z]{2}\d{2}$/.test(filters.rto);
+  // Some targeted grids are filed per state cluster; the base grids carry no rtoStates and always apply.
+  const rtoState = filters.rto.slice(0, 2);
   const scoped = health || (Boolean(filters.productCategory) && Boolean(filters.policyType) && rtoValid);
   const catalog = CATALOG[health ? "health" : filters.productCategory] ?? CATALOG.pc;
   const subcategories = CATEGORY_SUBCATEGORIES[filters.productCategory] ?? [];
@@ -202,6 +238,7 @@ export default function CommissionQueryPlayground() {
   const results = useMemo(() => catalog.rows
     .filter((row) => {
       if (filters.insurerNames.length && !filters.insurerNames.includes(row.insurer)) return false;
+      if (row.rtoStates && !row.rtoStates.includes(rtoState)) return false;
       if (filters.subcategories.length && row.sub && !filters.subcategories.includes(row.sub)) return false;
       if (filters.fuelTypes.length && row.fuels && !row.fuels.some((fuel) => filters.fuelTypes.includes(fuel))) return false;
       if (filters.businessType && row.business && !row.business.includes(filters.businessType)) return false;
@@ -211,7 +248,7 @@ export default function CommissionQueryPlayground() {
         && inRange(filters.sumInsured, row.si) && inRange(filters.age, row.age);
     })
     .sort((a, b) => payoutValue(b, filters.policyType, health) - payoutValue(a, filters.policyType, health)),
-    [catalog, filters, health]);
+    [catalog, filters, health, rtoState]);
 
   useEffect(() => { setPage(0); }, [results]);
   useEffect(() => {
