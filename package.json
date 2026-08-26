@@ -8,7 +8,8 @@
     "start": "next start",
     "test:pivot": "node scripts/pivot.check.mjs",
     "test:render": "node scripts/render.check.mjs",
-    "test:progress": "node scripts/progress.check.mjs"
+    "test:progress": "node scripts/progress.check.mjs",
+    "demo:payloads": "node scripts/build-demo-payloads.mjs"
   },
   "dependencies": {
     "next": "^14.2.5",
