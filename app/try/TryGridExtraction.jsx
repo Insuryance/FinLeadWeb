@@ -218,7 +218,7 @@ export default function TryGridExtraction() {
           </h1>
           <p className="fl-muted gt-lede">
             Pick one of our commission grids. FinLead reads the sheet, works out what each column
-            means, and turns it into machine-readable payout rules — the same pipeline that runs in
+            means, and turns it into machine-readable payout rules. The same pipeline that runs in
             production, not a simulation.
           </p>
         </header>
