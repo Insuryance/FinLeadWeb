@@ -267,6 +267,7 @@ const questions = askModule.demoQuestions({
   tables: engine.document?.tables ?? [],
   sheets: sheets,
   verification: pivotModule.verificationSummary(rules),
+  leadSheets: (process.argv[4] ?? "").split(",").map((s) => s.trim()).filter(Boolean),
 });
 check("the demo offers between three and six questions", questions.length >= 3 && questions.length <= 6, true);
 // Charts must carry the product's own contract, not an ad-hoc shape: if these drift apart the demo
@@ -378,32 +379,58 @@ check(
 );
 
 // ---- lead sheets: the table, the charts and the questions must discuss the same regions ----
-const leadRules = askModule.orderRulesForDisplay(rules, engine.document?.tables ?? []);
-const firstSheet = askModule.sheetOfRule(leadRules[0], engine.document?.tables ?? []);
-check("the rule list opens on a lead sheet", askModule.LEAD_SHEETS.includes(firstSheet), true);
+// Lead sheets are declared per sample in the backend catalogue, so the suite takes them as an
+// argument. Given none, ordering must be a no-op rather than a reshuffle.
+const leadSheets = (process.argv[4] ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const tablesForOrder = engine.document?.tables ?? [];
+const leadRules = askModule.orderRulesForDisplay(rules, tablesForOrder, leadSheets);
 check("ordering does not add or drop rules", leadRules.length === rules.length, true);
 check(
   "ordering preserves the same rule set",
   new Set(leadRules.map((r) => r.id)).size === new Set(rules.map((r) => r.id)).size,
   true,
 );
-const leadTables = askModule.orderTablesForDisplay(engine.document?.tables ?? []);
-check("the grid inventory opens on a lead sheet", askModule.LEAD_SHEETS.includes(leadTables[0]?.region), true);
-check("ordering does not add or drop tables", leadTables.length === (engine.document?.tables ?? []).length, true);
-if (provenanceLead) {
-  check("the traced rule belongs to a lead sheet", askModule.LEAD_SHEETS.includes(provenanceLead), true);
-}
-const benchmarkQuestion = questions.find((q) => q.id === "benchmark");
-if (benchmarkQuestion) {
+const leadTables = askModule.orderTablesForDisplay(tablesForOrder, leadSheets);
+check("ordering does not add or drop tables", leadTables.length === tablesForOrder.length, true);
+
+if (leadSheets.length === 0) {
   check(
-    "the benchmark compares two lead sheets",
-    benchmarkQuestion.answer.categories.every((name) => askModule.LEAD_SHEETS.includes(name)),
+    "with no lead sheets the rule order is untouched",
+    leadRules.every((rule, i) => rule.id === rules[i].id),
     true,
   );
+  console.log("   (no lead sheets given — lead-ordering assertions skipped)");
+} else {
+  const firstSheet = askModule.sheetOfRule(leadRules[0], tablesForOrder);
+  check("the rule list opens on a lead sheet", leadSheets.includes(firstSheet), true);
+  check("the grid inventory opens on a lead sheet", leadSheets.includes(leadTables[0]?.region), true);
+  if (provenanceLead) {
+    check("the traced rule belongs to a lead sheet", leadSheets.includes(provenanceLead), true);
+  }
+  const benchmarkQuestion = questions.find((q) => q.id === "benchmark");
+  if (benchmarkQuestion) {
+    // Only the LEFT series is guaranteed to be a lead sheet. The right-hand one is whichever sheet
+    // shares enough columns to compare against, and two grids from different product lines share
+    // none — a private-car band has no counterpart on a two-wheeler sheet. Demanding both would
+    // force a comparison between columns that do not correspond.
+    check(
+      "the benchmark leads with a lead sheet",
+      leadSheets.includes(benchmarkQuestion.answer.categories[0]),
+      true,
+    );
+    check(
+      "the benchmark compares two different sheets",
+      benchmarkQuestion.answer.categories[0] !== benchmarkQuestion.answer.categories[1],
+      true,
+    );
+  }
+}
+const benchmarkBands = questions.find((q) => q.id === "benchmark");
+if (benchmarkBands) {
   check(
     "the benchmark drops bands where neither side pays",
-    benchmarkQuestion.answer.data.every((row) => {
-      const [l, r] = benchmarkQuestion.answer.categories;
+    benchmarkBands.answer.data.every((row) => {
+      const [l, r] = benchmarkBands.answer.categories;
       return (Number(row[l]) || 0) > 0 || (Number(row[r]) || 0) > 0;
     }),
     true,
@@ -527,12 +554,24 @@ if (logLines.length > 0) {
   }
   check("per-stage durations render", (done.split('class="gt-step-time').length - 1) >= 3, true);
   // A segmented bar only appears while extraction is running, one segment per section.
+  //
+  // The mid-run point is DERIVED from the log rather than a fixed index. A fixed slice assumes a
+  // particular log shape: slice(0, 9) lands after several completed chunks in a 71-chunk run and
+  // before the first one in a 169-chunk run, where chunk lines start later.
+  const chunkLineIndexes = logLines
+    .map((line, index) => (/Stage 3:\s*\d+\s*\/\s*\d+\s*chunks/.test(line) ? index : -1))
+    .filter((index) => index >= 0);
+  const midPoint = chunkLineIndexes.length
+    ? chunkLineIndexes[Math.floor(chunkLineIndexes.length * 0.4)] + 1
+    : 9;
   const midSeg = renderToStaticMarkup(
-    React.createElement(ProgressTrack, { lines: logLines.slice(0, 9), rules: [], rawLines: [] }),
+    React.createElement(ProgressTrack, { lines: logLines.slice(0, midPoint), rules: [], rawLines: [] }),
   );
   const segs = midSeg.split('class="gt-seg').length - 1;
+  const lit = midSeg.split("gt-seg is-on").length - 1;
   check("a segmented section bar appears mid-extraction", segs > 0, true);
-  check("some segments are lit and not all", midSeg.includes("gt-seg is-on") && segs > (midSeg.split("gt-seg is-on").length - 1), true);
+  check("some segments are lit", lit > 0, true);
+  check("not every segment is lit mid-extraction", segs > lit, true);
   check("no segmented bar once extraction is done", done.includes('class="gt-segbar"'), false);
 
   // Mid-run: one stage active, later stages still pending.

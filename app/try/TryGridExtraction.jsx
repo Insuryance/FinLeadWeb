@@ -177,6 +177,8 @@ export default function TryGridExtraction() {
   }
 
   const engine = run?.comparison?.engines?.[0] || null;
+  // Which sheets to open on is declared per sample in the backend catalogue, not decided here.
+  const leadSheets = selected?.leadSheets ?? [];
   const rules = engine?.rules || [];
   const mappings = engine?.variableResolutions || [];
   const timings = engine?.timings || {};
@@ -193,12 +195,12 @@ export default function TryGridExtraction() {
   // the charts and the chat questions all discuss the same regions. Display order only — the analysis
   // below still sees the run's own ordering.
   const orderedRules = useMemo(
-    () => orderRulesForDisplay(rules, engine?.document?.tables ?? []),
-    [rules, engine],
+    () => orderRulesForDisplay(rules, engine?.document?.tables ?? [], leadSheets),
+    [rules, engine, leadSheets],
   );
   const orderedTables = useMemo(
-    () => orderTablesForDisplay(engine?.document?.tables ?? []),
-    [engine],
+    () => orderTablesForDisplay(engine?.document?.tables ?? [], leadSheets),
+    [engine, leadSheets],
   );
   // The demo answers need the workbook preview as well as the run: provenance points at a sheet and a
   // row, and the preview is what holds the actual cells to show back.
@@ -209,8 +211,9 @@ export default function TryGridExtraction() {
         tables: engine?.document?.tables ?? [],
         sheets: preview?.sheets ?? [],
         verification: verificationSummary(rules),
+        leadSheets,
       }),
-    [rules, engine, preview],
+    [rules, engine, preview, leadSheets],
   );
   const analysis = useMemo(
     () => analyseRules(rules, reconciliation.aliases),
