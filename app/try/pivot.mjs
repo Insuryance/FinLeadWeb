@@ -115,6 +115,25 @@ function componentLabel(component) {
  * 3. `fixedPay` — the parsed number, for ordinary numeric cells.
  */
 export function payoutOf(rule) {
+  // An explicit kind wins over any number, because these cells carry no payout to read. "D" is the
+  // workbook's abbreviation for Declined, and MISP names a distribution channel — showing either as
+  // 0% would claim the insurer writes the business for nothing, which is a different statement.
+  if (rule.payoutKind === "DECLINED") return "Declined";
+  if (rule.payoutKind === "MISP") return "At MISP rates";
+  if (rule.payoutKind === "CD_CAP" && Array.isArray(rule.payoutCaps)) {
+    const cap = rule.payoutCaps[0];
+    return cap?.percentage != null ? `${cap.percentage}% discount cap` : "discount cap";
+  }
+  if (rule.payoutKind === "CD_CAPS" && Array.isArray(rule.payoutCaps)) {
+    return rule.payoutCaps
+      .map((cap) =>
+        cap.percentage !== null && cap.percentage !== undefined
+          ? `${cap.label} ${cap.percentage}%`
+          : `${cap.label} ${cap.text}`,
+      )
+      .join(" · ");
+  }
+
   const breakdown = Array.isArray(rule.payoutBreakdown)
     ? rule.payoutBreakdown.filter((part) => part && part.percentage != null)
     : [];
@@ -130,7 +149,7 @@ export function payoutOf(rule) {
   }
   const value = rule.fixedPay ?? rule.payoutPercentage ?? rule.payout;
   if (value === null || value === undefined) return sourceText ?? "—";
-  return typeof value === "number" ? String(Number(value.toFixed(4))) : String(value);
+  return typeof value === "number" ? `${Number(value.toFixed(4))}%` : String(value);
 }
 
 function isNumeric(text) {

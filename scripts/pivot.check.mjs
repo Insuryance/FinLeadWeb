@@ -64,15 +64,17 @@ check(
 check("malformed condition does not throw", bindingsOf({ logicalExpression: "{not json" }).size, 0);
 
 // ---- payout ----
-check("payout reads fixedPay", payoutOf({ fixedPay: 0.33 }), "0.33");
-check("payout prefers fixedPay when source text is numeric", payoutOf({ fixedPay: 33, payoutSourceText: "0.33" }), "33");
+// A payout is a percentage, so it renders with its unit. A bare "25" sitting next to "Declined" in
+// the same column leaves the reader guessing what the number is.
+check("payout reads fixedPay", payoutOf({ fixedPay: 0.33 }), "0.33%");
+check("payout prefers fixedPay when source text is numeric", payoutOf({ fixedPay: 33, payoutSourceText: "0.33" }), "33%");
 check("payout falls back to source text", payoutOf({ payoutSourceText: "IRDA" }), "IRDA");
 check("payout of nothing is a dash", payoutOf({}), "—");
 // A non-numeric cell parses to 0. Showing "0" would understate the payout AND be indistinguishable
 // from a cell that really is zero, so the sentinel must survive to the screen.
 check("a sentinel beats the zero it parsed to", payoutOf({ fixedPay: 0, payoutSourceText: "IRDA" }), "IRDA");
-check("a real zero stays zero", payoutOf({ fixedPay: 0, payoutSourceText: "0" }), "0");
-check("a percent-formatted cell is treated as numeric", payoutOf({ fixedPay: 25, payoutSourceText: "25%" }), "25");
+check("a real zero stays zero", payoutOf({ fixedPay: 0, payoutSourceText: "0" }), "0%");
+check("a percent-formatted cell is treated as numeric", payoutOf({ fixedPay: 25, payoutSourceText: "25%" }), "25%");
 // The footnote-derived breakdown is the most informative form and outranks both. Its components have
 // different bases (OD vs TP premium) so they must stay separate, never summed.
 check(
@@ -95,7 +97,34 @@ check(
 check(
   "an empty breakdown falls through to the next source",
   payoutOf({ fixedPay: 12, payoutBreakdown: [] }),
-  "12",
+  "12%",
+);
+
+// A cell that carries no payout must never render as a number. "D" is the workbook's abbreviation for
+// Declined and MISP names a distribution channel: showing either as 0% would claim the insurer writes
+// the business for nothing, which is a different statement from refusing it.
+check("a declined cell says so", payoutOf({ payoutKind: "DECLINED", payoutSourceText: "D" }), "Declined");
+check("a MISP cell says so", payoutOf({ payoutKind: "MISP", payoutSourceText: "MISP" }), "At MISP rates");
+check(
+  "an explicit kind outranks any number left on the rule",
+  payoutOf({ payoutKind: "DECLINED", fixedPay: 0, payoutSourceText: "D" }),
+  "Declined",
+);
+check(
+  "CD caps render as separate capped components",
+  payoutOf({
+    payoutKind: "CD_CAPS",
+    payoutCaps: [
+      { label: "max CD1", percentage: 20, text: null },
+      { label: "max CD2", percentage: 30, text: null },
+    ],
+  }),
+  "max CD1 20% · max CD2 30%",
+);
+check(
+  "a non-numeric cap keeps its own text",
+  payoutOf({ payoutKind: "CD_CAPS", payoutCaps: [{ label: "max CD1", percentage: null, text: "MISP" }] }),
+  "max CD1 MISP",
 );
 
 // ---- ordering ----

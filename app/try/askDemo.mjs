@@ -200,6 +200,17 @@ function ruleFieldSet(rule) {
  * Build the preset conversation. Each entry carries a `kind` the panel knows how to render and an
  * `answer` object holding only data, so the panel does no computation and no interpretation.
  */
+/**
+ * A rule stating an actual commission percentage.
+ *
+ * Excludes rules whose cell carried no payout (declined, MISP) and rules from CD1/CD2 columns, which
+ * state a maximum DISCOUNT rather than a commission. Averaging or ranking those together would put a
+ * "70% discount cap" at the top of a list titled "highest rates".
+ */
+function isCommission(rule) {
+  return rule.payoutKind === undefined && Number.isFinite(Number(rule.fixedPay));
+}
+
 /** The presentation fields of a per-sheet tally, without the accumulator internals. */
 function pick(entry) {
   if (!entry) return null;
@@ -218,7 +229,7 @@ function buildBenchmark(rules, tables, sheets, leadSheets = NO_LEAD_SHEETS) {
   for (const rule of rules) {
     const at = locateRule(rule, tables, sheets);
     const pay = Number(rule.fixedPay);
-    if (!at?.exact || !at.columnHeader || !Number.isFinite(pay)) continue;
+    if (!at?.exact || !at.columnHeader || !isCommission(rule)) continue;
     const columns = perSheet.get(at.sheetName) ?? new Map();
     const cell = columns.get(at.columnHeader) ?? { total: 0, count: 0 };
     cell.total += pay;
@@ -307,7 +318,7 @@ export function demoQuestions({
     .filter(
       ({ at, rule }) =>
         at?.exact &&
-        Number.isFinite(Number(rule.fixedPay)) &&
+        isCommission(rule) &&
         // Without a row label the question reads "Where does the  payout come from?". Prefer a rule
         // whose row a person can actually recognise.
         Boolean(at.rowLabel),
@@ -367,7 +378,7 @@ export function demoQuestions({
   // same line. Deduplicate on where the number came from, and prefer an entry whose column was
   // pinned exactly over one that only knows the row.
   const paid = rules
-    .filter((rule) => Number.isFinite(Number(rule.fixedPay)))
+    .filter(isCommission)
     .map((rule) => ({ rule, at: locateRule(rule, tables, sheets) }))
     .sort(
       (a, b) =>
@@ -409,7 +420,7 @@ export function demoQuestions({
   for (const rule of rules) {
     const sheetName = sheetOfRule(rule, tables) ?? rule.sheetName;
     const pay = Number(rule.fixedPay);
-    if (!sheetName || !Number.isFinite(pay)) continue;
+    if (!sheetName || !isCommission(rule)) continue;
     const bucket = bySheet.get(sheetName) ?? { count: 0, total: 0, max: 0 };
     bucket.count += 1;
     bucket.total += pay;

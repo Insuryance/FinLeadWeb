@@ -15,24 +15,14 @@ import SheetInventory from "./SheetInventory";
 import AskPanel from "./AskPanel";
 import { analyseRules, reconcileVocabulary, verificationSummary } from "./pivot.mjs";
 import { demoQuestions, orderRulesForDisplay, orderTablesForDisplay } from "./askDemo.mjs";
+import { loadSamples, loadPreview, loadRun } from "./dataSource.mjs";
 
-const API = "/api/grid-trial";
 
 // The trial serves previously completed extractions, so there is nothing to poll. Instead the saved
 // run's real progress log is replayed, with each line's delay proportional to how long that stage
 // actually took. The pacing is compressed into REPLAY_MS so a viewer sees the shape of the work
 // (rule extraction dominating) without waiting minutes, and every line and timing shown is genuine.
 const REPLAY_MS = 7000;
-
-async function api(path, options) {
-  const res = await fetch(API + path, {
-    ...options,
-    headers: { "content-type": "application/json", ...(options?.headers || {}) },
-  });
-  const body = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(body.error || `Request failed (${res.status})`);
-  return body;
-}
 
 /**
  * Schedules each progress line at its real relative offset, scaled to totalMs.
@@ -112,7 +102,7 @@ export default function TryGridExtraction() {
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   useEffect(() => {
-    api("/samples")
+    loadSamples()
       .then((body) => setSamples(body.samples || []))
       .catch((e) => setBootError(e.message));
   }, []);
@@ -128,7 +118,7 @@ export default function TryGridExtraction() {
     setView("rules");
     setShownLines(0);
     try {
-      setPreview(await api(`/samples/${encodeURIComponent(sample.id)}/preview`));
+      setPreview(await loadPreview(sample.id));
     } catch (e) {
       setRunError(`Could not load the workbook preview: ${e.message}`);
     }
@@ -141,12 +131,8 @@ export default function TryGridExtraction() {
     setRun(null);
     setShownLines(0);
     try {
-      const started = await api("/runs", {
-        method: "POST",
-        body: JSON.stringify({ sampleId: selected.id }),
-      });
-      const full = await api(`/runs/${started.runId}`);
-      setCacheInfo({ extractedAt: started.extractedAt });
+      const { run: full, extractedAt } = await loadRun(selected.id);
+      setCacheInfo({ extractedAt });
       replay(full);
     } catch (e) {
       setRunError(e.message);
@@ -232,7 +218,7 @@ export default function TryGridExtraction() {
           </h1>
           <p className="fl-muted gt-lede">
             Pick one of our commission grids. FinLead reads the sheet, works out what each column
-            means, and turns it into machine-readable payout rules — the same pipeline that runs in
+            means, and turns it into machine-readable payout rules. The same pipeline that runs in
             production, not a simulation.
           </p>
         </header>
