@@ -3,3 +3,8 @@ node_modules/
 .DS_Store
 npm-debug.log*
 .idea/
+
+# Local env files hold real API keys (see .env.example / README). Never commit them.
+.env
+.env.local
+.env*.local
