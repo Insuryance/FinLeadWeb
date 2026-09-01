@@ -8,6 +8,11 @@ export const metadata = {
 
 const MOCKS = [
   {
+    href: "/playground/agent-onboarding",
+    title: "Agent Onboarding Automation",
+    description: "Underwrite a prospective POSP and complete their application through an embedded onboarding portal.",
+  },
+  {
     href: "/playground/commission-query",
     title: "Commission Query",
     description: "Filter a live commission grid by insurance line, product, territory and insurer.",

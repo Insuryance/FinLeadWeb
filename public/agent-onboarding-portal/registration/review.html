@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review & Declaration - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <!-- Tricolor Strip -->
+    <div class="tricolor-strip"></div>
+
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>भारत सरकार | Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> | 
+                <a href="#">English | हिन्दी</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- III Logo Header -->
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">भारतीय बीमा संस्थान</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Agent Onboarding Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Yellow Banner -->
+    <div class="iii-banner">
+        Welcome to the Agent Onboarding Portal of Insurance Institute of India
+        <a href="#">Portal Best View: 1024x768</a>
+    </div>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>Candidate Profile Creation Form</h1>
+            <p>Step 7 of 7: Review & Declaration</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+
+        <div class="registration-content">
+            <form id="reviewForm" class="registration-form">
+                <div class="form-section">
+                    <h2>Please Review Your Information</h2>
+                    <p class="form-note">Make sure all information is correct before submission</p>
+
+                    <div class="review-section">
+                        <h3>Personal Details</h3>
+                        <div class="review-grid">
+                            <div class="review-item">
+                                <span class="review-label">Full Name:</span>
+                                <span class="review-value" id="reviewFullName">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">Date of Birth:</span>
+                                <span class="review-value" id="reviewDob">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">Mobile Number:</span>
+                                <span class="review-value" id="reviewMobile">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">Email Address:</span>
+                                <span class="review-value" id="reviewEmail">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">PAN Number:</span>
+                                <span class="review-value" id="reviewPan">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">Aadhaar Number:</span>
+                                <span class="review-value" id="reviewAadhaar">-</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="window.history.back();">Edit Personal Details</button>
+                    </div>
+
+                    <div class="review-section">
+                        <h3>Address</h3>
+                        <div class="review-grid">
+                            <div class="review-item">
+                                <span class="review-label">City:</span>
+                                <span class="review-value" id="reviewCity">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">State:</span>
+                                <span class="review-value" id="reviewState">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="review-label">PIN Code:</span>
+                                <span class="review-value" id="reviewPin">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>Declaration</h2>
+                        <p class="form-note">Please read and accept the following declarations</p>
+
+                        <div class="declaration-items">
+                            <div class="declaration-item">
+                                <input
+                                    type="checkbox"
+                                    id="above18"
+                                    name="above18"
+                                    required
+                                >
+                                <label for="above18">I declare that I am above 18 years of age</label>
+                            </div>
+
+                            <div class="declaration-item">
+                                <input
+                                    type="checkbox"
+                                    id="soundMind"
+                                    name="soundMind"
+                                    required
+                                >
+                                <label for="soundMind">I declare that I am of sound mind and not incapacitated</label>
+                            </div>
+
+                            <div class="declaration-item">
+                                <input
+                                    type="checkbox"
+                                    id="noCriminal"
+                                    name="noCriminal"
+                                    required
+                                >
+                                <label for="noCriminal">I declare that I have no criminal conviction</label>
+                            </div>
+
+                            <div class="declaration-item">
+                                <input
+                                    type="checkbox"
+                                    id="noFraud"
+                                    name="noFraud"
+                                    required
+                                >
+                                <label for="noFraud">I declare that I have not been involved in insurance fraud</label>
+                            </div>
+
+                            <div class="declaration-item">
+                                <input
+                                    type="checkbox"
+                                    id="kycConsent"
+                                    name="kycConsent"
+                                    required
+                                >
+                                <label for="kycConsent">I consent to KYC verification as per RBI/IRDAI guidelines</label>
+                            </div>
+
+                            <div class="declaration-item">
+                                <input
+                                    type="checkbox"
+                                    id="digitalSignature"
+                                    name="digitalSignature"
+                                    required
+                                >
+                                <label for="digitalSignature">I digitally sign this application with full responsibility</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Back</button>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <span class="btn-text">Submit Application</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            protectPage();
+            setupLogout();
+
+            // Load and display review data
+            const formData = getFormData();
+
+            document.getElementById('reviewFullName').textContent = formData.fullName || '-';
+            document.getElementById('reviewDob').textContent = formatDateDisplay(formData.dob);
+            document.getElementById('reviewMobile').textContent = formData.mobileNumber || '-';
+            document.getElementById('reviewEmail').textContent = formData.emailAddress || '-';
+            document.getElementById('reviewPan').textContent = formData.panNumber || '-';
+            document.getElementById('reviewAadhaar').textContent = formData.aadhaarNumber
+                ? maskString(formData.aadhaarNumber, 4)
+                : '-';
+            document.getElementById('reviewCity').textContent = formData.town || '-';
+            document.getElementById('reviewState').textContent = formData.state || '-';
+            document.getElementById('reviewPin').textContent = formData.pinCode || '-';
+
+            document.getElementById('cancelBtn').addEventListener('click', () => {
+                window.location.href = 'document-upload.html';
+            });
+
+            document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                if (!validateDeclarations()) {
+                    showError('Please accept all declarations before submitting the application.');
+                    return;
+                }
+
+                const submitBtn = document.querySelector('.btn-submit');
+                submitBtn.disabled = true;
+                submitBtn.querySelector('.btn-text').style.display = 'none';
+                submitBtn.querySelector('.btn-loader').style.display = 'inline';
+                document.getElementById('errorMessage').style.display = 'none';
+
+                // Simulate submission delay
+                setTimeout(async () => {
+                    const allData = getFormData();
+                    await submitRegistration(allData);
+
+                    // Redirect to success page
+                    window.location.href = 'success.html';
+                }, 800);
+            });
+
+            function showError(message) {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+
+            function validateDeclarations() {
+                return Array.from(document.querySelectorAll('#reviewForm input[type="checkbox"][required]'))
+                    .every(checkbox => checkbox.checked);
+            }
+        });
+    </script>
+</body>
+</html>

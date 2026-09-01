@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <style>
+        .result-card {
+            background: #fff;
+            border: 2px solid #0f766e;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 45px rgba(15, 118, 110, 0.12);
+        }
+        .result-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+    </style>
+</head>
+<body>
+    <div class="tricolor-strip"></div>
+
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> |
+                <a href="#">English</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">IC-38 Examination Results</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Candidate Exam Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="slot-booking.html">Slot Booking</a>
+            <a href="hall-ticket.html">Hall Ticket</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <div class="iii-banner">
+        Result status published for the latest IC-38 examination attempt.
+        <a href="#">Result support</a>
+    </div>
+
+    <div id="examResultPage" class="registration-container">
+        <div class="registration-header">
+            <h1>Exam Result</h1>
+            <p>The portal shows the official status for this candidate.</p>
+        </div>
+
+        <div class="result-card">
+            <div class="success-message" style="margin-bottom: 24px;">
+                <p><strong>Portal User ID:</strong> <span id="resultPortalUserId">-</span></p>
+                <p><strong>URN:</strong> <span id="resultUrn">-</span></p>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <span class="result-pill" id="resultStatus">PASS</span>
+            </div>
+
+            <div class="review-grid">
+                <div class="review-item">
+                    <span class="review-label">Candidate Name:</span>
+                    <span class="review-value" id="resultCandidateName">-</span>
+                </div>
+                <div class="review-item">
+                    <span class="review-label">Candidate Email:</span>
+                    <span class="review-value" id="resultCandidateEmail">-</span>
+                </div>
+                <div class="review-item">
+                    <span class="review-label">Exam Date:</span>
+                    <span class="review-value" id="resultExamDate">-</span>
+                </div>
+                <div class="review-item">
+                    <span class="review-label">Exam Time:</span>
+                    <span class="review-value" id="resultExamTime">-</span>
+                </div>
+                <div class="review-item">
+                    <span class="review-label">Exam Center:</span>
+                    <span class="review-value" id="resultExamCenter">-</span>
+                </div>
+                <div class="review-item">
+                    <span class="review-label">Score:</span>
+                    <span class="review-value" id="resultScore">-</span>
+                </div>
+            </div>
+
+            <div class="next-steps" style="margin-top: 32px;">
+                <h3>Decision Notes</h3>
+                <p id="resultRemarks">-</p>
+                <p style="margin-top: 16px;"><strong>Published:</strong> <span id="resultPublishedAt">-</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            protectPage();
+            setupLogout();
+
+            const result = resolvePortalExamResult();
+            document.getElementById('resultPortalUserId').textContent = result.portalUserId || '-';
+            document.getElementById('resultUrn').textContent = result.urn || '-';
+            document.getElementById('resultStatus').textContent = result.status || 'PASS';
+            document.getElementById('resultCandidateName').textContent = result.candidateName || '-';
+            document.getElementById('resultCandidateEmail').textContent = result.candidateEmail || '-';
+            document.getElementById('resultExamDate').textContent = formatDateDisplay(result.examDate);
+            document.getElementById('resultExamTime').textContent = result.examTime || '-';
+            document.getElementById('resultExamCenter').textContent = result.examCenter || '-';
+            document.getElementById('resultScore').textContent = result.score || '-';
+            document.getElementById('resultRemarks').textContent = result.remarks || '-';
+            document.getElementById('resultPublishedAt').textContent = result.publishedAt
+                ? new Date(result.publishedAt).toLocaleString()
+                : '-';
+        });
+    </script>
+</body>
+</html>

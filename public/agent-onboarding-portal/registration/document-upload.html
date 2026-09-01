@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Upload - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <!-- Tricolor Strip -->
+    <div class="tricolor-strip"></div>
+
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>भारत सरकार | Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> | 
+                <a href="#">English | हिन्दी</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- III Logo Header -->
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">भारतीय बीमा संस्थान</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Agent Onboarding Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Yellow Banner -->
+    <div class="iii-banner">
+        Welcome to the Agent Onboarding Portal of Insurance Institute of India
+        <a href="#">Portal Best View: 1024x768</a>
+    </div>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>Candidate Profile Creation Form</h1>
+            <p>Step 6 of 7: Document Upload</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+
+        <div class="registration-content">
+            <form id="documentUploadForm" class="registration-form">
+                <div class="form-section">
+                    <h2>Required Documents</h2>
+                    <p class="form-note">Please upload all required documents in PDF, JPG or PNG format (Max 5MB each)</p>
+
+                    <div class="documents-grid">
+                        <div class="document-item">
+                            <div class="document-icon">📷</div>
+                            <label for="photo">Passport Size Photograph <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="photo"
+                                    name="photo"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">🪪</div>
+                            <label for="aadhaarCard">Aadhaar Card <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="aadhaarCard"
+                                    name="aadhaarCard"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">💳</div>
+                            <label for="panCard">PAN Card <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="panCard"
+                                    name="panCard"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">📄</div>
+                            <label for="ageProof">Age Proof <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="ageProof"
+                                    name="ageProof"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">🏠</div>
+                            <label for="addressProof">Address Proof <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="addressProof"
+                                    name="addressProof"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">🎓</div>
+                            <label for="educationCertificate">Educational Certificate <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="educationCertificate"
+                                    name="educationCertificate"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">📜</div>
+                            <label for="ic38Certificate">IC-38 Pass Certificate</label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="ic38Certificate"
+                                    name="ic38Certificate"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                >
+                            </div>
+                            <small class="file-hint">If available</small>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="document-icon">📋</div>
+                            <label for="cessationLetter">Previous Agency Cessation Letter</label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="cessationLetter"
+                                    name="cessationLetter"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                >
+                            </div>
+                            <small class="file-hint">If applicable</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Back</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Review & Submit</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/form.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeForm('documentUploadForm', 'review.html', 'bank-details.html');
+        });
+    </script>
+</body>
+</html>

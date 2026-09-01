@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Fee Payment - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <div class="tricolor-strip"></div>
+
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> |
+                <a href="#">English</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">Exam Fee Payment</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Candidate Exam Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="slot-booking.html">Slot Booking</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <div class="iii-banner">
+        Complete the mandatory exam registration fee payment before hall ticket generation.
+        <a href="#">Payment support</a>
+    </div>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>Pay Exam Registration Fee</h1>
+            <p>The IC-38 exam portal requires a fixed payment of Rs 550 before confirming the booking.</p>
+        </div>
+
+        <div class="registration-content">
+            <div class="form-section" style="margin-bottom: 24px;">
+                <h2>Booking Summary</h2>
+                <div class="review-grid">
+                    <div class="review-item">
+                        <span class="review-label">URN:</span>
+                        <span class="review-value" id="paymentUrn">-</span>
+                    </div>
+                    <div class="review-item">
+                        <span class="review-label">Candidate Name:</span>
+                        <span class="review-value" id="paymentCandidateName">-</span>
+                    </div>
+                    <div class="review-item">
+                        <span class="review-label">Exam Date:</span>
+                        <span class="review-value" id="paymentExamDate">-</span>
+                    </div>
+                    <div class="review-item">
+                        <span class="review-label">Exam Center:</span>
+                        <span class="review-value" id="paymentExamCenter">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="paymentForm" class="registration-form">
+                <div class="form-section">
+                    <h2>Payment Details</h2>
+
+                    <div class="success-message" style="margin-bottom: 24px;">
+                        <p><strong>Amount Payable:</strong> <span id="paymentAmount">Rs 550.00</span></p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method <span class="required">*</span></label>
+                            <select id="paymentMethod" name="paymentMethod" class="form-control" required>
+                                <option value="upi">UPI</option>
+                                <option value="card">Debit / Credit Card</option>
+                                <option value="netbanking">Net Banking</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="payerName">Payer Name <span class="required">*</span></label>
+                            <input type="text" id="payerName" name="payerName" class="form-control" placeholder="FinLead AI Agent" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="payerUpiId">UPI ID / Reference <span class="required">*</span></label>
+                            <input type="text" id="payerUpiId" name="payerUpiId" class="form-control" placeholder="name@upi" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="backToSlotBtn" class="btn btn-secondary">Back to Slot Selection</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Pay Rs 550 & Generate Hall Ticket</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            protectPage();
+            setupLogout();
+
+            const paymentData = resolveExamPaymentData();
+            document.getElementById('paymentUrn').textContent = paymentData.urn || '-';
+            document.getElementById('paymentCandidateName').textContent = paymentData.candidateName || '-';
+            document.getElementById('paymentExamDate').textContent = formatDateDisplay(paymentData.examDate);
+            document.getElementById('paymentExamCenter').textContent = paymentData.examCenter || '-';
+            document.getElementById('paymentAmount').textContent = `Rs ${paymentData.feeAmount || '550.00'}`;
+
+            document.getElementById('backToSlotBtn').addEventListener('click', () => {
+                window.location.href = 'slot-booking.html';
+            });
+
+            document.getElementById('paymentForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const submitBtn = document.querySelector('#paymentForm button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.querySelector('.btn-text').style.display = 'none';
+                submitBtn.querySelector('.btn-loader').style.display = 'inline';
+                document.getElementById('errorMessage').style.display = 'none';
+
+                try {
+                    const response = await payPortalExamFee({
+                        urn: paymentData.urn,
+                        portalUserId: paymentData.portalUserId,
+                        candidateName: paymentData.candidateName,
+                        candidateEmail: paymentData.candidateEmail,
+                        examDate: paymentData.examDate,
+                        examTime: paymentData.examTime,
+                        examCenter: paymentData.examCenter,
+                        bookingId: paymentData.bookingId,
+                        feeAmount: paymentData.feeAmount,
+                        paymentMethod: document.getElementById('paymentMethod').value,
+                        payerName: document.getElementById('payerName').value.trim(),
+                        payerUpiId: document.getElementById('payerUpiId').value.trim()
+                    });
+
+                    window.location.href = response.hallTicketUrl;
+                } catch (error) {
+                    const errorDiv = document.getElementById('errorMessage');
+                    errorDiv.textContent = error.message || 'Unable to process payment.';
+                    errorDiv.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.querySelector('.btn-text').style.display = 'inline';
+                    submitBtn.querySelector('.btn-loader').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

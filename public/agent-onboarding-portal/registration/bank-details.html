@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Details - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <!-- Tricolor Strip -->
+    <div class="tricolor-strip"></div>
+
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>भारत सरकार | Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> | 
+                <a href="#">English | हिन्दी</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- III Logo Header -->
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">भारतीय बीमा संस्थान</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Agent Onboarding Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Yellow Banner -->
+    <div class="iii-banner">
+        Welcome to the Agent Onboarding Portal of Insurance Institute of India
+        <a href="#">Portal Best View: 1024x768</a>
+    </div>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>Candidate Profile Creation Form</h1>
+            <p>Step 5 of 7: Bank Details</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 83.33%;"></div>
+        </div>
+
+        <div class="registration-content">
+            <form id="bankDetailsForm" class="registration-form">
+                <div class="form-section">
+                    <h2>Bank Account Details</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accountHolderName">Account Holder Name <span class="required">*</span></label>
+                            <input
+                                type="text"
+                                id="accountHolderName"
+                                name="accountHolderName"
+                                class="form-control"
+                                placeholder="Name as per bank records"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number <span class="required">*</span></label>
+                            <input
+                                type="text"
+                                id="accountNumber"
+                                name="accountNumber"
+                                class="form-control"
+                                placeholder="Your account number"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ifsc">IFSC Code <span class="required">*</span></label>
+                            <input
+                                type="text"
+                                id="ifsc"
+                                name="ifsc"
+                                class="form-control"
+                                placeholder="ABCD0123456"
+                                pattern="[A-Z0-9]{11}"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="bankName">Bank Name <span class="required">*</span></label>
+                            <input
+                                type="text"
+                                id="bankName"
+                                name="bankName"
+                                class="form-control"
+                                placeholder="Name of your bank"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bankDocument">Cancelled Cheque / Passbook <span class="required">*</span></label>
+                            <div class="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="bankDocument"
+                                    name="bankDocument"
+                                    class="form-control"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    required
+                                >
+                                <span class="file-hint">PDF, JPG or PNG (Max 5MB)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Back</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Next Step</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/form.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeForm('bankDetailsForm', 'document-upload.html', 'previous-agency.html');
+        });
+    </script>
+</body>
+</html>

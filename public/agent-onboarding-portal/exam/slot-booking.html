@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Slot Booking - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <div class="tricolor-strip"></div>
+
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> |
+                <a href="#">English</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">Insurance Examination Portal</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Candidate Exam Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="../dashboard.html">Dashboard</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <div class="iii-banner">
+        Slot booking portal for IC-38 examination
+        <a href="#">Need help?</a>
+    </div>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>IC-38 Exam Slot Selection</h1>
+            <p>Choose your preferred exam date, time, and center, then complete the mandatory exam fee payment of Rs 550.</p>
+        </div>
+
+        <div class="registration-content">
+            <div class="form-section" style="margin-bottom: 24px;">
+                <h2>Candidate Access</h2>
+                <div class="review-grid">
+                    <div class="review-item">
+                        <span class="review-label">Portal User ID:</span>
+                        <span class="review-value" id="candidatePortalUserId">-</span>
+                    </div>
+                    <div class="review-item">
+                        <span class="review-label">Candidate Name:</span>
+                        <span class="review-value" id="candidateNameDisplay">-</span>
+                    </div>
+                    <div class="review-item">
+                        <span class="review-label">Candidate Email:</span>
+                        <span class="review-value" id="candidateEmailDisplay">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="slotBookingForm" class="registration-form">
+                <div class="form-section">
+                    <h2>Booking Details</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookingUrn">URN <span class="required">*</span></label>
+                            <input type="text" id="bookingUrn" name="bookingUrn" class="form-control" placeholder="URN-XXXXXXXX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="examDate">Exam Date <span class="required">*</span></label>
+                            <select id="examDate" name="examDate" class="form-control" required>
+                                <option value="">-- Select Date --</option>
+                                <option value="2026-07-05">5 July 2026</option>
+                                <option value="2026-07-06">6 July 2026</option>
+                                <option value="2026-07-07">7 July 2026</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="examTime">Exam Time <span class="required">*</span></label>
+                            <select id="examTime" name="examTime" class="form-control" required>
+                                <option value="">-- Select Time --</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="examCenter">Exam Center <span class="required">*</span></label>
+                            <select id="examCenter" name="examCenter" class="form-control" required>
+                                <option value="">-- Select Center --</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Jaipur">Jaipur</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Pune">Pune</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="success-message" style="margin-top: 20px;">
+                        <p><strong>Mandatory Exam Portal Registration Fee:</strong> Rs 550</p>
+                        <p>The payment step opens right after slot selection and will be completed by the automation agent.</p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="backToRegistrationBtn" class="btn btn-secondary">Registration Success Page</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Book Slot & Open Hall Ticket</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            protectPage();
+            setupLogout();
+
+            const candidateSession = getActiveCandidateSession();
+            const registration = getPortalRegistrationResult();
+            const activeCandidate = Object.keys(candidateSession).length > 0 ? candidateSession : registration;
+
+            document.getElementById('candidatePortalUserId').textContent = activeCandidate.portalUserId || '-';
+            document.getElementById('candidateNameDisplay').textContent = activeCandidate.candidateName || '-';
+            document.getElementById('candidateEmailDisplay').textContent = activeCandidate.candidateEmail || '-';
+            document.getElementById('bookingUrn').value = activeCandidate.urn || '';
+
+            const booking = getPortalExamBooking();
+            if (booking.examDate) {
+                document.getElementById('examDate').value = booking.examDate;
+            }
+            if (booking.examTime) {
+                document.getElementById('examTime').value = booking.examTime;
+            }
+            if (booking.examCenter) {
+                document.getElementById('examCenter').value = booking.examCenter;
+            }
+
+            document.getElementById('backToRegistrationBtn').addEventListener('click', () => {
+                window.location.href = '../registration/success.html';
+            });
+
+            document.getElementById('slotBookingForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const submitBtn = document.querySelector('#slotBookingForm button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.querySelector('.btn-text').style.display = 'none';
+                submitBtn.querySelector('.btn-loader').style.display = 'inline';
+                document.getElementById('errorMessage').style.display = 'none';
+
+                try {
+                    const result = await bookPortalExamSlot({
+                        urn: document.getElementById('bookingUrn').value.trim(),
+                        examDate: document.getElementById('examDate').value,
+                        examTime: document.getElementById('examTime').value,
+                        examCenter: document.getElementById('examCenter').value
+                    });
+
+                    window.location.href = result.paymentUrl;
+                } catch (error) {
+                    const errorDiv = document.getElementById('errorMessage');
+                    errorDiv.textContent = error.message || 'Unable to book exam slot.';
+                    errorDiv.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.querySelector('.btn-text').style.display = 'inline';
+                    submitBtn.querySelector('.btn-loader').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
