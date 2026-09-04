@@ -1,0 +1,444 @@
+/* III Form Styles - Matches insuranceinstituteofindia.com */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: #333333;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 4px;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.form-control {
+    padding: 6px 8px;
+    border: 1px solid #B0B0B0;
+    border-radius: 2px;
+    font-size: 13px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    background: #FFFFFF;
+    color: #333333;
+    height: 32px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--iii-blue);
+    box-shadow: 0 0 0 1px rgba(30, 58, 138, 0.2);
+}
+
+.form-control::placeholder {
+    color: #999999;
+    font-size: 12px;
+}
+
+.form-control:disabled {
+    background: #F5F5F5;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+select.form-control {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666666' d='M5 8L0 2h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+    appearance: none;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+    height: auto;
+}
+
+/* III File Input - Simple Style */
+.file-input-wrapper {
+    position: relative;
+    display: block;
+}
+
+.file-input-wrapper input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #B0B0B0;
+    border-radius: 2px;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: border-color 0.2s;
+    font-size: 12px;
+    height: auto;
+}
+
+.file-input-wrapper input[type="file"]:hover {
+    border-color: var(--iii-blue);
+}
+
+.file-input-wrapper input[type="file"]:focus {
+    outline: none;
+    border-color: var(--iii-blue);
+    box-shadow: 0 0 0 1px rgba(30, 58, 138, 0.2);
+}
+
+.file-hint {
+    display: block;
+    color: var(--gray-500);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+/* III Form Actions - Simple */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #C8D8F0;
+}
+
+.form-actions .btn {
+    flex: 0 1 auto;
+    min-width: 100px;
+}
+
+/* III Error States */
+.form-control.error {
+    border-color: var(--danger-color);
+    background: #FFF5F5;
+}
+
+.form-control.error:focus {
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.2);
+    border-color: var(--danger-color);
+}
+
+.form-group.error .form-control {
+    border-color: var(--danger-color);
+}
+
+.form-error {
+    color: var(--danger-color);
+    font-size: 11px;
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+/* III Success States */
+.form-control.success {
+    border-color: var(--success-color);
+    background: #F0FFF4;
+}
+
+.form-control.success:focus {
+    box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.2);
+    border-color: var(--success-color);
+}
+
+.form-success {
+    color: var(--success-color);
+    font-size: 11px;
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+/* Input Icons - Govt Style */
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px;
+    font-size: 16px;
+    pointer-events: none;
+    color: var(--gray-400);
+}
+
+.input-icon-wrapper .form-control {
+    padding-right: 40px;
+}
+
+/* Checkbox & Radio - Govt Style */
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
+    accent-color: var(--govt-blue);
+}
+
+.checkbox-group,
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkbox-item,
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-item input,
+.radio-item input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-item label,
+.radio-item label {
+    cursor: pointer;
+    color: var(--gray-700);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Field Group - Govt Style */
+.field-group {
+    margin-bottom: 20px;
+}
+
+.field-group-title {
+    color: var(--deep-blue);
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Inline Help - Govt Style */
+.help-text {
+    color: var(--gray-500);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Floating Label - Govt Style */
+.form-group.floating-label {
+    position: relative;
+}
+
+.form-group.floating-label input,
+.form-group.floating-label select,
+.form-group.floating-label textarea {
+    padding-top: 16px;
+    padding-bottom: 8px;
+}
+
+.form-group.floating-label label {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 12px;
+    background: white;
+    padding: 0 4px;
+    margin: 0;
+}
+
+/* Form Divider - Govt Style */
+.form-divider {
+    height: 1px;
+    background: var(--gray-200);
+    margin: 20px 0;
+}
+
+.form-divider-text {
+    text-align: center;
+    margin: 20px 0;
+    color: var(--gray-500);
+    font-size: 13px;
+}
+
+.form-divider-text::before,
+.form-divider-text::after {
+    content: '';
+    display: inline-block;
+    width: 30%;
+    height: 1px;
+    background: var(--gray-300);
+    vertical-align: middle;
+}
+
+.form-divider-text::before {
+    margin-right: 10px;
+}
+
+.form-divider-text::after {
+    margin-left: 10px;
+}
+
+/* Step Indicator - Govt Style */
+.step-indicator {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    justify-content: space-between;
+}
+
+.step-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.step-item.active .step-number {
+    background: var(--govt-blue);
+    color: white;
+    border: 2px solid var(--saffron);
+}
+
+.step-item.completed .step-number {
+    background: var(--success-color);
+    color: white;
+}
+
+.step-number {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--gray-200);
+    color: var(--gray-600);
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.step-title {
+    font-size: 11px;
+    color: var(--gray-600);
+    font-weight: 600;
+}
+
+/* Validation Summary - Govt Style */
+.validation-summary {
+    background: #FFEBEE;
+    border: 1px solid var(--danger-color);
+    border-radius: 3px;
+    padding: 14px;
+    margin-bottom: 20px;
+}
+
+.validation-summary h3 {
+    color: var(--danger-color);
+    font-size: 14px;
+    margin: 0 0 8px 0;
+}
+
+.validation-summary ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--danger-color);
+    font-size: 13px;
+}
+
+.validation-summary li {
+    margin-bottom: 4px;
+}
+
+/* Loading State - Govt Style */
+.form-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.form-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tooltip - Govt Style */
+.tooltip-trigger {
+    cursor: help;
+    border-bottom: 1px dotted var(--gray-400);
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--gray-800);
+    color: white;
+    text-align: center;
+    border-radius: 3px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--gray-800) transparent transparent transparent;
+}
+
+.tooltip-trigger:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Compact Form - Govt Style */
+.form-compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.form-compact .form-group {
+    margin-bottom: 0;
+}
+
+.form-compact .form-control {
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+.form-compact label {
+    font-size: 12px;
+    margin-bottom: 4px;
+}

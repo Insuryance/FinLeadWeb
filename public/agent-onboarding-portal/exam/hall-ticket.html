@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Ticket - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <style>
+        .hall-ticket-card {
+            background: #fff;
+            border: 2px solid #1E3A8A;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 45px rgba(30, 58, 138, 0.12);
+        }
+        .hall-ticket-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .hall-ticket-meta .detail-item {
+            margin-bottom: 0;
+        }
+        @media print {
+            .navbar, .iii-banner, .gov-footer, .action-buttons {
+                display: none !important;
+            }
+            body {
+                background: #fff;
+            }
+            .registration-container {
+                margin: 0;
+                max-width: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tricolor-strip"></div>
+
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> |
+                <a href="#">English</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">IC-38 Examination Hall Ticket</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Candidate Exam Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="slot-booking.html">Slot Booking</a>
+            <a href="results.html">Results</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <div class="iii-banner">
+        Download and carry this hall ticket to the examination center.
+        <a href="#">Candidate support</a>
+    </div>
+
+    <div id="hallTicketPage" class="registration-container">
+        <div class="registration-header">
+            <h1>Hall Ticket</h1>
+            <p>Your IC-38 examination slot is confirmed.</p>
+        </div>
+
+        <div class="hall-ticket-card">
+            <div class="success-message" style="margin-bottom: 24px;">
+                <p><strong>Portal User ID:</strong> <span id="ticketPortalUserId">-</span></p>
+                <p><strong>URN:</strong> <span id="ticketUrn">-</span></p>
+            </div>
+
+            <div id="bookingSummary" class="hall-ticket-meta">
+                <div class="detail-item">
+                    <span class="detail-label">Candidate Name:</span>
+                    <span class="detail-value" id="ticketCandidateName">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Candidate Email:</span>
+                    <span class="detail-value" id="ticketCandidateEmail">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Exam Date:</span>
+                    <span class="detail-value" id="ticketExamDate">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Exam Time:</span>
+                    <span class="detail-value" id="ticketExamTime">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Exam Center:</span>
+                    <span class="detail-value" id="ticketExamCenter">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Booking ID:</span>
+                    <span class="detail-value" id="ticketBookingId">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Exam Fee:</span>
+                    <span class="detail-value" id="ticketFeeAmount">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Payment Reference:</span>
+                    <span class="detail-value" id="paymentReferenceDisplay">-</span>
+                </div>
+            </div>
+
+            <div class="next-steps" style="margin-top: 32px;">
+                <h3>Exam Day Checklist</h3>
+                <ol>
+                    <li>Carry a printed copy of this hall ticket.</li>
+                    <li>Bring a valid government ID proof.</li>
+                    <li>Reach the center at least 30 minutes before the exam time.</li>
+                    <li>Follow all institute and invigilator instructions.</li>
+                </ol>
+            </div>
+
+            <div class="action-buttons" style="margin-top: 24px;">
+                <button id="downloadHallTicketBtn" class="btn btn-primary">Download Hall Ticket PDF</button>
+                <button id="changeSlotBtn" class="btn btn-secondary">Back to Slot Booking</button>
+                <button id="viewResultsBtn" class="btn btn-secondary">View Results</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="gov-footer">
+        <p>This website is managed by <strong>Insurance Institute of India</strong></p>
+        <p>
+            <a href="#">Site Map</a> |
+            <a href="#">Contact Us</a> |
+            <a href="#">FAQs</a> |
+            <a href="#">Terms & Conditions</a>
+        </p>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            protectPage();
+            setupLogout();
+
+            const hallTicket = resolveHallTicketData();
+
+            document.getElementById('ticketPortalUserId').textContent = hallTicket.portalUserId || '-';
+            document.getElementById('ticketUrn').textContent = hallTicket.urn || '-';
+            document.getElementById('ticketCandidateName').textContent = hallTicket.candidateName || '-';
+            document.getElementById('ticketCandidateEmail').textContent = hallTicket.candidateEmail || '-';
+            document.getElementById('ticketExamDate').textContent = formatDateDisplay(hallTicket.examDate);
+            document.getElementById('ticketExamTime').textContent = hallTicket.examTime || '-';
+            document.getElementById('ticketExamCenter').textContent = hallTicket.examCenter || '-';
+            document.getElementById('ticketBookingId').textContent = hallTicket.bookingId || '-';
+            document.getElementById('ticketFeeAmount').textContent = hallTicket.feeAmount ? `Rs ${hallTicket.feeAmount}` : '-';
+            document.getElementById('paymentReferenceDisplay').textContent = hallTicket.paymentReference || '-';
+
+            document.getElementById('downloadHallTicketBtn').addEventListener('click', () => {
+                window.print();
+            });
+
+            document.getElementById('changeSlotBtn').addEventListener('click', () => {
+                window.location.href = 'slot-booking.html';
+            });
+
+            document.getElementById('viewResultsBtn').addEventListener('click', () => {
+                window.location.href = `results.html?urn=${encodeURIComponent(hallTicket.urn || '')}`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Agency - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <!-- Tricolor Strip -->
+    <div class="tricolor-strip"></div>
+
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>भारत सरकार | Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> | 
+                <a href="#">English | हिन्दी</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- III Logo Header -->
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">भारतीय बीमा संस्थान</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Agent Onboarding Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Yellow Banner -->
+    <div class="iii-banner">
+        Welcome to the Agent Onboarding Portal of Insurance Institute of India
+        <a href="#">Portal Best View: 1024x768</a>
+    </div>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>Candidate Profile Creation Form</h1>
+            <p>Step 4 of 7: Previous Insurance Agency (If Applicable)</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 66.66%;"></div>
+        </div>
+
+        <div class="registration-content">
+            <form id="previousAgencyForm" class="registration-form">
+                <div class="form-section">
+                    <h2>Previous Insurance Agency Details</h2>
+                    <p class="form-note">Leave blank if you have no previous agency experience</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hasPreviousAgency">Have you worked as Insurance Agent Before? <span class="required">*</span></label>
+                            <select id="hasPreviousAgency" name="hasPreviousAgency" class="form-control" required>
+                                <option value="">--Select--</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="previousAgencyDetails" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="previousInsurerName">Previous Insurer Name</label>
+                                <input
+                                    type="text"
+                                    id="previousInsurerName"
+                                    name="previousInsurerName"
+                                    class="form-control"
+                                    placeholder="Insurance company name"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="agencyCode">Agency Code</label>
+                                <input
+                                    type="text"
+                                    id="agencyCode"
+                                    name="agencyCode"
+                                    class="form-control"
+                                    placeholder="Your agency code"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointmentDate">Appointment Date</label>
+                                <input
+                                    type="date"
+                                    id="appointmentDate"
+                                    name="appointmentDate"
+                                    class="form-control"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="cessationDate">Cessation Date</label>
+                                <input
+                                    type="date"
+                                    id="cessationDate"
+                                    name="cessationDate"
+                                    class="form-control"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reasonForCessation">Reason for Cessation</label>
+                                <textarea
+                                    id="reasonForCessation"
+                                    name="reasonForCessation"
+                                    class="form-control"
+                                    placeholder="Please explain why you left"
+                                    rows="4"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cessationLetter">Cessation Letter</label>
+                                <div class="file-input-wrapper">
+                                    <input
+                                        type="file"
+                                        id="cessationLetter"
+                                        name="cessationLetter"
+                                        class="form-control"
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                    >
+                                    <span class="file-hint">PDF, JPG or PNG (Max 5MB)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="otherInsuranceActivities">Other Insurance Activities <span class="required">*</span></label>
+                                <select id="otherInsuranceActivities" name="otherInsuranceActivities" class="form-control" required>
+                                    <option value="">--Select--</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="otherInsuranceActivityDetails" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="otherInsuranceDetails">Please Provide Details</label>
+                                    <textarea
+                                        id="otherInsuranceDetails"
+                                        name="otherInsuranceDetails"
+                                        class="form-control"
+                                        placeholder="Details of other insurance activities"
+                                        rows="4"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Back</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Next Step</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/form.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hasPreviousSelect = document.getElementById('hasPreviousAgency');
+            const previousDetails = document.getElementById('previousAgencyDetails');
+            const otherActivitySelect = document.getElementById('otherInsuranceActivities');
+            const otherActivityDetails = document.getElementById('otherInsuranceActivityDetails');
+            const previousAgencyInputs = previousDetails.querySelectorAll('input, select, textarea');
+            const otherInsuranceDetailsInput = document.getElementById('otherInsuranceDetails');
+
+            function updatePreviousAgencyState() {
+                const hasPreviousAgency = hasPreviousSelect.value === 'yes';
+                previousDetails.style.display = hasPreviousAgency ? 'block' : 'none';
+
+                previousAgencyInputs.forEach(input => {
+                    if (input.id === 'otherInsuranceActivities') {
+                        input.required = hasPreviousAgency;
+                        if (!hasPreviousAgency) {
+                            input.value = '';
+                        }
+                        return;
+                    }
+
+                    if (!hasPreviousAgency) {
+                        if (input.type === 'file') {
+                            input.value = '';
+                        } else {
+                            input.value = '';
+                        }
+                    }
+                });
+
+                if (!hasPreviousAgency) {
+                    otherActivityDetails.style.display = 'none';
+                    otherInsuranceDetailsInput.required = false;
+                    otherInsuranceDetailsInput.value = '';
+                }
+            }
+
+            function updateOtherInsuranceState() {
+                const hasOtherInsuranceActivities = hasPreviousSelect.value === 'yes'
+                    && otherActivitySelect.value === 'yes';
+                otherActivityDetails.style.display = hasOtherInsuranceActivities ? 'block' : 'none';
+                otherInsuranceDetailsInput.required = hasOtherInsuranceActivities;
+
+                if (!hasOtherInsuranceActivities) {
+                    otherInsuranceDetailsInput.value = '';
+                }
+            }
+
+            hasPreviousSelect.addEventListener('change', () => {
+                updatePreviousAgencyState();
+                updateOtherInsuranceState();
+            });
+
+            otherActivitySelect.addEventListener('change', () => {
+                updateOtherInsuranceState();
+            });
+
+            initializeForm('previousAgencyForm', 'bank-details.html', 'education.html');
+            updatePreviousAgencyState();
+            updateOtherInsuranceState();
+        });
+    </script>
+</body>
+</html>

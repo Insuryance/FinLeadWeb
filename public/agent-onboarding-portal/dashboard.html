@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Insurance Institute of India</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/form.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <!-- Tricolor Strip -->
+    <div class="tricolor-strip"></div>
+
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>भारत सरकार | Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> | 
+                <a href="#">English | हिन्दी</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- III Logo Header -->
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">भारतीय बीमा संस्थान</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Agent Onboarding Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="index.html">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+            <a href="#">FAQ</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Yellow Banner -->
+    <div class="iii-banner">
+        Welcome to the Agent Onboarding Portal of Insurance Institute of India
+        <a href="#">Portal Best View: 1024x768</a>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Candidate Profile Creation Form</h1>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="registration-card">
+                <div class="card-header">
+                    <h2>Registration Status</h2>
+                </div>
+                <div class="card-body">
+                    <div class="status-indicator">
+                        <span id="currentStatus" class="status-badge status-pending">Not Started</span>
+                    </div>
+                    <p id="statusMessage" class="status-message">Click below to begin your registration</p>
+                </div>
+            </div>
+
+            <div class="action-cards">
+                <div class="action-card">
+                    <div class="card-icon">📝</div>
+                    <h3>New Registration</h3>
+                    <p>Start your agent onboarding journey</p>
+                    <button id="startRegistrationBtn" class="btn btn-primary">Start Now</button>
+                </div>
+
+                <div class="action-card">
+                    <div class="card-icon">📧</div>
+                    <h3>View Instructions</h3>
+                    <p>Learn about requirements and process</p>
+                    <button id="viewInstructionsBtn" class="btn btn-secondary">View</button>
+                </div>
+
+                <div class="action-card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Contact Support</h3>
+                    <p>Get help with your registration</p>
+                    <button id="contactSupportBtn" class="btn btn-secondary">Contact</button>
+                </div>
+            </div>
+
+            <div class="registration-guide">
+                <h3>Registration Guide</h3>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Personal Details</h4>
+                            <p>Provide your basic personal information</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Address</h4>
+                            <p>Enter your residential address</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Education</h4>
+                            <p>Upload educational credentials</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Previous Agency</h4>
+                            <p>Share prior insurance agency details if applicable</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Bank Details</h4>
+                            <p>Provide banking information</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Documents</h4>
+                            <p>Upload required documents</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <h4>Review & Submit</h4>
+                            <p>Review and submit your application</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <h4>Branch Office Review</h4>
+                            <p>Your application is sent to the branch office before portal registration begins</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Government Footer -->
+    <div class="gov-footer">
+        <div class="tricolor-strip" style="margin-bottom: 16px;"></div>
+        <p>This website is managed by <strong>Insurance Institute of India</strong></p>
+        <p>
+            <a href="#">Site Map</a> |
+            <a href="#">Contact Us</a> |
+            <a href="#">FAQs</a> |
+            <a href="#">Terms & Conditions</a> |
+            <a href="#">Privacy Policy</a>
+        </p>
+        <div class="footer-bottom">
+            <p>Last Updated: 26-06-2026 | Visitor Count: 1,23,456</p>
+            <p>© 2026 Insurance Institute of India. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/workflow.js"></script>
+</body>
+</html>

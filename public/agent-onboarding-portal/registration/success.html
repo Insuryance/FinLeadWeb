@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Submitted - Insurance Institute of India</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+    <!-- Tricolor Strip -->
+    <div class="tricolor-strip"></div>
+
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="gov-header-top">
+            <span>भारत सरकार | Government of India</span>
+            <div>
+                <a href="#">Skip to main content</a> | 
+                <a href="#">English | हिन्दी</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- III Logo Header -->
+    <div class="iii-header">
+        <div class="iii-header-content">
+            <div class="logo-placeholder" style="height: 50px;">
+                <svg width="50" height="50" viewBox="0 0 60 60" fill="none">
+                    <path d="M30 5L40 15L35 25L45 35L30 45L15 35L25 25L20 15Z" fill="#1E3A8A" stroke="#1E3A8A" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="iii-logo-text">
+                <span class="org-name">Insurance Institute of India</span>
+                <span class="org-name-hindi">भारतीय बीमा संस्थान</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span>Agent Onboarding Portal</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="../index.html">Home</a>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <span id="userGreeting" class="user-greeting"></span>
+            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Yellow Banner -->
+    <div class="iii-banner">
+        Welcome to the Agent Onboarding Portal of Insurance Institute of India
+        <a href="#">Portal Best View: 1024x768</a>
+    </div>
+
+    <div id="successPage" class="registration-container">
+        <div class="success-content">
+            <div class="success-card">
+                <div class="success-icon">
+                    <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                        <circle cx="50" cy="50" r="48" fill="#10B981" opacity="0.1" stroke="#10B981" stroke-width="2"/>
+                        <path d="M35 50L45 60L65 35" stroke="#10B981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <h1>Application Submitted Successfully!</h1>
+
+                <div class="success-message">
+                    <p>Your agent onboarding application has been submitted successfully.</p>
+                    <p>Your application has been sent to the branch office for review. We will contact you once the review is completed.</p>
+                </div>
+
+                <div class="application-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Portal User ID:</span>
+                        <span class="detail-value" id="portalUserIdDisplay">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Portal Password:</span>
+                        <span class="detail-value" id="portalPasswordDisplay">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Generated URN:</span>
+                        <span class="detail-value" id="urnDisplay">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Application Reference ID:</span>
+                        <span class="detail-value" id="referenceId">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Submitted On:</span>
+                        <span class="detail-value" id="submittedDate">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value status-under-review">Branch Office Review Pending</span>
+                    </div>
+                </div>
+
+                <div class="next-steps">
+                    <h3>What's Next?</h3>
+                    <ol>
+                        <li>The branch office will review your application packet and attached documents</li>
+                        <li>If approved, we will start your portal registration and share the next instructions</li>
+                        <li>If rejected, we will notify you by email with the outcome</li>
+                    </ol>
+                </div>
+
+                <div class="contact-support">
+                    <h3>Need Help?</h3>
+                    <p>If you have any questions, please contact our support team:</p>
+                    <p>📧 Email: <a href="mailto:support@iii.org.in">support@iii.org.in</a></p>
+                    <p>📞 Phone: +91-XXXX-XXXX-XXXX</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button onclick="downloadConfirmation()" class="btn btn-secondary">Download Confirmation</button>
+                    <button onclick="goToSlotBooking()" class="btn btn-secondary">Open Slot Booking</button>
+                    <button onclick="goToDashboard()" class="btn btn-primary">Go to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Government Footer -->
+    <div class="gov-footer">
+        <p>This website is managed by <strong>Insurance Institute of India</strong></p>
+        <p>
+            <a href="#">Site Map</a> |
+            <a href="#">Contact Us</a> |
+            <a href="#">FAQs</a> |
+            <a href="#">Terms & Conditions</a>
+        </p>
+        <p>Last Updated: 26-06-2026</p>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            protectPage();
+            setupLogout();
+            displayApplicationDetails();
+        });
+
+        function displayApplicationDetails() {
+            const result = JSON.parse(localStorage.getItem('portalRegistrationResult') || '{}');
+            const referenceId = result.caseId || ('CASE-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+            const portalUserId = result.portalUserId || ('AGENT-' + Math.random().toString(36).substr(2, 6).toUpperCase());
+            const portalPassword = result.portalPassword || deriveCandidatePassword(portalUserId);
+            const urn = result.urn || ('URN-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+            const submittedDate = result.submittedAt
+                ? new Date(result.submittedAt).toLocaleDateString()
+                : new Date().toLocaleDateString();
+
+            document.getElementById('portalUserIdDisplay').textContent = portalUserId;
+            document.getElementById('portalPasswordDisplay').textContent = portalPassword;
+            document.getElementById('urnDisplay').textContent = urn;
+            document.getElementById('referenceId').textContent = referenceId;
+            document.getElementById('submittedDate').textContent = submittedDate;
+
+            // Store in session
+            sessionStorage.setItem('referenceId', referenceId);
+            sessionStorage.setItem('portalUserId', portalUserId);
+            sessionStorage.setItem('portalPassword', portalPassword);
+            sessionStorage.setItem('urn', urn);
+            sessionStorage.setItem('submittedDate', submittedDate);
+        }
+
+        function downloadConfirmation() {
+            const referenceId = sessionStorage.getItem('referenceId');
+            const submittedDate = sessionStorage.getItem('submittedDate');
+            const username = localStorage.getItem('username');
+
+            const confirmationText = `
+INSURANCE INSTITUTE OF INDIA
+Agent Onboarding Confirmation
+
+Reference ID: ${referenceId}
+Username: ${username}
+Submitted: ${submittedDate}
+
+Your application has been submitted successfully.
+Your application is now with the branch office for review.
+
+---
+This is an auto-generated confirmation.
+            `;
+
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(confirmationText));
+            element.setAttribute('download', `confirmation_${referenceId}.txt`);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        function goToDashboard() {
+            goToDashboardPage();
+        }
+
+        function goToSlotBooking() {
+            const result = getPortalRegistrationResult();
+            setAuthenticatedSession({
+                role: 'candidate',
+                username: result.portalUserId,
+                email: result.candidateEmail,
+                redirectUrl: '../exam/slot-booking.html',
+                candidateSession: {
+                    portalUserId: result.portalUserId,
+                    portalPassword: result.portalPassword,
+                    urn: result.urn,
+                    candidateName: result.candidateName,
+                    candidateEmail: result.candidateEmail
+                }
+            });
+            window.location.href = '../exam/slot-booking.html';
+        }
+    </script>
+</body>
+</html>
