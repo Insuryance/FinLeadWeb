@@ -671,19 +671,25 @@ useEffect(() => {
     />
   </a>
            {/* New Plug and Play logo */}
-  <img
-    src="/PnP.png"
-    alt="Plug and Play"
-    style={{
-      height: 55,
-      width: "auto",
-      display: "block",
-      opacity: 0.9,
-    }}
-  />
+  <a
+    href="https://www.plugandplaytechcenter.com/locations/gift-city"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ display: "inline-flex", alignItems: "center" }}
+  >
+    <img
+      src="/PnP.png"
+      alt="Plug and Play GIFT City"
+      style={{
+        height: 55,
+        width: "auto",
+        display: "block",
+        opacity: 0.9,
+      }}
+    />
+  </a>
 </div>
-        </div>
-      </header>
+</header>
 
       {/* PRODUCT — live console */}
       <section id="product" style={{ position: "relative", zIndex: 10, maxWidth: 960, margin: "32px auto 112px", padding: "0 24px" }}>
