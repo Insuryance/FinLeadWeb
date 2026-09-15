@@ -670,6 +670,18 @@ useEffect(() => {
       }}
     />
   </a>
+           {/* New Plug and Play logo */}
+  <img
+    src="/PnP.png"
+    alt="Plug and Play"
+    style={{
+      height: 55,
+      width: "auto",
+      display: "block",
+      opacity: 0.9,
+    }}
+  />
+</div>
         </div>
       </header>
 
@@ -948,6 +960,16 @@ useEffect(() => {
             <a href="https://www.transposeplatform.vc" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center" }}>
               <img src="/TI_logo.png" alt="Transpose Platform" style={{ height: 36, width: "auto", display: "block", opacity: .92 }} />
             </a>
+            <img
+  src="/PnP.png"
+  alt="Plug and Play"
+  style={{
+    height: 36,
+    width: "auto",
+    display: "block",
+    opacity: 0.92,
+  }}
+/>
           </div>
           <p className="fl-muted" style={{ fontSize: 14, margin: 0 }}>© 2026 FinLead AI</p>
         </div>
